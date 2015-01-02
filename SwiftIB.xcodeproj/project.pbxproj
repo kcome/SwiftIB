@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		340461CE1A555D26000941D4 /* IApiEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340461CD1A555D26000941D4 /* IApiEnum.swift */; };
 		340461D01A555ECC000941D4 /* MaketDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340461CF1A555ECC000941D4 /* MaketDataType.swift */; };
+		340777421A56C4AB00441C73 /* EClientSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340777411A56C4AB00441C73 /* EClientSocket.swift */; };
 		3439F7BE1A54C53500B498D4 /* AnyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3439F7BD1A54C53500B498D4 /* AnyWrapper.swift */; };
 		3439F7C11A54CA4000B498D4 /* AnyWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3439F7C01A54CA4000B498D4 /* AnyWrapperMsgGenerator.swift */; };
 		3439F7C31A54CEB700B498D4 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3439F7C21A54CEB700B498D4 /* Builder.swift */; };
@@ -28,6 +29,8 @@
 		34CD9BFC1A55779000A76E76 /* ScannerSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CD9BFB1A55779000A76E76 /* ScannerSubscription.swift */; };
 		34CD9BFE1A5578CA00A76E76 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CD9BFD1A5578CA00A76E76 /* Order.swift */; };
 		34E5C74E1A54201E00FB117C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E5C74D1A54201E00FB117C /* main.swift */; };
+		34EFD52D1A56CE16009C433B /* EWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EFD52C1A56CE16009C433B /* EWrapper.swift */; };
+		34EFD52F1A56D011009C433B /* EWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EFD52E1A56D011009C433B /* EWrapperMsgGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +48,7 @@
 /* Begin PBXFileReference section */
 		340461CD1A555D26000941D4 /* IApiEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IApiEnum.swift; sourceTree = "<group>"; };
 		340461CF1A555ECC000941D4 /* MaketDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaketDataType.swift; sourceTree = "<group>"; };
+		340777411A56C4AB00441C73 /* EClientSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EClientSocket.swift; sourceTree = "<group>"; };
 		3439F7BD1A54C53500B498D4 /* AnyWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyWrapper.swift; sourceTree = "<group>"; };
 		3439F7C01A54CA4000B498D4 /* AnyWrapperMsgGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyWrapperMsgGenerator.swift; sourceTree = "<group>"; };
 		3439F7C21A54CEB700B498D4 /* Builder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
@@ -65,6 +69,8 @@
 		34CD9BFD1A5578CA00A76E76 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		34E5C74A1A54201E00FB117C /* SwiftIB */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftIB; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E5C74D1A54201E00FB117C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		34EFD52C1A56CE16009C433B /* EWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EWrapper.swift; sourceTree = "<group>"; };
+		34EFD52E1A56D011009C433B /* EWrapperMsgGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EWrapperMsgGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,9 @@
 				34CD9BF91A5575CE00A76E76 /* TickType.swift */,
 				346868571A551ADA00D1B287 /* UnderComp.swift */,
 				346868551A55151600D1B287 /* Util.swift */,
+				340777411A56C4AB00441C73 /* EClientSocket.swift */,
+				34EFD52C1A56CE16009C433B /* EWrapper.swift */,
+				34EFD52E1A56D011009C433B /* EWrapperMsgGenerator.swift */,
 			);
 			name = client;
 			sourceTree = "<group>";
@@ -193,6 +202,7 @@
 				346732FB1A55576800D9BCB5 /* Execution.swift in Sources */,
 				3439F7C71A5507C000B498D4 /* CommissionReport.swift in Sources */,
 				34CD9BFE1A5578CA00A76E76 /* Order.swift in Sources */,
+				34EFD52D1A56CE16009C433B /* EWrapper.swift in Sources */,
 				34CD9BF61A55683C00A76E76 /* OrderComboLeg.swift in Sources */,
 				346868561A55151600D1B287 /* Util.swift in Sources */,
 				3439F7C11A54CA4000B498D4 /* AnyWrapperMsgGenerator.swift in Sources */,
@@ -202,7 +212,9 @@
 				346868581A551ADA00D1B287 /* UnderComp.swift in Sources */,
 				3468685A1A551CBD00D1B287 /* ContractDetails.swift in Sources */,
 				3439F7C31A54CEB700B498D4 /* Builder.swift in Sources */,
+				34EFD52F1A56D011009C433B /* EWrapperMsgGenerator.swift in Sources */,
 				340461D01A555ECC000941D4 /* MaketDataType.swift in Sources */,
+				340777421A56C4AB00441C73 /* EClientSocket.swift in Sources */,
 				3439F7C91A550ECF00B498D4 /* Contract.swift in Sources */,
 				3439F7C51A54F47900B498D4 /* ComboLeg.swift in Sources */,
 				34CD9BF81A556AD600A76E76 /* OrderState.swift in Sources */,

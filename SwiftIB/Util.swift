@@ -8,6 +8,18 @@
 
 import Foundation
 
+func itos(i: Int) -> String {
+    return String(format:"%d", i)
+}
+
+func ltos(i: Int64) -> String {
+    return String(format:"%ld", i)
+}
+
+func dtos(d: Double) -> String {
+    return String(format:"%f", d)
+}
+
 func caseInsensitiveEqual(lhs: String, rhs: String) -> Bool {
     return lhs.lowercaseString == rhs.lowercaseString
 }

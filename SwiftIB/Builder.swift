@@ -15,11 +15,11 @@ class Builder : Printable {
     private var stringBuffer: String = ""
 
     func send(a: Int) {
-        send( a == Int.max ? "" : String(format:"%d", a) )
+        send( a == Int.max ? "" : itos(a) )
     }
     
     func send(a: Double) {
-        send( a == Double.NaN ? "" : String(format:"%f", a) )
+        send( a == Double.NaN ? "" : dtos(a) )
     }
 
     func send(a: Bool) {
