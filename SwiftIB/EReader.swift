@@ -330,7 +330,7 @@ class EReader: NSThread {
                     permId = readInt()
                 }
                 
-                var parentId = 0;
+                var parentId = 0
                 if( version >= 3) {
                     parentId = readInt()
                 }
@@ -497,7 +497,7 @@ class EReader: NSThread {
                     else {
                         order.outsideRth = readBoolFromInt()
                     }
-                    order.hidden = readInt() == 1;
+                    order.hidden = readInt() == 1
                     order.discretionaryAmt = readDouble()
                 }
                 
@@ -837,7 +837,7 @@ class EReader: NSThread {
             case .BOND_CONTRACT_DATA:
                 let version = readInt()
                 
-                var reqId = -1;
+                var reqId = -1
                 if (version >= 3) {
                     reqId = readInt()
                 }
@@ -1016,7 +1016,7 @@ class EReader: NSThread {
                     let volume = readInt()
                     let WAP = readDouble()
                     let hasGaps = caseInsensitiveEqual(readStr(), "true")
-                    var barCount = -1;
+                    var barCount = -1
                     if (version >= 3) {
                         barCount = readInt()
                     }

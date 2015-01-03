@@ -49,6 +49,7 @@
 /* Begin PBXFileReference section */
 		340461CD1A555D26000941D4 /* IApiEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IApiEnum.swift; sourceTree = "<group>"; };
 		340461CF1A555ECC000941D4 /* MaketDataType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaketDataType.swift; sourceTree = "<group>"; };
+		34055F831A57DF550056D899 /* SwiftIB-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftIB-Bridging-Header.h"; sourceTree = "<group>"; };
 		340777411A56C4AB00441C73 /* EClientSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EClientSocket.swift; sourceTree = "<group>"; };
 		3439F7BD1A54C53500B498D4 /* AnyWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyWrapper.swift; sourceTree = "<group>"; };
 		3439F7C01A54CA4000B498D4 /* AnyWrapperMsgGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyWrapperMsgGenerator.swift; sourceTree = "<group>"; };
@@ -138,6 +139,7 @@
 			children = (
 				3439F7BF1A54CA2F00B498D4 /* client */,
 				34E5C74D1A54201E00FB117C /* main.swift */,
+				34055F831A57DF550056D899 /* SwiftIB-Bridging-Header.h */,
 			);
 			path = SwiftIB;
 			sourceTree = "<group>";
@@ -308,6 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/SwiftIB/SwiftIB-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -315,6 +318,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/SwiftIB/SwiftIB-Bridging-Header.h";
 			};
 			name = Release;
 		};
