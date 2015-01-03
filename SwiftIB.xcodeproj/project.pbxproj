@@ -28,6 +28,7 @@
 		34CD9BFA1A5575CE00A76E76 /* TickType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CD9BF91A5575CE00A76E76 /* TickType.swift */; };
 		34CD9BFC1A55779000A76E76 /* ScannerSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CD9BFB1A55779000A76E76 /* ScannerSubscription.swift */; };
 		34CD9BFE1A5578CA00A76E76 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CD9BFD1A5578CA00A76E76 /* Order.swift */; };
+		34DCBE311A575F7000E13C6A /* EReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DCBE301A575F7000E13C6A /* EReader.swift */; };
 		34E5C74E1A54201E00FB117C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E5C74D1A54201E00FB117C /* main.swift */; };
 		34EFD52D1A56CE16009C433B /* EWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EFD52C1A56CE16009C433B /* EWrapper.swift */; };
 		34EFD52F1A56D011009C433B /* EWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EFD52E1A56D011009C433B /* EWrapperMsgGenerator.swift */; };
@@ -67,6 +68,7 @@
 		34CD9BF91A5575CE00A76E76 /* TickType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickType.swift; sourceTree = "<group>"; };
 		34CD9BFB1A55779000A76E76 /* ScannerSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerSubscription.swift; sourceTree = "<group>"; };
 		34CD9BFD1A5578CA00A76E76 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		34DCBE301A575F7000E13C6A /* EReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EReader.swift; sourceTree = "<group>"; };
 		34E5C74A1A54201E00FB117C /* SwiftIB */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftIB; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E5C74D1A54201E00FB117C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		34EFD52C1A56CE16009C433B /* EWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EWrapper.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				340777411A56C4AB00441C73 /* EClientSocket.swift */,
 				34EFD52C1A56CE16009C433B /* EWrapper.swift */,
 				34EFD52E1A56D011009C433B /* EWrapperMsgGenerator.swift */,
+				34DCBE301A575F7000E13C6A /* EReader.swift */,
 			);
 			name = client;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				3439F7C51A54F47900B498D4 /* ComboLeg.swift in Sources */,
 				34CD9BF81A556AD600A76E76 /* OrderState.swift in Sources */,
 				346732F91A5552BE00D9BCB5 /* EClientErrors.swift in Sources */,
+				34DCBE311A575F7000E13C6A /* EReader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

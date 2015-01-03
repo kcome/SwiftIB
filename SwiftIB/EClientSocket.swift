@@ -200,7 +200,7 @@ class EClientSocket {
     let MIN_SERVER_VER_SCALE_TABLE = 69
     let MIN_SERVER_VER_LINKING = 70
 
-    private var anyWrapper : AnyWrapper?    // msg handler
+    private var anyWrapper : EWrapper    // msg handler
     //protected DataOutputStream m_dos   // the socket output stream
     private var connected : Bool = false        // true if we are connected
     //private EReader m_reader           // thread which reads msgs from socket
@@ -211,11 +211,12 @@ class EClientSocket {
     
     func serverVersion() -> Int { return _serverVersion }
     func TwsConnectionTime() -> String { return TwsTime }
-    func wrapper() -> AnyWrapper? { return anyWrapper }
+    func wrapper() -> EWrapper { return anyWrapper }
     //public EReader reader()             { return m_reader }
     func isConnected() -> Bool { return connected }
 
-    init() {
+    init(wrapper: EWrapper) {
+        anyWrapper = wrapper
     }
 
 }

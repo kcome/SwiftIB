@@ -17,6 +17,9 @@ class CommissionReport : Equatable {
     var yield: Double = 0
     var yieldRedemptionDate: Int = 0 // YYYYMMDD format
     
+    init() {
+        
+    }
 }
 
 func == (lhs: CommissionReport, rhs: CommissionReport) -> Bool {
