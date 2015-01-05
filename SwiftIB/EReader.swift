@@ -65,7 +65,7 @@ class EReader: NSThread {
     }
     
     var eWrapper: EWrapper {
-        return _parent.wrapper()
+        return _parent.eWrapper()
     }
     
     convenience init(parent: EClientSocket, dis: NSInputStream) {
@@ -83,27 +83,24 @@ class EReader: NSThread {
     
     override func main() {
         // loop until thread is terminated
-        while (!self.executing && processMsg(readInt())) {
+        while (self.executing && processMsg(readInt())) {
         }
         if (_parent.isConnected()) {
-            // FIXME: parent interface incomplete
-            //_parent.close()
+            _parent.close()
         }
         dis.close()
     }
     
     func readStr() -> String {
         var buf = ""
-        while (dis.hasBytesAvailable == true) {
-            var SZ = 4096
-            var bytes = Array<UInt8>(count: SZ, repeatedValue: 0)
-            var read = dis.read(&bytes, maxLength: SZ)
-            if read == 0 {
-                break
-            }
+        var bytes = Array<UInt8>(count: 1, repeatedValue: 0)
+        while (true) {
+            var read = dis.read(&bytes, maxLength: 1)
+            if read == 0 || bytes[0] == 0 { break }
             if let s = String(bytes: bytes, encoding: NSUTF8StringEncoding) {
                 buf += s
             }
+            if dis.hasBytesAvailable == false { break }
         }
         return buf
     }
@@ -421,14 +418,12 @@ class EReader: NSThread {
                 let version = readInt()
                 if(version < 2) {
                     let msg = readStr()
-                    // FIXME: parent error handling not complete
-                    //_parent.error(msg)
+                    _parent.error(-1, errorCode: -1, errorMsg: msg)
                 } else {
                     let id = readInt()
                     let errorCode    = readInt()
                     let errorMsg = readStr()
-                    // FIXME: parent error handling not complete
-                    //_parent.error(id, errorCode, errorMsg)
+                    _parent.error(id, errorCode: errorCode, errorMsg: errorMsg)
                 }
                 
             case .OPEN_ORDER:
@@ -1111,8 +1106,7 @@ class EReader: NSThread {
                 
                 
                 if (isSuccessful) {
-                    // FIXME: parent method incomplete
-                    //_parent.startAPI()
+                    _parent.startAPI()
                 }
                 
                 self.eWrapper.verifyCompleted(isSuccessful, errorText: errorText)
@@ -1130,8 +1124,7 @@ class EReader: NSThread {
                 self.eWrapper.displayGroupUpdated(reqId, contractInfo: contractInfo)
 
             default:
-                // FIXME: parent error handling not complete
-                //self.parent.error(EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg())
+                self.parent.error(EClientErrors_NO_VALID_ID, errorCode: EClientErrors_UNKNOWN_ID.code, errorMsg: EClientErrors_UNKNOWN_ID.msg)
                 return false
             }
         } else { return false}

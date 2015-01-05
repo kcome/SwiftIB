@@ -200,7 +200,8 @@ class EClientSocket {
     let MIN_SERVER_VER_SCALE_TABLE = 69
     let MIN_SERVER_VER_LINKING = 70
     
-    private var anyWrapper : EWrapper // msg handler
+    private var _eWrapper : EWrapper // msg handler
+    private var _anyWrapper : AnyWrapper // msg handler
     private var dos : NSOutputStream? = nil // the socket output stream
     private var connected : Bool = false    // true if we are connected
     private var _reader : EReader? = nil    // thread which reads msgs from socket
@@ -211,12 +212,15 @@ class EClientSocket {
     
     func serverVersion() -> Int { return _serverVersion }
     func TwsConnectionTime() -> String { return TwsTime }
-    func wrapper() -> EWrapper { return anyWrapper }
+    func anyWrapper() -> AnyWrapper { return _anyWrapper }
+    func eWrapper() -> EWrapper { return _eWrapper }
     func reader() -> EReader? { return _reader? }
     func isConnected() -> Bool { return connected }
+    func outputStream() -> NSOutputStream? { return dos }
     
-    init(wrapper: EWrapper) {
-        anyWrapper = wrapper
+    init(p_eWrapper: EWrapper, p_anyWrapper: AnyWrapper) {
+        _anyWrapper = p_anyWrapper
+        _eWrapper = p_eWrapper
     }
     
     func setExtraAuth(p_extraAuth: Bool) {
@@ -249,14 +253,14 @@ class EClientSocket {
     }
     
     func connectionError() {
-        anyWrapper.error(EClientErrors_NO_VALID_ID, errorCode: EClientErrors_CONNECT_FAIL.code,
+        _anyWrapper.error(EClientErrors_NO_VALID_ID, errorCode: EClientErrors_CONNECT_FAIL.code,
             errorMsg: EClientErrors_CONNECT_FAIL.msg)
         _reader = nil
     }
     
     func checkConnected(host: String) -> String {
         if connected {
-            anyWrapper.error(EClientErrors_NO_VALID_ID, errorCode: EClientErrors_ALREADY_CONNECTED.code,
+            _anyWrapper.error(EClientErrors_NO_VALID_ID, errorCode: EClientErrors_ALREADY_CONNECTED.code,
                 errorMsg: EClientErrors_ALREADY_CONNECTED.msg)
             return ""
         }
@@ -307,7 +311,7 @@ class EClientSocket {
         }
         if (_serverVersion < SERVER_VERSION) {
             eDisconnect()
-            anyWrapper.error(EClientErrors_NO_VALID_ID, errorCode: EClientErrors_UPDATE_TWS.code, errorMsg: EClientErrors_UPDATE_TWS.msg)
+            _anyWrapper.error(EClientErrors_NO_VALID_ID, errorCode: EClientErrors_UPDATE_TWS.code, errorMsg: EClientErrors_UPDATE_TWS.msg)
             return
         }
         
@@ -2506,12 +2510,12 @@ class EClientSocket {
     }
     
     func error(id: Int, errorCode: Int, errorMsg: String) { // synchronized
-        anyWrapper.error(id, errorCode: errorCode, errorMsg: errorMsg)
+        _anyWrapper.error(id, errorCode: errorCode, errorMsg: errorMsg)
     }
     
     func close() {
         eDisconnect()
-        wrapper().connectionClosed()
+        eWrapper().connectionClosed()
     }
     
     func error(id: Int, pair: CodeMsgPair, tail: String) {
@@ -2603,5 +2607,5 @@ class EClientSocket {
 //
 //    /** @deprecated, never called. */
 //    protected synchronized void error( String err) {
-//    anyWrapper.error( err)
+//    _anyWrapper.error( err)
 //    }

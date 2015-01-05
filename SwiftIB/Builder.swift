@@ -23,13 +23,12 @@ class Builder : Printable {
     }
 
     func send(a: Bool) {
-        send( a ? 1 : 0)
+        send( a ? 1 : 0 )
     }
 
-    // FIXME: IApiEnum is not defined.
-//    public void send( IApiEnum a) {
-//        send( a.getApiString() )
-//    }
+    func send(a: IApiEnum) {
+        send( a.getApiString() )
+    }
     
     func send(a: String) {
         stringBuffer += a
