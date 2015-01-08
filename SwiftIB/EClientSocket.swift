@@ -3,7 +3,24 @@
 //  SwiftIB
 //
 //  Created by Harry Li on 2/01/2015.
-//  Copyright (c) 2015 Hanfei Li. All rights reserved.
+//  Copyright (c) 2014,2015 Hanfei Li. All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to
+// do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 import Foundation
@@ -531,12 +548,10 @@ class EClientSocket {
         }
     
         if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-            if let tc = contract.tradingClass {
-                if !tc.isEmpty {
-                    error(tickerId, pair: EClientErrors_UPDATE_TWS,
-                        tail: "  It ot support tradingClass parameter in reqMarketData.")
-                    return
-                }
+            if !contract.tradingClass.isEmpty {
+                error(tickerId, pair: EClientErrors_UPDATE_TWS,
+                    tail: "  It ot support tradingClass parameter in reqMarketData.")
+                return
             }
         }
     
@@ -551,26 +566,26 @@ class EClientSocket {
         if _serverVersion >= MIN_SERVER_VER_REQ_MKT_DATA_CONID {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.expiry!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.expiry)
         send(contract.strike)
-        send(contract.right!)
+        send(contract.right)
         if _serverVersion >= 15 {
-            send(contract.multiplier!)
+            send(contract.multiplier)
         }
-        send(contract.exchange!)
+        send(contract.exchange)
         if _serverVersion >= 14 {
-            send(contract.primaryExch!)
+            send(contract.primaryExch)
         }
-        send(contract.currency!)
+        send(contract.currency)
         if _serverVersion >= 2 {
-            send(contract.localSymbol!)
+            send(contract.localSymbol)
         }
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
-            send(contract.tradingClass!)
+            send(contract.tradingClass)
         }
-        if _serverVersion >= 8 && caseInsensitiveEqual(contract.secType!, BAG_SEC_TYPE) {
+        if _serverVersion >= 8 && caseInsensitiveEqual(contract.secType, BAG_SEC_TYPE) {
             send(contract.comboLegs.count)
             
             for i in 1...contract.comboLegs.count {
@@ -703,7 +718,7 @@ class EClientSocket {
         }
     
         if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-            if ((contract.tradingClass != nil && (contract.tradingClass!.isEmpty == false)) || (contract.conId > 0)) {
+            if ((contract.tradingClass.isEmpty == false) || (contract.conId > 0)) {
                 error(tickerId, pair: EClientErrors_UPDATE_TWS,
                     tail: "  It does not support conId and tradingClass parameters in reqHistroricalData.")
                 return
@@ -718,18 +733,18 @@ class EClientSocket {
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.expiry!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.expiry)
         send(contract.strike)
-        send(contract.right!)
-        send(contract.multiplier!)
-        send(contract.exchange!)
-        send(contract.primaryExch!)
-        send(contract.currency!)
-        send(contract.localSymbol!)
+        send(contract.right)
+        send(contract.multiplier)
+        send(contract.exchange)
+        send(contract.primaryExch)
+        send(contract.currency)
+        send(contract.localSymbol)
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
-            send(contract.tradingClass!)
+            send(contract.tradingClass)
         }
         if _serverVersion >= 31 {
             send(contract.includeExpired ? 1 : 0)
@@ -744,7 +759,7 @@ class EClientSocket {
         if _serverVersion > 16 {
             send(formatDate)
         }
-        if (caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType!)) {
+        if (caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType)) {
             send(contract.comboLegs.count)
             for i in 1...contract.comboLegs.count {
                 let comboLeg = contract.comboLegs[i - 1]
@@ -792,7 +807,7 @@ class EClientSocket {
             return
         }
         if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-            if ((contract.tradingClass != nil && (contract.tradingClass!.isEmpty == false)) || (contract.conId > 0)) {
+            if ((contract.tradingClass.isEmpty == false) || (contract.conId > 0)) {
                 error(tickerId, pair: EClientErrors_UPDATE_TWS,
                     tail: "  It does not support conId and tradingClass parameters in reqRealTimeBars.")
                 return
@@ -810,18 +825,18 @@ class EClientSocket {
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.expiry!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.expiry)
         send(contract.strike)
-        send(contract.right!)
-        send(contract.multiplier!)
-        send(contract.exchange!)
-        send(contract.primaryExch!)
-        send(contract.currency!)
-        send(contract.localSymbol!)
+        send(contract.right)
+        send(contract.multiplier)
+        send(contract.exchange)
+        send(contract.primaryExch)
+        send(contract.currency)
+        send(contract.localSymbol)
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
-            send(contract.tradingClass!)
+            send(contract.tradingClass)
         }
         send(barSize)  // this parameter is not currently used
         send(whatToShow)
@@ -865,8 +880,8 @@ class EClientSocket {
         }
     
         if (_serverVersion < MIN_SERVER_VER_SEC_ID_TYPE) {
-            if ((contract.secIdType != nil && (contract.secIdType!.isEmpty == false)) ||
-                (contract.secId != nil && (contract.secId!.isEmpty == false))) {
+            if ((contract.secIdType.isEmpty == false) ||
+                (contract.secId.isEmpty == false)) {
                     error(reqId, pair: EClientErrors_UPDATE_TWS,
                         tail: "  It does not support secIdType and secId parameters.")
                     return
@@ -874,7 +889,7 @@ class EClientSocket {
         }
     
         if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-            if (contract.tradingClass != nil && (contract.tradingClass!.isEmpty == false)) {
+            if (contract.tradingClass.isEmpty == false) {
                 error(reqId, pair: EClientErrors_UPDATE_TWS,
                     tail: "  It does not support tradingClass parameter in reqContractDetails.")
                 return
@@ -895,26 +910,26 @@ class EClientSocket {
         if _serverVersion >= MIN_SERVER_VER_CONTRACT_CONID {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.expiry!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.expiry)
         send(contract.strike)
-        send(contract.right!)
+        send(contract.right)
         if _serverVersion >= 15 {
-            send(contract.multiplier!)
+            send(contract.multiplier)
         }
-        send(contract.exchange!)
-        send(contract.currency!)
-        send(contract.localSymbol!)
+        send(contract.exchange)
+        send(contract.currency)
+        send(contract.localSymbol)
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
-            send(contract.tradingClass!)
+            send(contract.tradingClass)
         }
         if _serverVersion >= 31 {
             send(contract.includeExpired)
         }
         if _serverVersion >= MIN_SERVER_VER_SEC_ID_TYPE {
-            send(contract.secIdType!)
-            send(contract.secId!)
+            send(contract.secIdType)
+            send(contract.secId)
         }
     
         // TODO: Handle errors here
@@ -939,7 +954,7 @@ class EClientSocket {
         }
     
         if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-            if ((contract.tradingClass != nil && (contract.tradingClass!.isEmpty == false)) || (contract.conId > 0)) {
+            if ((contract.tradingClass.isEmpty == false) || (contract.conId > 0)) {
                 error(tickerId, pair: EClientErrors_UPDATE_TWS,
                     tail: "  It does not support conId and tradingClass parameters in reqMktDepth.")
                 return
@@ -957,19 +972,19 @@ class EClientSocket {
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.expiry!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.expiry)
         send(contract.strike)
-        send(contract.right!)
+        send(contract.right)
         if _serverVersion >= 15 {
-            send(contract.multiplier!)
+            send(contract.multiplier)
         }
-        send(contract.exchange!)
-        send(contract.currency!)
-        send(contract.localSymbol!)
+        send(contract.exchange)
+        send(contract.currency)
+        send(contract.localSymbol)
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
-            send(contract.tradingClass!)
+            send(contract.tradingClass)
         }
         if _serverVersion >= 19 {
             send(numRows)
@@ -1063,7 +1078,7 @@ class EClientSocket {
         }
     
         if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-            if ((contract.tradingClass != nil && (contract.tradingClass!.isEmpty == false)) || (contract.conId > 0)) {
+            if ((contract.tradingClass.isEmpty == false) || (contract.conId > 0)) {
                 error(tickerId, pair: EClientErrors_UPDATE_TWS,
                     tail: "  It does not support conId and tradingClass parameters in exerciseOptions.")
                 return
@@ -1078,17 +1093,17 @@ class EClientSocket {
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.expiry!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.expiry)
         send(contract.strike)
-        send(contract.right!)
-        send(contract.multiplier!)
-        send(contract.exchange!)
-        send(contract.currency!)
-        send(contract.localSymbol!)
+        send(contract.right)
+        send(contract.multiplier)
+        send(contract.exchange)
+        send(contract.currency)
+        send(contract.localSymbol)
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
-            send(contract.tradingClass!)
+            send(contract.tradingClass)
         }
         send(exerciseAction)
         send(exerciseQuantity)
@@ -1172,8 +1187,8 @@ class EClientSocket {
         }
         
         if _serverVersion < MIN_SERVER_VER_SEC_ID_TYPE {
-            if (contract.secIdType != nil && (contract.secIdType!.isEmpty == false)) ||
-                (contract.secId != nil && (contract.secId!.isEmpty == false)) {
+            if (contract.secIdType.isEmpty == false) ||
+                (contract.secId.isEmpty == false) {
                 error(id, pair: EClientErrors_UPDATE_TWS,
                     tail: "  It does not support secIdType and secId parameters.")
                 return
@@ -1266,7 +1281,7 @@ class EClientSocket {
             }
         }
         
-        if _serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType!) {
+        if _serverVersion < MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType) {
             if order.orderComboLegs.count > 0 {
                 for i in 1...order.orderComboLegs.count {
                     let orderComboLeg = order.orderComboLegs[i]
@@ -1288,7 +1303,7 @@ class EClientSocket {
         }
         
         if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-            if (contract.tradingClass != nil && (contract.tradingClass!.isEmpty == false)) {
+            if (contract.tradingClass.isEmpty == false) {
                 error(id, pair: EClientErrors_UPDATE_TWS,
                     tail: "  It does not support tradingClass parameters in placeOrder.")
                 return
@@ -1314,28 +1329,28 @@ class EClientSocket {
         if (_serverVersion >= MIN_SERVER_VER_PLACE_ORDER_CONID) {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.expiry!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.expiry)
         send(contract.strike)
-        send(contract.right!)
+        send(contract.right)
         if _serverVersion >= 15 {
-            send(contract.multiplier!)
+            send(contract.multiplier)
         }
-        send(contract.exchange!)
+        send(contract.exchange)
         if (_serverVersion >= 14) {
-            send(contract.primaryExch!)
+            send(contract.primaryExch)
         }
-        send(contract.currency!)
+        send(contract.currency)
         if (_serverVersion >= 2) {
-            send (contract.localSymbol!)
+            send (contract.localSymbol)
         }
         if _serverVersion >= MIN_SERVER_VER_TRADING_CLASS {
-            send(contract.tradingClass!)
+            send(contract.tradingClass)
         }
         if (_serverVersion >= MIN_SERVER_VER_SEC_ID_TYPE){
-            send(contract.secIdType!)
-            send(contract.secId!)
+            send(contract.secIdType)
+            send(contract.secId)
         }
         
         // send main order fields
@@ -1386,7 +1401,7 @@ class EClientSocket {
         }
         
         // Send combo legs for BAG requests
-        if _serverVersion >= 8 && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType!) {
+        if _serverVersion >= 8 && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType) {
             send(contract.comboLegs.count)
             
             for i in 1...contract.comboLegs.count {
@@ -1408,7 +1423,7 @@ class EClientSocket {
         }
         
         // Send order combo legs for BAG requests
-        if _serverVersion >= MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType!) {
+        if _serverVersion >= MIN_SERVER_VER_ORDER_COMBO_LEGS_PRICE && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType) {
             send(order.orderComboLegs.count)
             
             for i in 1...order.orderComboLegs.count {
@@ -1417,7 +1432,7 @@ class EClientSocket {
             }
         }
         
-        if _serverVersion >= MIN_SERVER_VER_SMART_COMBO_ROUTING_PARAMS && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType!) {
+        if _serverVersion >= MIN_SERVER_VER_SMART_COMBO_ROUTING_PARAMS && caseInsensitiveEqual(BAG_SEC_TYPE, contract.secType) {
             let smartComboRoutingParams = order.smartComboRoutingParams
             let smartComboRoutingParamsCount = smartComboRoutingParams.count
             send(smartComboRoutingParamsCount)
@@ -1965,12 +1980,12 @@ class EClientSocket {
         if (_serverVersion >= MIN_SERVER_VER_TRADING_CLASS) {
             send(contract.conId)
         }
-        send(contract.symbol!)
-        send(contract.secType!)
-        send(contract.exchange!)
-        send(contract.primaryExch!)
-        send(contract.currency!)
-        send(contract.localSymbol!)
+        send(contract.symbol)
+        send(contract.secType)
+        send(contract.exchange)
+        send(contract.primaryExch)
+        send(contract.currency)
+        send(contract.localSymbol)
     
         send(reportType)
         //catch( Exception e) {
@@ -2021,7 +2036,7 @@ class EClientSocket {
             }
             
             if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-                if contract.tradingClass != nil && contract.tradingClass!.isEmpty == false {
+                if contract.tradingClass.isEmpty == false {
                     error(reqId, pair: EClientErrors_UPDATE_TWS,
                         tail: "  It does not support tradingClass parameter in calculateImpliedVolatility.")
                     return
@@ -2037,18 +2052,18 @@ class EClientSocket {
             
             // send contract fields
             send(contract.conId)
-            send(contract.symbol!)
-            send(contract.secType!)
-            send(contract.expiry!)
+            send(contract.symbol)
+            send(contract.secType)
+            send(contract.expiry)
             send(contract.strike)
-            send(contract.right!)
-            send(contract.multiplier!)
-            send(contract.exchange!)
-            send(contract.primaryExch!)
-            send(contract.currency!)
-            send(contract.localSymbol!)
+            send(contract.right)
+            send(contract.multiplier)
+            send(contract.exchange)
+            send(contract.primaryExch)
+            send(contract.currency)
+            send(contract.localSymbol)
             if (_serverVersion >= MIN_SERVER_VER_TRADING_CLASS) {
-                send(contract.tradingClass!)
+                send(contract.tradingClass)
             }
             
             send(optionPrice)
@@ -2103,7 +2118,7 @@ class EClientSocket {
             }
             
             if _serverVersion < MIN_SERVER_VER_TRADING_CLASS {
-                if contract.tradingClass != nil && contract.tradingClass!.isEmpty == false {
+                if contract.tradingClass.isEmpty == false {
                     error(reqId, pair: EClientErrors_UPDATE_TWS,
                         tail: "  It does not support tradingClass parameter in calculateOptionPrice.")
                     return
@@ -2119,18 +2134,18 @@ class EClientSocket {
             
             // send contract fields
             send(contract.conId)
-            send(contract.symbol!)
-            send(contract.secType!)
-            send(contract.expiry!)
+            send(contract.symbol)
+            send(contract.secType)
+            send(contract.expiry)
             send(contract.strike)
-            send(contract.right!)
-            send(contract.multiplier!)
-            send(contract.exchange!)
-            send(contract.primaryExch!)
-            send(contract.currency!)
-            send(contract.localSymbol!)
+            send(contract.right)
+            send(contract.multiplier)
+            send(contract.exchange)
+            send(contract.primaryExch)
+            send(contract.currency)
+            send(contract.localSymbol)
             if (_serverVersion >= MIN_SERVER_VER_TRADING_CLASS) {
-                send(contract.tradingClass!)
+                send(contract.tradingClass)
             }
             
             send(volatility)

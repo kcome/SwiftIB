@@ -3,7 +3,24 @@
 //  SwiftIB
 //
 //  Created by Hanfei Li on 1/01/2015.
-//  Copyright (c) 2015 Hanfei Li. All rights reserved.
+//  Copyright (c) 2014,2015 Hanfei Li. All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to
+// do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 import Foundation
@@ -11,25 +28,25 @@ import Foundation
 class Contract: Equatable {
     
     var conId: Int = 0
-    var symbol: String? = nil
-    var secType: String? = nil
-    var expiry: String? = nil
+    var symbol: String = ""
+    var secType: String = ""
+    var expiry: String = ""
     var strike: Double = 0
-    var right: String? = nil
-    var multiplier: String? = nil
-    var exchange: String? = nil
+    var right: String = ""
+    var multiplier: String = ""
+    var exchange: String = ""
     
-    var currency: String? = nil
-    var localSymbol: String? = nil
-    var tradingClass: String? = nil
-    var primaryExch: String? = nil // pick a non-aggregate (ie not the SMART exchange) exchange that the contract trades on.  DO NOT SET TO SMART.
+    var currency: String = ""
+    var localSymbol: String = ""
+    var tradingClass: String = ""
+    var primaryExch: String = "" // pick a non-aggregate (ie not the SMART exchange) exchange that the contract trades on.  DO NOT SET TO SMART.
     var includeExpired: Bool = false // can not be set to true for orders.
     
-    var secIdType: String? = nil // CUSIP:SEDOL:ISIN:RIC
-    var secId: String? = nil
+    var secIdType: String = "" // CUSIP:SEDOL:ISIN:RIC
+    var secId: String = ""
     
     // COMBOS
-    var comboLegsDescrip: String? = nil // received in open order version 14 and up for all combos
+    var comboLegsDescrip: String = "" // received in open order version 14 and up for all combos
     var comboLegs: [ComboLeg] = [ComboLeg]()
     
     // delta neutral

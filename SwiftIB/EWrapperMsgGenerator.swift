@@ -3,7 +3,24 @@
 //  SwiftIB
 //
 //  Created by Harry Li on 3/01/2015.
-//  Copyright (c) 2015 Hanfei Li. All rights reserved.
+//  Copyright (c) 2014,2015 Hanfei Li. All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to
+// do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 import Foundation
@@ -49,17 +66,17 @@ class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
     
     class func contractMsg(contract: Contract) -> String{
         var msg = "conid = " + itos(contract.conId) + "\n"
-        if contract.symbol != nil {msg += "symbol = " + contract.symbol! + "\n"}
-        if contract.secType != nil {msg += "secType = " + contract.secType! + "\n"}
-        if contract.expiry != nil {msg += "expiry = " + contract.expiry! + "\n"}
+        if !contract.symbol.isEmpty {msg += "symbol = " + contract.symbol + "\n"}
+        if !contract.secType.isEmpty {msg += "secType = " + contract.secType + "\n"}
+        if !contract.expiry.isEmpty {msg += "expiry = " + contract.expiry + "\n"}
         msg += "strike = " + dtos(contract.strike) + "\n"
-        if contract.right != nil {msg += "right = " + contract.right! + "\n"}
-        if contract.multiplier != nil {msg += "multiplier = " + contract.multiplier! + "\n"}
-        if contract.exchange != nil {msg += "exchange = " + contract.exchange! + "\n"}
-        if contract.primaryExch != nil {msg += "primaryExch = " + contract.primaryExch! + "\n"}
-        if contract.currency != nil {msg += "currency = " + contract.currency! + "\n"}
-        if contract.localSymbol != nil {msg += "localSymbol = " + contract.localSymbol! + "\n"}
-        if contract.tradingClass != nil {msg += "tradingClass = " + contract.tradingClass! + "\n"}
+        if !contract.right.isEmpty {msg += "right = " + contract.right + "\n"}
+        if !contract.multiplier.isEmpty {msg += "multiplier = " + contract.multiplier + "\n"}
+        if !contract.exchange.isEmpty {msg += "exchange = " + contract.exchange + "\n"}
+        if !contract.primaryExch.isEmpty {msg += "primaryExch = " + contract.primaryExch + "\n"}
+        if !contract.currency.isEmpty {msg += "currency = " + contract.currency + "\n"}
+        if !contract.localSymbol.isEmpty {msg += "localSymbol = " + contract.localSymbol + "\n"}
+        if !contract.tradingClass.isEmpty {msg += "tradingClass = " + contract.tradingClass + "\n"}
         return msg
     }
     
@@ -95,8 +112,8 @@ class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
     class func commissionReport(commissionReport: CommissionReport) -> String {
         var cexecId = ""
         var ccurr = ""
-        if commissionReport.execId != nil { cexecId = commissionReport.execId! }
-        if commissionReport.currency != nil { ccurr = commissionReport.currency! }
+        if !commissionReport.execId.isEmpty { cexecId = commissionReport.execId }
+        if !commissionReport.currency.isEmpty { ccurr = commissionReport.currency }
         return "commission report:" +
             " execId=" + cexecId +
             " commission=" + dtos(commissionReport.commission) +
@@ -274,8 +291,8 @@ class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
         msg += " whatIf=\(order.whatIf)"
 
         if ("BAG" == contract.secType) {
-            if contract.comboLegsDescrip != nil {
-                msg += " comboLegsDescrip=" + contract.comboLegsDescrip!
+            if !contract.comboLegsDescrip.isEmpty {
+                msg += " comboLegsDescrip=" + contract.comboLegsDescrip
             }
         
             msg += " comboLegs={"

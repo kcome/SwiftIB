@@ -3,7 +3,24 @@
 //  SwiftIB
 //
 //  Created by Hanfei Li on 1/01/2015.
-//  Copyright (c) 2015 Hanfei Li. All rights reserved.
+//  Copyright (c) 2014,2015 Hanfei Li. All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to
+// do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 import Foundation
@@ -30,21 +47,21 @@ class ContractDetails {
     var secIdList: [TagValue]? = nil // CUSIP/ISIN/etc.: Vector
     
     // BOND values
-    var cusip: String? = nil
-    var ratings: String? = nil
-    var descAppend: String? = nil
-    var bondType: String? = nil
-    var couponType: String? = nil
+    var cusip: String = ""
+    var ratings: String = ""
+    var descAppend: String = ""
+    var bondType: String = ""
+    var couponType: String = ""
     var callable : Bool = false
     var putable : Bool = false
     var coupon : Double = 0
     var convertible : Bool = false
-    var maturity: String? = nil
-    var issueDate: String? = nil
-    var nextOptionDate: String? = nil
-    var nextOptionType: String? = nil
+    var maturity: String = ""
+    var issueDate: String = ""
+    var nextOptionDate: String = ""
+    var nextOptionType: String = ""
     var nextOptionPartial: Bool = false
-    var notes: String? = nil
+    var notes: String = ""
 
     init(p_summary: Contract, p_marketName: String, p_minTick: Double, p_orderTypes: String,
         p_validExchanges: String, p_underConId: Int, p_longName: String, p_contractMonth: String,
