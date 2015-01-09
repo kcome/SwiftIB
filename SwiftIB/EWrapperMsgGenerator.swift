@@ -28,7 +28,7 @@ import Foundation
 let SCANNER_PARAMETERS = "SCANNER PARAMETERS:"
 let FINANCIAL_ADVISOR = "FA:"
 
-class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
+public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
     
     private class func contractDetailsMsg(contractDetails: ContractDetails) -> String {
         return "marketName = " + contractDetails.marketName + "\n" +

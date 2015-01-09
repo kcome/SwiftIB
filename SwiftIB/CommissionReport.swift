@@ -25,7 +25,7 @@
 
 import Foundation
 
-class CommissionReport : Equatable {
+public class CommissionReport : Equatable {
     
     var execId: String = ""
     var commission: Double = 0
@@ -39,7 +39,7 @@ class CommissionReport : Equatable {
     }
 }
 
-func == (lhs: CommissionReport, rhs: CommissionReport) -> Bool {
+public func == (lhs: CommissionReport, rhs: CommissionReport) -> Bool {
     var ret = false
     if lhs === rhs {
         ret = true

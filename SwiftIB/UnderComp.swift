@@ -25,7 +25,7 @@
 
 import Foundation
 
-class UnderComp: Equatable {
+public class UnderComp: Equatable {
     
     var conId: Int = 0
     var delta: Double = 0
@@ -33,7 +33,7 @@ class UnderComp: Equatable {
     
 }
 
-func == (lhs: UnderComp, rhs: UnderComp) -> Bool {
+public func == (lhs: UnderComp, rhs: UnderComp) -> Bool {
     if lhs === rhs {
         return true
     }

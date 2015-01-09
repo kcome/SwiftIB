@@ -1,8 +1,8 @@
 //
-//  SwiftIB-Bridging-Header.h
+//  SwiftIB.h
 //  SwiftIB
 //
-//  Created by Harry Li on 3/01/2015.
+//  Created by Harry Li on 9/01/2015.
 //  Copyright (c) 2014,2015 Hanfei Li. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,7 +23,12 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#ifndef SwiftIB_SwiftIB_Bridging_Header_h
-#define SwiftIB_SwiftIB_Bridging_Header_h
+#import <Cocoa/Cocoa.h>
 
-#endif
+//! Project version number for SwiftIB.
+FOUNDATION_EXPORT double SwiftIBVersionNumber;
+
+//! Project version string for SwiftIB.
+FOUNDATION_EXPORT const unsigned char SwiftIBVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <SwiftIB/PublicHeader.h>

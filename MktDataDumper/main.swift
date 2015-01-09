@@ -27,6 +27,8 @@ import Foundation
 import CoreServices
 import Cocoa
 
+import SwiftIB
+
 class LoggingWrapper: EWrapper {
     var tickers: [String]
     init(_ ts: [String]) {
@@ -124,23 +126,23 @@ class LoggingWrapper: EWrapper {
 
 var disconnected = false
 
-println("connecting to IB API...")
 var tickers:[String] = []
 for arg in Process.arguments[1..<Process.arguments.count] {
     tickers.append(arg)
 }
-var wrapper = LoggingWrapper(tickers)
-var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
 while true {
-    client.eConnect("127.0.0.1", p_port: 7496)
+    var wrapper = LoggingWrapper(tickers)
+    var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
+    println("connecting to IB API...")
+    client.eConnect("127.0.0.1", p_port: 4001)
     disconnected = false
     for i in 0...2 {
         var con = Contract(p_conId: 0, p_symbol: tickers[i], p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
-            p_exchange: "SMART", p_currency: "USD", p_localSymbol: tickers[i], p_tradingClass: "", p_comboLegs: [ComboLeg](), p_primaryExch: "ISLAND",
+            p_exchange: "SMART", p_currency: "USD", p_localSymbol: tickers[i], p_tradingClass: "", p_comboLegs: nil, p_primaryExch: "ISLAND",
             p_includeExpired: true, p_secIdType: "", p_secId: "")
         client.reqMktData(i, contract: con, genericTickList: "", snapshot: false, mktDataOptions: nil)
     }
-    while !disconnected { NSThread.sleepForTimeInterval(NSTimeInterval(2.0)) }
+    while !disconnected { NSThread.sleepForTimeInterval(NSTimeInterval(3.0)) }
     client.eDisconnect()
     client.close()
 }

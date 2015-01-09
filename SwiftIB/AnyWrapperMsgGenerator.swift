@@ -25,7 +25,7 @@
 
 import Foundation
 
-class AnyWrapperMsgGenerator {
+public class AnyWrapperMsgGenerator {
     
     class func error(ex: NSException) -> String {
         return "Error - " + ex.description

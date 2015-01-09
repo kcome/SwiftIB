@@ -115,7 +115,7 @@ let GROUPS: Int = 1
 let PROFILES: Int = 2
 let ALIASES: Int = 3
 
-class EClientSocket {
+public class EClientSocket {
     
     class func faMsgTypeName(faDataType: Int) -> String {
         switch (faDataType) {
@@ -235,20 +235,20 @@ class EClientSocket {
     func isConnected() -> Bool { return connected }
     func outputStream() -> NSOutputStream? { return dos }
     
-    init(p_eWrapper: EWrapper, p_anyWrapper: AnyWrapper) {
+    public init(p_eWrapper: EWrapper, p_anyWrapper: AnyWrapper) {
         _anyWrapper = p_anyWrapper
         _eWrapper = p_eWrapper
     }
     
-    func setExtraAuth(p_extraAuth: Bool) {
+    public func setExtraAuth(p_extraAuth: Bool) {
         extraAuth = p_extraAuth
     }
     
-    func eConnect(host: String, port: Int, clientId: Int) { // synchronized
+    public func eConnect(host: String, port: Int, clientId: Int) { // synchronized
         self.eConnect(host, p_port: port, p_clientId: clientId, p_extraAuth: false)
     }
     
-    func eConnect(p_host: String, p_port: Int, p_clientId: Int, p_extraAuth: Bool) { // synchronized
+    public func eConnect(p_host: String, p_port: Int, p_clientId: Int, p_extraAuth: Bool) { // synchronized
         // already connected?
         let host = checkConnected(p_host)
         var port : UInt32 = 0
@@ -291,7 +291,7 @@ class EClientSocket {
         return EReader(parent: socket, dis: dis)
     }
     
-    func eConnect(p_host: String, p_port: UInt32) { // synchronized
+    public func eConnect(p_host: String, p_port: UInt32) { // synchronized
         
         // create io streams
         var readStream:  Unmanaged<CFReadStream>?
@@ -349,7 +349,7 @@ class EClientSocket {
         
     }
     
-    func eDisconnect() { // synchronized
+    public func eDisconnect() { // synchronized
         // not connected?
         if dos == nil {
             return
@@ -399,7 +399,7 @@ class EClientSocket {
         //    }
     }
     
-    func cancelScannerSubscription(tickerId: Int) { // synchronized
+    public func cancelScannerSubscription(tickerId: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -425,7 +425,7 @@ class EClientSocket {
 //        }
     }
     
-    func reqScannerParameters() { // synchronized
+    public func reqScannerParameters() { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -450,7 +450,7 @@ class EClientSocket {
 //        }
     }
     
-    func reqScannerSubscription(tickerId: Int, subscription: ScannerSubscription, scannerSubscriptionOptions: [TagValue]?) { // synchronized
+    public func reqScannerSubscription(tickerId: Int, subscription: ScannerSubscription, scannerSubscriptionOptions: [TagValue]?) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -519,7 +519,7 @@ class EClientSocket {
 //        }
     }
     
-    func reqMktData(tickerId: Int, contract: Contract, genericTickList: String, snapshot: Bool, mktDataOptions: [TagValue]?) { // synchronized
+    public func reqMktData(tickerId: Int, contract: Contract, genericTickList: String, snapshot: Bool, mktDataOptions: [TagValue]?) { // synchronized
         if !connected {
             error(EClientErrors_NO_VALID_ID, pair: EClientErrors_NOT_CONNECTED, tail: "")
             return
@@ -646,7 +646,7 @@ class EClientSocket {
         //        }
     }
     
-    func cancelHistoricalData(tickerId :Int) { // synchronized
+    public func cancelHistoricalData(tickerId :Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -672,7 +672,7 @@ class EClientSocket {
 //        }
     }
     
-    func cancelRealTimeBars(tickerId: Int) { // synchronized
+    public func cancelRealTimeBars(tickerId: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -699,7 +699,7 @@ class EClientSocket {
     }
     
         /** Note that formatData parameter affects intra-day bars only; 1-day bars always return with date in YYYYMMDD format. */
-    func reqHistoricalData(tickerId: Int, contract: Contract,
+    public func reqHistoricalData(tickerId: Int, contract: Contract,
         endDateTime: String, durationStr: String,
         barSizeSetting: String, whatToShow: String,
         useRTH: Int, formatDate: Int, chartOptions: [TagValue]?) { // synchronized
@@ -794,7 +794,7 @@ class EClientSocket {
 //        }
     }
     
-    func reqRealTimeBars(tickerId: Int, contract: Contract, barSize: Int, whatToShow: String, useRTH: Bool, realTimeBarsOptions: [TagValue]?) { // synchronized
+    public func reqRealTimeBars(tickerId: Int, contract: Contract, barSize: Int, whatToShow: String, useRTH: Bool, realTimeBarsOptions: [TagValue]?) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -865,7 +865,7 @@ class EClientSocket {
         //}
     }
     
-    func reqContractDetails(reqId: Int, contract: Contract) { // synchronized
+    public func reqContractDetails(reqId: Int, contract: Contract) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -939,7 +939,7 @@ class EClientSocket {
         //}
     }
     
-    func reqMktDepth(tickerId: Int, contract: Contract, numRows: Int, mktDepthOptions: [TagValue]?) { // synchronized
+    public func reqMktDepth(tickerId: Int, contract: Contract, numRows: Int, mktDepthOptions: [TagValue]?) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1013,7 +1013,7 @@ class EClientSocket {
         //}
         }
     
-    func cancelMktData(tickerId: Int) { // synchronized
+    public func cancelMktData(tickerId: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1033,7 +1033,7 @@ class EClientSocket {
         //}
     }
     
-    func cancelMktDepth(tickerId: Int) { // synchronized
+    public func cancelMktDepth(tickerId: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1649,7 +1649,7 @@ class EClientSocket {
         //}
     }
     
-    func reqAccountUpdates(subscribe: Bool, acctCode: String) { // synchronized
+    public func reqAccountUpdates(subscribe: Bool, acctCode: String) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1673,7 +1673,7 @@ class EClientSocket {
         //}
     }
     
-    func reqExecutions(reqId: Int, filter: ExecutionFilter) { // synchronized
+    public func reqExecutions(reqId: Int, filter: ExecutionFilter) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1708,7 +1708,7 @@ class EClientSocket {
         //}
     }
     
-    func cancelOrder(id: Int) { // synchronized
+    public func cancelOrder(id: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1727,7 +1727,7 @@ class EClientSocket {
         //}
     }
     
-    func reqOpenOrders() { // synchronized
+    public func reqOpenOrders() { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1745,7 +1745,7 @@ class EClientSocket {
         //}
     }
     
-    func reqIds(numIds: Int) { // synchronized
+    public func reqIds(numIds: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1763,7 +1763,7 @@ class EClientSocket {
         //}
     }
     
-    func reqNewsBulletins(allMsgs: Bool) { // synchronized
+    public func reqNewsBulletins(allMsgs: Bool) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1781,7 +1781,7 @@ class EClientSocket {
         //}
     }
     
-    func cancelNewsBulletins() { // synchronized
+    public func cancelNewsBulletins() { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1818,7 +1818,7 @@ class EClientSocket {
         //}
     }
     
-    func reqAutoOpenOrders(bAutoBind: Bool) { // synchronized
+    public func reqAutoOpenOrders(bAutoBind: Bool) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1837,7 +1837,7 @@ class EClientSocket {
         //}
     }
     
-    func reqAllOpenOrders() { // synchronized
+    public func reqAllOpenOrders() { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1855,7 +1855,7 @@ class EClientSocket {
         //}
     }
     
-    func reqManagedAccts() { // synchronized
+    public func reqManagedAccts() { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1873,7 +1873,7 @@ class EClientSocket {
         //}
     }
     
-    func requestFA(faDataType: Int) { // synchronized
+    public func requestFA(faDataType: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1924,7 +1924,7 @@ class EClientSocket {
         //}
     }
     
-    func reqCurrentTime() { // synchronized
+    public func reqCurrentTime() { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1948,7 +1948,7 @@ class EClientSocket {
         //}
     }
     
-    func reqFundamentalData(reqId: Int, contract: Contract, reportType: String) { // synchronized
+    public func reqFundamentalData(reqId: Int, contract: Contract, reportType: String) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -1994,7 +1994,7 @@ class EClientSocket {
         //}
     }
     
-    func cancelFundamentalData(reqId: Int) { // synchronized
+    public func cancelFundamentalData(reqId: Int) { // synchronized
         // not connected?
         if !connected {
             notConnected()
@@ -2075,7 +2075,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func cancelCalculateImpliedVolatility(reqId: Int) {
+    public func cancelCalculateImpliedVolatility(reqId: Int) {
         
         // not connected?
         if !connected {
@@ -2157,7 +2157,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func cancelCalculateOptionPrice(reqId: Int) {
+    public func cancelCalculateOptionPrice(reqId: Int) {
         
         // not connected?
         if !connected {
@@ -2184,7 +2184,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func reqGlobalCancel() {
+    public func reqGlobalCancel() {
         // not connected?
         if !connected {
             notConnected()
@@ -2209,7 +2209,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func reqMarketDataType(marketDataType: Int) {
+    public func reqMarketDataType(marketDataType: Int) {
         // not connected?
         if !connected {
             notConnected()
@@ -2235,7 +2235,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func reqPositions() {
+    public func reqPositions() {
         // not connected?
         if !connected {
             notConnected()
@@ -2262,7 +2262,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func cancelPositions() {
+    public func cancelPositions() {
         // not connected?
         if !connected {
             notConnected()
@@ -2289,7 +2289,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func reqAccountSummary(reqId: Int, group: String, tags: String) {
+    public func reqAccountSummary(reqId: Int, group: String, tags: String) {
         // not connected?
         if !connected {
             notConnected()
@@ -2319,7 +2319,7 @@ class EClientSocket {
     }
     
     // synchronized
-    func cancelAccountSummary(reqId: Int) {
+    public func cancelAccountSummary(reqId: Int) {
         // not connected?
         if !connected {
             notConnected()
@@ -2528,7 +2528,7 @@ class EClientSocket {
         _anyWrapper.error(id, errorCode: errorCode, errorMsg: errorMsg)
     }
     
-    func close() {
+    public func close() {
         eDisconnect()
         eWrapper().connectionClosed()
     }

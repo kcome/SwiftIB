@@ -25,7 +25,7 @@
 
 import Foundation
 
-class Contract: Equatable {
+public class Contract: Equatable {
     
     var conId: Int = 0
     var symbol: String = ""
@@ -61,13 +61,13 @@ class Contract: Equatable {
     }
     */
     
-    init() {
+    public init() {
     }
     
-    init(p_conId: Int, p_symbol: String, p_secType: String, p_expiry: String,
+    public init(p_conId: Int, p_symbol: String, p_secType: String, p_expiry: String,
         p_strike: Double, p_right: String, p_multiplier: String, p_exchange: String,
         p_currency: String, p_localSymbol: String, p_tradingClass: String,
-        p_comboLegs: [ComboLeg], p_primaryExch: String, p_includeExpired: Bool,
+        p_comboLegs: [ComboLeg]?, p_primaryExch: String, p_includeExpired: Bool,
         p_secIdType: String, p_secId: String) {
             conId = p_conId
             symbol = p_symbol
@@ -81,16 +81,16 @@ class Contract: Equatable {
             includeExpired = p_includeExpired
             localSymbol = p_localSymbol
             tradingClass = p_tradingClass
-            comboLegs = p_comboLegs
             primaryExch = p_primaryExch
             secIdType = p_secIdType
             secId = p_secId
             comboLegsDescrip = ""
+            if p_comboLegs != nil { comboLegs = p_comboLegs! }
     }
     
 }
 
-func == (lhs: Contract, rhs: Contract) -> Bool {
+public func == (lhs: Contract, rhs: Contract) -> Bool {
     if (lhs === rhs) {
         return true
     }

@@ -25,7 +25,7 @@
 
 import Foundation
 
-class OrderState: Equatable {
+public class OrderState: Equatable {
     
     var status: String = ""
     
@@ -54,6 +54,6 @@ class OrderState: Equatable {
     }
 }
 
-func == (lhs: OrderState, rhs: OrderState) -> Bool {
+public func == (lhs: OrderState, rhs: OrderState) -> Bool {
     return true
 }

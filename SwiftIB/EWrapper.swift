@@ -25,7 +25,7 @@
 
 import Foundation
 
-protocol EWrapper: AnyWrapper {
+public protocol EWrapper: AnyWrapper {
     
     ///////////////////////////////////////////////////////////////////////
     // Interface methods

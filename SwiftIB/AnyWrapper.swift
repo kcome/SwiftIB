@@ -25,7 +25,7 @@
 
 import Foundation
 
-protocol AnyWrapper {
+public protocol AnyWrapper {
     func error( e: NSException)
     func error( str: String)
     func error( id: Int, errorCode: Int, errorMsg:String)

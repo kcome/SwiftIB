@@ -25,7 +25,7 @@
 
 import Foundation
 
-class ComboLeg: Equatable {
+public class ComboLeg: Equatable {
     
     let SAME = 0 	// open/close leg value is same as combo
     let OPEN = 1
@@ -66,7 +66,7 @@ class ComboLeg: Equatable {
     }
 }
 
-func == (lhs: ComboLeg, rhs: ComboLeg) -> Bool {
+public func == (lhs: ComboLeg, rhs: ComboLeg) -> Bool {
     if lhs === rhs {
         return true
     }

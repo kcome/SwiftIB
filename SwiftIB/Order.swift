@@ -25,7 +25,7 @@
 
 import Foundation
 
-class Order: Equatable {
+public class Order: Equatable {
     
     let CUSTOMER: Int = 0
     let FIRM: Int = 1
@@ -253,7 +253,7 @@ class Order: Equatable {
     }
 }
 
-func == (lhs: Order, rhs: Order) -> Bool {
+public func == (lhs: Order, rhs: Order) -> Bool {
     if lhs === rhs {
         return true
     }

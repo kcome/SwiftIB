@@ -25,7 +25,7 @@
 
 import Foundation
 
-class ExecutionFilter: Equatable {
+public class ExecutionFilter: Equatable {
 
     var clientId: Int = 0 // zero means no filtering on this field
     var acctCode: String
@@ -48,7 +48,7 @@ class ExecutionFilter: Equatable {
     
 }
 
-func == (lhs: ExecutionFilter, rhs: ExecutionFilter) -> Bool {
+public func == (lhs: ExecutionFilter, rhs: ExecutionFilter) -> Bool {
     var ret = false
     
     if ( lhs === rhs ) {

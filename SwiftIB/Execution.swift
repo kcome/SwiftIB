@@ -25,7 +25,7 @@
 
 import Foundation
 
-class Execution: Equatable {
+public class Execution: Equatable {
     
     var orderId: Int = 0
     var clientId: Int = 0
@@ -68,7 +68,7 @@ class Execution: Equatable {
     
 }
 
-func == (lhs: Execution, rhs: Execution) -> Bool {
+public func == (lhs: Execution, rhs: Execution) -> Bool {
     var ret = false
     
     if ( lhs === rhs ) {

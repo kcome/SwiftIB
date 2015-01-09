@@ -25,7 +25,7 @@
 
 import Foundation
 
-class TagValue: Equatable {
+public class TagValue: Equatable {
     
     var tag: String = ""
     var value: String = ""
@@ -39,7 +39,7 @@ class TagValue: Equatable {
     }
 }
 
-func == (lhs: TagValue, rhs: TagValue) -> Bool {
+public func == (lhs: TagValue, rhs: TagValue) -> Bool {
     if lhs === rhs {
         return true
     }

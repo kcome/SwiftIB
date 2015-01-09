@@ -25,7 +25,7 @@
 
 import Foundation
 
-struct ScannerSubscription {
+public struct ScannerSubscription {
     let NO_ROW_NUMBER_SPECIFIED = -1
     
     var numberOfRows: Int = -1
