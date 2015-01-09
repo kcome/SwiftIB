@@ -29,34 +29,40 @@ import Cocoa
 
 import SwiftIB
 
+var outputFiles:[NSFileHandle] = []
+
 class LoggingWrapper: EWrapper {
-    var tickers: [String]
-    init(_ ts: [String]) {
-        tickers = ts
+    init() {
     }
     
     func tickPrice(tickerId: Int, field: Int, price: Double, canAutoExecute: Int) {
-        println("PRC \(tickers[tickerId]) \(field) \(price)")
+        let f = outputFiles[tickerId]
+        let s = "PRC \(field) \(price)\n"
+        f.writeData(s.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!);f.synchronizeFile()
     }
     func tickSize(tickerId: Int, field: Int, size: Int) {
-        println("SZ  \(tickers[tickerId]) \(field) \(size)")
+        let f = outputFiles[tickerId]
+        let s = "SZ  \(field) \(size)\n"
+        f.writeData(s.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!);f.synchronizeFile()
     }
     func tickGeneric(tickerId: Int, tickType: Int, value: Double) {
-        println("GEN \(tickers[tickerId]) \(tickType) \(value)")
+        let f = outputFiles[tickerId]
+        let s = "GEN \(tickType) \(value)\n"
+        f.writeData(s.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!);f.synchronizeFile()
     }
     func tickString(tickerId: Int, tickType: Int, value: String) {
+        let f = outputFiles[tickerId]
+        var s = ""
         switch tickType {
         case 45:
             let tickI: Int? = value.toInt()
             let tick: Double = tickI != nil ? Double(tickI!) : 0
-            let fmt = NSDateFormatter()
-            fmt.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS zzz"
-            let ts = fmt.stringFromDate(NSDate(timeIntervalSince1970: NSTimeInterval(tick)))
-            println("STR TS \(tickers[tickerId]) \(ts)")
+            s = "STR TS \(LoggingWrapper.timeToStr(NSDate(timeIntervalSince1970: NSTimeInterval(tick)), millis:true))\n"
             
             default:
-            println("STR \(tickers[tickerId]) \(tickType) \(value)")
+            s = "STR \(tickType) \(value)\n"
         }
+        f.writeData(s.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!);f.synchronizeFile()
     }
     func accountDownloadEnd(accountName: String){
         println("Account name \(accountName)")
@@ -120,29 +126,84 @@ class LoggingWrapper: EWrapper {
     }
     func connectionClosed() {
         println ("!!CONNECTION CLOSE")
-        disconnected = true
+        connected = false
+    }
+
+    class func timeToStr(time: NSDate, millis: Bool) -> String {
+        let fmt = NSDateFormatter()
+        fmt.dateFormat = millis ? "yyyy-MM-dd HH:mm:ss.SSS zzz" : "yyyy-MM-dd HH:mm:ss zzz"
+        return fmt.stringFromDate(time)
     }
 }
 
-var disconnected = false
-
+var connected = false
+var host = "127.0.0.1"
+var port: UInt32 = 7496
 var tickers:[String] = []
+var outputDir: String = NSFileManager.defaultManager().currentDirectoryPath
+let filePrefix = LoggingWrapper.timeToStr(NSDate(timeIntervalSinceNow: 0), millis:false)
+
+var argValue:[Bool] = [Bool](count: Process.arguments.count, repeatedValue: false)
+var index = 1
 for arg in Process.arguments[1..<Process.arguments.count] {
-    tickers.append(arg)
+    switch arg {
+    case "--host":
+        if index+1<Process.arguments.count {host = Process.arguments[index+1]}
+        argValue[index+1] = true
+    case "--output":
+        if index+1<Process.arguments.count {outputDir = Process.arguments[index+1]}
+        argValue[index+1] = true
+    case "--port":
+        if index+1<Process.arguments.count {
+            if let p = Process.arguments[index+1].toInt() {
+                port = UInt32(p)
+            }
+        }
+        argValue[index+1] = true
+    default:
+        if argValue[index] == false {
+            tickers.append(arg)
+        }
+    }
+    index += 1
 }
+
+println("Output dir: \(outputDir)")
+println("Symbols to fetch: \(tickers)")
+
+for i in 0 ..< tickers.count {
+    var outf = outputDir.stringByAppendingPathComponent(String(format: "%@ %@.raw.dump", filePrefix, tickers[i]))
+    var file = NSFileHandle(forWritingAtPath:outf)
+    if file == nil {
+        NSFileManager.defaultManager().createFileAtPath(outf, contents: nil, attributes: nil)
+        file = NSFileHandle(forWritingAtPath:outf)
+    }
+    if file != nil {
+        outputFiles.append(file!)
+        let s = "SYMBOL \(tickers[i]) \n"
+        file!.writeData(s.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+        file!.synchronizeFile()
+    }
+}
+if outputFiles.count != tickers.count {
+    println("Error: cannot correct output files")
+    NSApplication.sharedApplication().terminate(nil)
+}
+
 while true {
-    var wrapper = LoggingWrapper(tickers)
+    var wrapper = LoggingWrapper()
     var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
-    println("connecting to IB API...")
-    client.eConnect("127.0.0.1", p_port: 4001)
-    disconnected = false
-    for i in 0...2 {
+    println("Connecting to IB API...")
+    client.eConnect(host, p_port: port)
+    connected = true
+    for i in 0 ..< tickers.count {
         var con = Contract(p_conId: 0, p_symbol: tickers[i], p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
             p_exchange: "SMART", p_currency: "USD", p_localSymbol: tickers[i], p_tradingClass: "", p_comboLegs: nil, p_primaryExch: "ISLAND",
             p_includeExpired: true, p_secIdType: "", p_secId: "")
+        // tickerId is strickly 0..<tickers.count
         client.reqMktData(i, contract: con, genericTickList: "", snapshot: false, mktDataOptions: nil)
     }
-    while !disconnected { NSThread.sleepForTimeInterval(NSTimeInterval(3.0)) }
+    while connected { NSThread.sleepForTimeInterval(NSTimeInterval(3.0)) }
     client.eDisconnect()
     client.close()
 }
