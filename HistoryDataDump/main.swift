@@ -227,8 +227,6 @@ for arg in Process.arguments[1..<Process.arguments.count] {
     index += 1
 }
 
-sinceTS = strToTS(sinceDatetime)
-currentStart = strToTS(untilDatetime)
 var fman = NSFileManager.defaultManager()
 var wrapper = HistoryDataWrapper()
 var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
@@ -237,6 +235,8 @@ closing = false
 broken = false
 println("Connecting to IB API...")
 for i in 0 ..< tickers.count {
+    sinceTS = strToTS(sinceDatetime)
+    currentStart = strToTS(untilDatetime)
     var con = Contract(p_conId: 0, p_symbol: tickers[i], p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
         p_exchange: exchange, p_currency: "USD", p_localSymbol: "", p_tradingClass: "", p_comboLegs: nil, p_primaryExch: primaryEx,
         p_includeExpired: false, p_secIdType: "", p_secId: "")
