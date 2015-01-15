@@ -81,6 +81,7 @@
 		346A7F491A5F89CF00FDC603 /* TickType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE31A5AB2E60043919D /* TickType.swift */; };
 		346A7F4A1A5F89CF00FDC603 /* UnderComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE41A5AB2E60043919D /* UnderComp.swift */; };
 		346A7F4B1A5F89CF00FDC603 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD51A5AB2E60043919D /* Util.swift */; };
+		34B63C781A6753B90060F3A1 /* HDDUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B63C771A6753B90060F3A1 /* HDDUtil.swift */; };
 		34E5C74E1A54201E00FB117C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E5C74D1A54201E00FB117C /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -135,6 +136,7 @@
 		346A7F1B1A5F89C300FDC603 /* SwiftIB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftIB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		346A7F1E1A5F89C300FDC603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		346A7F1F1A5F89C300FDC603 /* SwiftIB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftIB.h; sourceTree = "<group>"; };
+		34B63C771A6753B90060F3A1 /* HDDUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HDDUtil.swift; sourceTree = "<group>"; };
 		34E5C74A1A54201E00FB117C /* MktDataDump */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MktDataDump; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E5C74D1A54201E00FB117C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				3453D7861A61046F00C5D31D /* main.swift */,
+				34B63C771A6753B90060F3A1 /* HDDUtil.swift */,
 			);
 			path = HistoryDataDump;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				3453D7871A61046F00C5D31D /* main.swift in Sources */,
 				3453D79C1A6104E800C5D31D /* OrderComboLeg.swift in Sources */,
 				3453D78C1A6104E800C5D31D /* AnyWrapperMsgGenerator.swift in Sources */,
+				34B63C781A6753B90060F3A1 /* HDDUtil.swift in Sources */,
 				3453D78D1A6104E800C5D31D /* Builder.swift in Sources */,
 				3453D7911A6104E800C5D31D /* ContractDetails.swift in Sources */,
 				3453D7961A6104E800C5D31D /* EWrapperMsgGenerator.swift in Sources */,
@@ -629,6 +633,7 @@
 				3453D7891A61046F00C5D31D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		346A7F2E1A5F89C300FDC603 /* Build configuration list for PBXNativeTarget "SwiftIB" */ = {
 			isa = XCConfigurationList;

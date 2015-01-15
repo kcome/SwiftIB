@@ -25,31 +25,13 @@
 
 import Foundation
 
-func tsToStr(timestamp: Int64, api: Bool) -> String {
-    let time = NSDate(timeIntervalSince1970: Double(timestamp))
-    let fmt = NSDateFormatter()
-    fmt.timeZone = NSTimeZone(name: "US/Eastern")
-    fmt.dateFormat = api ? "yyyyMMdd HH:mm:ss" : "yyyy-MM-dd\tHH:mm:ss"
-    return fmt.stringFromDate(time)
-}
-
-func strToTS(timestamp: String) -> Int64 {
-    let fmt = NSDateFormatter()
-    fmt.timeZone = NSTimeZone(name: "US/Eastern")
-    fmt.dateFormat = "yyyyMMdd HH:mm:ss"
-    if let dt = fmt.dateFromString(timestamp) {
-        return Int64(dt.timeIntervalSince1970)
-    }
-    return -1
-}
-
-
 // global variables between Main and HistoryDataWrapper
 var closing = false
 var reqComplete = false
 var currentStart: Int64 = -1
 var sinceTS: Int64 = 0
 var broken = false
+var currentTicker = ""
 
 class HistoryDataWrapper: EWrapper {
     var contents: [String] = [String](count: 2000, repeatedValue: "")
@@ -131,7 +113,7 @@ class HistoryDataWrapper: EWrapper {
         close: Double, volume: Int, count: Int, WAP: Double, hasGaps: Bool) {
             var s = ""
             if date.hasPrefix("finished-") {
-                println("\(date)")
+                println("\(currentTicker): \(date)")
                 reqComplete = true
             } else {
                 let ts : Int64 = (date as NSString).longLongValue
@@ -142,7 +124,7 @@ class HistoryDataWrapper: EWrapper {
                     return
                 }
                 let iHasGaps = hasGaps ? 1 : 0
-                s = "\(tsToStr(ts, false))\t\(open)\t\(high)\t\(low)\t\(close)\t\(volume)\t\(count)\t\(WAP)\t\(iHasGaps)"
+                s = "\(HDDUtil.tsToStr(ts, api: false))\t\(open)\t\(high)\t\(low)\t\(close)\t\(volume)\t\(count)\t\(WAP)\t\(iHasGaps)"
             }
             if !s.isEmpty {
                 s = s + "\n"
@@ -151,18 +133,21 @@ class HistoryDataWrapper: EWrapper {
     }
 }
 
+// default values
 var host = "127.0.0.1"
 var port: UInt32 = 4001
 var tickers = [String]()
 var exchange = "SMART"
 var primaryEx = "ISLAND"
 var rth = 1
-var sinceDatetime = "20150101 09:30:00"
-var untilDatetime = "20150101 16:00:00"
 var barsize = "5 mins"
 var unixts = 1
-var duration = "2000 S"
+var duration = "10800 S" // 3 hours
 var outputDir: String = NSFileManager.defaultManager().currentDirectoryPath
+
+let now = NSDate(timeIntervalSinceNow: 0)
+var sinceDatetime = HDDUtil.tsToStr( Int64(now.timeIntervalSince1970 - 24 * 3600), api: true)
+var untilDatetime = HDDUtil.tsToStr( Int64(now.timeIntervalSince1970), api: true)
 
 var argValue:[Bool] = [Bool](count: Process.arguments.count, repeatedValue: false)
 var index = 1
@@ -195,7 +180,7 @@ for arg in Process.arguments[1..<Process.arguments.count] {
     case "--since":
         if index+1<Process.arguments.count {
             sinceDatetime = Process.arguments[index+1]
-            sinceTS = strToTS(Process.arguments[index+1])
+            sinceTS = HDDUtil.strToTS(Process.arguments[index+1])
         }
         argValue[index+1] = true
     case "--barsize":
@@ -219,6 +204,17 @@ for arg in Process.arguments[1..<Process.arguments.count] {
     case "--output":
         if index+1<Process.arguments.count {outputDir = Process.arguments[index+1]}
         argValue[index+1] = true
+    case "--symbols":
+        if index+1<Process.arguments.count {
+            let fileCont = String(contentsOfFile:Process.arguments[index+1] , encoding: NSUTF8StringEncoding, error: nil)
+            if fileCont != nil {
+                let arr = fileCont?.componentsSeparatedByString("\n")
+                if arr != nil {
+                    for sym in arr! { tickers.append(sym) }
+                }
+            }
+        }
+        argValue[index+1] = true
     default:
         if argValue[index] == false {
             tickers.append(arg)
@@ -227,28 +223,44 @@ for arg in Process.arguments[1..<Process.arguments.count] {
     index += 1
 }
 
+println("Fetching tickers: \(tickers)")
+println("Configuration:\nHost: \(host)")
+println("Port: \(port)")
+println("Start date (EST): \(sinceDatetime)")
+println("End date (EST): \(untilDatetime)")
+println("Output: \(outputDir)")
+println("Exchange: \(exchange) - \(primaryEx)")
+println("Barsize: \(barsize)")
+println("Duration: \(duration)")
+println("Connecting to IB API...")
+
 var fman = NSFileManager.defaultManager()
 var wrapper = HistoryDataWrapper()
 var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
 client.eConnect(host, p_port: port)
 closing = false
 broken = false
-println("Connecting to IB API...")
+
 for i in 0 ..< tickers.count {
-    sinceTS = strToTS(sinceDatetime)
-    currentStart = strToTS(untilDatetime)
+    sinceTS = HDDUtil.strToTS(sinceDatetime)
+    currentStart = HDDUtil.strToTS(untilDatetime)
     var con = Contract(p_conId: 0, p_symbol: tickers[i], p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
         p_exchange: exchange, p_currency: "USD", p_localSymbol: "", p_tradingClass: "", p_comboLegs: nil, p_primaryExch: primaryEx,
         p_includeExpired: false, p_secIdType: "", p_secId: "")
     let fname = outputDir.stringByAppendingPathComponent("[\(tickers[i])][\(exchange)-\(primaryEx)][\(sinceDatetime)]-[\(untilDatetime)][\(barsize)].history_raw")
+    if fman.fileExistsAtPath(fname) {
+        println("Skip \(tickers[i]) : File exists")
+        continue
+    }
     fman.createFileAtPath(fname, contents: nil, attributes: nil)
     var lf = NSFileHandle(forWritingAtPath: fname)
+    currentTicker = tickers[i]
     while currentStart > sinceTS {
         reqComplete = false
         let localStart = currentStart
         currentStart = -1
         wrapper.contents.removeAll(keepCapacity: true)
-        client.reqHistoricalData(i, contract: con, endDateTime: "\(tsToStr(localStart, true)) EST", durationStr: duration, barSizeSetting: barsize, whatToShow: "TRADES", useRTH: rth, formatDate: 2, chartOptions: nil)
+        client.reqHistoricalData(i, contract: con, endDateTime: "\(HDDUtil.tsToStr(localStart, api: true)) EST", durationStr: duration, barSizeSetting: barsize, whatToShow: "TRADES", useRTH: rth, formatDate: 2, chartOptions: nil)
         while (reqComplete == false) && (broken == false)
             { NSThread.sleepForTimeInterval(NSTimeInterval(0.05)) }
         if broken {
