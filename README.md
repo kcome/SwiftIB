@@ -15,7 +15,9 @@ Jan 13th 2015
 ```
 Disclaimer: 
 
-This software is in no way affiliated, endorsed, or approved by Interactive Brokers or any of its affiliates. It comes with absolutely no warranty and should not be used in actual trading unless the user can read and understand the source.
+This software is in no way affiliated, endorsed, or approved by Interactive Brokers or 
+any of its affiliates. It comes with absolutely no warranty and should not be used in
+actual trading unless the user can read and understand the source.
 ```
 
     
