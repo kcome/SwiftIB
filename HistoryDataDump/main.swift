@@ -26,15 +26,16 @@
 import Foundation
 
 // global variables between Main and HistoryDataWrapper
-var closing = false
-var reqComplete = false
 var currentStart: Int64 = -1
 var sinceTS: Int64 = 0
-var broken = false
 var currentTicker = ""
 
 class HistoryDataWrapper: EWrapper {
     var contents: [String] = [String](count: 2000, repeatedValue: "")
+    var extraSleep : Double = 0
+    var closing = false
+    var broken = false
+    var reqComplete = false
     init() {
     }
     // currently unused callbacks
@@ -101,11 +102,14 @@ class HistoryDataWrapper: EWrapper {
         default:
             println("error: id(\(id)) code(\(errorCode)) msg:\(errorMsg)")
         }
+        if id == 9 && errorCode == 162 { // Historical Market Data Service error message:Historical data request pacing violation
+            self.extraSleep = 15.0
+        }
     }
     func connectionClosed() {
-        if !closing {
+        if !self.closing {
+            self.broken = true
             println ("!!CONNECTION CLOSE")
-            broken = true
         }
     }
 
@@ -114,7 +118,7 @@ class HistoryDataWrapper: EWrapper {
             var s = ""
             if date.hasPrefix("finished-") {
                 println("\(currentTicker): \(date)")
-                reqComplete = true
+                self.reqComplete = true
             } else {
                 let ts : Int64 = (date as NSString).longLongValue
                 if currentStart < 0 {
@@ -247,8 +251,7 @@ var fman = NSFileManager.defaultManager()
 var wrapper = HistoryDataWrapper()
 var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
 client.eConnect(host, p_port: port)
-closing = false
-broken = false
+wrapper.closing = false
 
 for i in 0 ..< tickers.count {
     sinceTS = HDDUtil.strToTS(sinceDatetime)
@@ -266,20 +269,20 @@ for i in 0 ..< tickers.count {
     currentTicker = tickers[i]
     while currentStart > sinceTS {
         let begin = NSDate().timeIntervalSinceReferenceDate
-        reqComplete = false
         let localStart = currentStart
         currentStart = -1
         wrapper.contents.removeAll(keepCapacity: true)
+        wrapper.reqComplete = false
+        wrapper.broken = false
         client.reqHistoricalData(i, contract: con, endDateTime: "\(HDDUtil.tsToStr(localStart, api: true)) EST", durationStr: duration, barSizeSetting: barsize, whatToShow: "TRADES", useRTH: rth, formatDate: 2, chartOptions: nil)
-        while (reqComplete == false) && (broken == false)
+        while (wrapper.reqComplete == false) && (wrapper.broken == false) && (wrapper.extraSleep <= 0.0)
             { NSThread.sleepForTimeInterval(NSTimeInterval(0.05)) }
-        if broken {
-            client.close()
+        if wrapper.broken {
             NSThread.sleepForTimeInterval(NSTimeInterval(2.0))
             currentStart = localStart
+            client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
             client.eConnect(host, p_port: port)
-            closing = false
-            broken = false
+            wrapper.closing = false
             continue
         }
         if let file = lf {
@@ -288,8 +291,9 @@ for i in 0 ..< tickers.count {
             }
             file.synchronizeFile()
         }
-        println("(sleep for \(sleepInterval) secs)...")
-        NSThread.sleepUntilDate(NSDate(timeIntervalSinceReferenceDate: begin + sleepInterval))
+        println("(sleep for \(sleepInterval + wrapper.extraSleep) secs)...")
+        NSThread.sleepUntilDate(NSDate(timeIntervalSinceReferenceDate: begin + sleepInterval + wrapper.extraSleep))
+        wrapper.extraSleep = 0
     }
     if lf != nil {
         lf?.closeFile()
@@ -297,7 +301,7 @@ for i in 0 ..< tickers.count {
 }
 
 NSThread.sleepForTimeInterval(NSTimeInterval(3.0))
-closing = true
+wrapper.closing = true
 client.eDisconnect()
 client.close()
 
