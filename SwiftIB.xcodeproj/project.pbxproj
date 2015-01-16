@@ -83,6 +83,7 @@
 		346A7F4B1A5F89CF00FDC603 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD51A5AB2E60043919D /* Util.swift */; };
 		34B63C781A6753B90060F3A1 /* HDDUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B63C771A6753B90060F3A1 /* HDDUtil.swift */; };
 		34E5C74E1A54201E00FB117C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E5C74D1A54201E00FB117C /* main.swift */; };
+		34EB9CB41A69138200675B85 /* HistoryDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EB9CB31A69138200675B85 /* HistoryDataWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -139,6 +140,7 @@
 		34B63C771A6753B90060F3A1 /* HDDUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HDDUtil.swift; sourceTree = "<group>"; };
 		34E5C74A1A54201E00FB117C /* MktDataDump */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MktDataDump; sourceTree = BUILT_PRODUCTS_DIR; };
 		34E5C74D1A54201E00FB117C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		34EB9CB31A69138200675B85 /* HistoryDataWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryDataWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 			children = (
 				3453D7861A61046F00C5D31D /* main.swift */,
 				34B63C771A6753B90060F3A1 /* HDDUtil.swift */,
+				34EB9CB31A69138200675B85 /* HistoryDataWrapper.swift */,
 			);
 			path = HistoryDataDump;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				3453D7941A6104E800C5D31D /* EReader.swift in Sources */,
 				3453D7991A6104E800C5D31D /* IApiEnum.swift in Sources */,
 				3453D7981A6104E800C5D31D /* ExecutionFilter.swift in Sources */,
+				34EB9CB41A69138200675B85 /* HistoryDataWrapper.swift in Sources */,
 				3453D78B1A6104E800C5D31D /* AnyWrapper.swift in Sources */,
 				3453D7871A61046F00C5D31D /* main.swift in Sources */,
 				3453D79C1A6104E800C5D31D /* OrderComboLeg.swift in Sources */,
