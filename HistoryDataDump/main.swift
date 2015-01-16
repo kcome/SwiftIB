@@ -143,6 +143,7 @@ var rth = 1
 var barsize = "5 mins"
 var unixts = 1
 var duration = "10800 S" // 3 hours
+var sleepInterval = 10.0
 var outputDir: String = NSFileManager.defaultManager().currentDirectoryPath
 
 let now = NSDate(timeIntervalSinceNow: 0)
@@ -215,6 +216,14 @@ for arg in Process.arguments[1..<Process.arguments.count] {
             }
         }
         argValue[index+1] = true
+    case "--sleep":
+        if index+1<Process.arguments.count {
+            let sd = NSString(string: Process.arguments[index+1]).doubleValue
+            if sd != 0 {
+                sleepInterval = sd
+            }
+        }
+        argValue[index+1] = true
     default:
         if argValue[index] == false {
             tickers.append(arg)
@@ -256,6 +265,7 @@ for i in 0 ..< tickers.count {
     var lf = NSFileHandle(forWritingAtPath: fname)
     currentTicker = tickers[i]
     while currentStart > sinceTS {
+        let begin = NSDate().timeIntervalSinceReferenceDate
         reqComplete = false
         let localStart = currentStart
         currentStart = -1
@@ -278,8 +288,8 @@ for i in 0 ..< tickers.count {
             }
             file.synchronizeFile()
         }
-        println("(sleep for 10 secs)...")
-        NSThread.sleepForTimeInterval(NSTimeInterval(10.0))
+        println("(sleep for \(sleepInterval) secs)...")
+        NSThread.sleepUntilDate(NSDate(timeIntervalSinceReferenceDate: begin + sleepInterval))
     }
     if lf != nil {
         lf?.closeFile()
