@@ -165,6 +165,26 @@ class HDDUtil {
         return fmt.stringFromDate(time)
     }
     
+    class func fastStrToTS(timestamp: String) -> Int64 {
+        let year = (timestamp as NSString).substringWithRange(NSRange(location: 0, length: 4)).toInt()
+        let month = (timestamp as NSString).substringWithRange(NSRange(location: 5, length: 2)).toInt()
+        let day = (timestamp as NSString).substringWithRange(NSRange(location: 8, length: 2)).toInt()
+        let hour = (timestamp as NSString).substringWithRange(NSRange(location: 11, length: 2)).toInt()
+        let minute = (timestamp as NSString).substringWithRange(NSRange(location: 14, length: 2)).toInt()
+        let second = (timestamp as NSString).substringWithRange(NSRange(location: 17, length: 2)).toInt()
+        var components = NSDateComponents()
+        components.year = year!
+        components.month = month!
+        components.day = day!
+        components.hour = hour!
+        components.minute = minute!
+        components.second = second!
+        components.timeZone = NSTimeZone(name: "US/Eastern")
+        let cal = NSCalendar.currentCalendar()
+        var dt = cal.dateFromComponents(components)
+        return Int64(dt!.timeIntervalSince1970)
+    }
+    
     class func strToTS(timestamp: String, api: Bool) -> Int64 {
         let fmt = NSDateFormatter()
         fmt.timeZone = NSTimeZone(name: "US/Eastern")

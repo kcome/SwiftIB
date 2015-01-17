@@ -44,18 +44,20 @@ func appendHistoryData(filename: String, ticker: String, requestId: Int) {
     var lastDT: Int64 = -1
     var gaps = [(String, String)]()
     var secs = HDDUtil.parseBarsize(conf.barsize)
+    var es = 0
     fcontent?.enumerateLinesUsingBlock({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
+        let datestr = line.substringToIndex(advance(line.startIndex, 19))
         if lastDT == -1 {
-            lastDT = HDDUtil.strToTS(line.substringToIndex(advance(line.startIndex, 19)), api: false)
+            lastDT = HDDUtil.fastStrToTS(datestr)
         } else {
-            let currDT = line.substringToIndex(advance(line.startIndex, 19))
-            if HDDUtil.tsToStr(lastDT - secs, api: false) != currDT {
-                gaps.append((HDDUtil.tsToStr(lastDT, api: false), currDT))
-                lastDT = HDDUtil.strToTS(currDT, api: false)
+            if lastDT - secs != HDDUtil.fastStrToTS(datestr) {
+                gaps.append((HDDUtil.tsToStr(lastDT, api: false), datestr))
+                lastDT = HDDUtil.fastStrToTS(datestr)
             } else {
                 lastDT = lastDT - secs
             }
         }
+        es += 1
     })
     if gaps.count > 0 {
         println("for \(filename)")
@@ -63,7 +65,7 @@ func appendHistoryData(filename: String, ticker: String, requestId: Int) {
             println("\t\tGap: \(earlier) -- \(later)")
         }
     } else {
-        println("for \(filename): COMPLETE")
+        println("for \(filename): COMPLETE [\(es)] entries")
     }
 }
 
