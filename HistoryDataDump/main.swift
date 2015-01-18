@@ -27,6 +27,7 @@ import Foundation
 
 // constants
 let EXT = "history_raw"
+let HEADER_LEN = 19
 
 var conf = HDDConfig(arg_array: Process.arguments)
 var tickers = conf.tickers
@@ -34,8 +35,7 @@ var fman = NSFileManager.defaultManager()
 var wrapper = HistoryDataWrapper()
 var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
 
-func appendHistoryData(filename: String, ticker: String, requestId: Int) {
-    let headerLen = 19
+func checkGaps(filename: String, ticker: String, requestId: Int) {
     var fcontent = NSString(contentsOfFile: filename, encoding: NSUTF8StringEncoding, error: nil)
     if fcontent == nil {
         return
@@ -46,7 +46,7 @@ func appendHistoryData(filename: String, ticker: String, requestId: Int) {
     var secs = HDDUtil.parseBarsize(conf.barsize)
     var es = 0
     fcontent?.enumerateLinesUsingBlock({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
-        let datestr = line.substringToIndex(advance(line.startIndex, 19))
+        let datestr = line.substringToIndex(advance(line.startIndex, HEADER_LEN))
         if lastDT == -1 {
             lastDT = HDDUtil.fastStrToTS(datestr)
         } else {
@@ -69,12 +69,41 @@ func appendHistoryData(filename: String, ticker: String, requestId: Int) {
     }
 }
 
+func getLastestDate(filename: String) -> Int64 {
+    var fcontent = NSString(contentsOfFile: filename, encoding: NSUTF8StringEncoding, error: nil)
+    if fcontent == nil {
+        return -1
+    }
+    var count = 0
+    fcontent?.enumerateLinesUsingBlock({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
+        count += 1
+    })
+    var ret: Int64 = -1
+    fcontent?.enumerateLinesUsingBlock({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
+        count -= 1
+        if count == 0 {
+            let datestr = line.substringToIndex(advance(line.startIndex, HEADER_LEN))
+            ret = HDDUtil.fastStrToTS(datestr)
+        }
+    })
+    return ret
+}
+
 func downloadHistoryData(filename: String, ticker: String, requestId: Int, append: Bool = false) {
     var con = Contract(p_conId: 0, p_symbol: ticker, p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
         p_exchange: conf.exchange, p_currency: "USD", p_localSymbol: "", p_tradingClass: "", p_comboLegs: nil, p_primaryExch: conf.primaryEx,
         p_includeExpired: false, p_secIdType: "", p_secId: "")
     var lf: NSFileHandle?
     if append {
+        let next = getLastestDate(filename)
+        if next != -1 {
+            wrapper.currentStart = next
+        }
+        if wrapper.currentStart <= wrapper.sinceTS {
+            println("\t[\(ticker)] fully downloaded. Skip.")
+            return
+        }
+        println("\tAppending \(filename), starting date [\(HDDUtil.tsToStr(wrapper.currentStart, api: false))]")
         lf = NSFileHandle(forUpdatingAtPath: filename)
         if lf != nil {
             lf?.seekToEndOfFile()
@@ -128,7 +157,7 @@ for i in 0 ..< tickers.count {
     let fname = conf.outputDir.stringByAppendingPathComponent("[\(tickers[i])][\(conf.exchange)-\(conf.primaryEx)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
     if fman.fileExistsAtPath(fname) {
         if conf.append {
-            appendHistoryData(fname, tickers[i], i)
+            downloadHistoryData(fname, tickers[i], i, append: true)
             continue
         } else {
             println("Skip \(tickers[i]) : File exists")
