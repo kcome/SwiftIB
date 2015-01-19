@@ -108,7 +108,11 @@ struct HDDConfig {
                     if fileCont != nil {
                         let arr = fileCont?.componentsSeparatedByString("\n")
                         if arr != nil {
-                            for sym in arr! { self.tickers.append(sym) }
+                            for sym in arr! {
+                                if !sym.hasPrefix("#") {
+                                    self.tickers.append(sym)
+                                }
+                            }
                         }
                     }
                 }

@@ -91,7 +91,7 @@ func getLastestDate(filename: String) -> Int64 {
 
 func downloadHistoryData(filename: String, ticker: String, requestId: Int, append: Bool = false) {
     var con = Contract(p_conId: 0, p_symbol: ticker, p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
-        p_exchange: conf.exchange, p_currency: "USD", p_localSymbol: "", p_tradingClass: "", p_comboLegs: nil, p_primaryExch: conf.primaryEx,
+        p_exchange: conf.exchange, p_currency: "USD", p_localSymbol: ticker, p_tradingClass: "", p_comboLegs: nil, p_primaryExch: conf.primaryEx,
         p_includeExpired: false, p_secIdType: "", p_secId: "")
     var lf: NSFileHandle?
     if append {
