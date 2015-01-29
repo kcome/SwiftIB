@@ -97,11 +97,17 @@ class HistoryDataWrapper: EWrapper {
         switch errorCode {
         case 2106:
             println("2106 [A historical data farm is connected]\n\tmsg:\(errorMsg)")
+        case 162:
+            println("162 [Date mismatch]\n\tmsg:\(errorMsg)")
         default:
             println("error: id(\(id)) code(\(errorCode)) msg:\(errorMsg)")
         }
         if id == 9 && errorCode == 162 { // Historical Market Data Service error message:Historical data request pacing violation
             self.extraSleep = 15.0
+        }
+        else if id == 0 && errorCode == 162 {
+            self.currentStart = self.sinceTS
+            self.reqComplete = true
         }
     }
     func connectionClosed() {
