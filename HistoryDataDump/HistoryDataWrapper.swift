@@ -103,7 +103,7 @@ class HistoryDataWrapper: EWrapper {
         if id == 9 && errorCode == 162 { // Historical Market Data Service error message:Historical data request pacing violation
             self.extraSleep = 15.0
         }
-        else if id == 0 && errorCode == 162 && ((errorMsg as NSString).rangeOfString("HMDS query returned no data").location > 0) {
+        else if errorCode == 162 && ((errorMsg as NSString).rangeOfString("HMDS query returned no data:").location > 0) {
             self.currentStart = self.sinceTS
             self.reqComplete = true
         }
