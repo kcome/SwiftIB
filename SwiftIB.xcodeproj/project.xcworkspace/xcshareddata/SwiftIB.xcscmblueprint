@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D5D2D84F34D6412AF94B08A8554E97AED3A03898",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D5D2D84F34D6412AF94B08A8554E97AED3A03898" : 0,
+    "3BF49EDF5038795EBFAFA8578150CD385BA00EB4" : 0,
+    "1C75F1C5CFCB95B3702F6F632FA05ED5244B519E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "731FACE7-A528-4BB8-9BA0-1561D81AD975",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D5D2D84F34D6412AF94B08A8554E97AED3A03898" : "SwiftIB",
+    "3BF49EDF5038795EBFAFA8578150CD385BA00EB4" : "SwiftIB\/SwiftCSV",
+    "1C75F1C5CFCB95B3702F6F632FA05ED5244B519E" : "SwiftIB\/CocoaAsyncSocket"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SwiftIB",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SwiftIB.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:robbiehanson\/CocoaAsyncSocket.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1C75F1C5CFCB95B3702F6F632FA05ED5244B519E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:naoty\/SwiftCSV.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3BF49EDF5038795EBFAFA8578150CD385BA00EB4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:kcome\/SwiftIB.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D5D2D84F34D6412AF94B08A8554E97AED3A03898"
+    }
+  ]
+}

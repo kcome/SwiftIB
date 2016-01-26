@@ -57,14 +57,14 @@ struct HDDConfig {
                 argValue[index+1] = true
             case "--port":
                 if index+1<arg_array.count {
-                    if let p = arg_array[index+1].toInt() {
+                    if let p = Int(arg_array[index+1]) {
                         self.port = UInt32(p)
                     }
                 }
                 argValue[index+1] = true
             case "--rth":
                 if index+1<arg_array.count {
-                    if let p = arg_array[index+1].toInt() {
+                    if let p = Int(arg_array[index+1]) {
                         self.rth = p == 0 ? 0 : 1
                     } else {
                         self.rth = arg_array[index+1].lowercaseString == "true" ? 1 : 0
@@ -104,15 +104,11 @@ struct HDDConfig {
                 argValue[index+1] = true
             case "--symbols":
                 if index+1<arg_array.count {
-                    let fileCont = String(contentsOfFile:arg_array[index+1] , encoding: NSUTF8StringEncoding, error: nil)
-                    if fileCont != nil {
-                        let arr = fileCont?.componentsSeparatedByString("\n")
-                        if arr != nil {
-                            for sym in arr! {
-                                if !sym.hasPrefix("#") {
-                                    self.tickers.append(sym)
-                                }
-                            }
+                    let fileCont = try! String(contentsOfFile: arg_array[index+1], encoding: NSUTF8StringEncoding)
+                    let arr = fileCont.componentsSeparatedByString("\n")
+                    for sym in arr {
+                        if !sym.hasPrefix("#") {
+                            self.tickers.append(sym)
                         }
                     }
                 }
@@ -129,7 +125,7 @@ struct HDDConfig {
                 self.append = true
             case "--clientID":
                 if index+1<arg_array.count {
-                    let iv = arg_array[index+1].toInt()
+                    let iv = Int(arg_array[index+1])
                     if iv != nil {
                         self.clientID = iv!
                     }
@@ -145,17 +141,17 @@ struct HDDConfig {
     }
     
     func printConf() {
-        println("Fetching tickers: \(tickers)")
-        println("Configuration:\nHost: \(host)")
-        println("Port: \(port)")
-        println("Start date (EST): \(sinceDatetime)")
-        println("End date (EST): \(untilDatetime)")
-        println("Output: \(outputDir)")
-        println("Exchange: \(exchange) - \(primaryEx)")
-        println("Barsize: \(barsize)")
-        println("Duration: \(duration)")
-        println("Append mode: \(append)")
-        println("Client ID: \(clientID)")
+        print("Fetching tickers: \(tickers)")
+        print("Configuration:\nHost: \(host)")
+        print("Port: \(port)")
+        print("Start date (EST): \(sinceDatetime)")
+        print("End date (EST): \(untilDatetime)")
+        print("Output: \(outputDir)")
+        print("Exchange: \(exchange) - \(primaryEx)")
+        print("Barsize: \(barsize)")
+        print("Duration: \(duration)")
+        print("Append mode: \(append)")
+        print("Client ID: \(clientID)")
     }
 }
 
@@ -170,12 +166,12 @@ class HDDUtil {
     }
     
     class func fastStrToTS(timestamp: String) -> Int64 {
-        let year = (timestamp as NSString).substringWithRange(NSRange(location: 0, length: 4)).toInt()
-        let month = (timestamp as NSString).substringWithRange(NSRange(location: 5, length: 2)).toInt()
-        let day = (timestamp as NSString).substringWithRange(NSRange(location: 8, length: 2)).toInt()
-        let hour = (timestamp as NSString).substringWithRange(NSRange(location: 11, length: 2)).toInt()
-        let minute = (timestamp as NSString).substringWithRange(NSRange(location: 14, length: 2)).toInt()
-        let second = (timestamp as NSString).substringWithRange(NSRange(location: 17, length: 2)).toInt()
+        let year = Int((timestamp as NSString).substringWithRange(NSRange(location: 0, length: 4)))
+        let month = Int((timestamp as NSString).substringWithRange(NSRange(location: 5, length: 2)))
+        let day = Int((timestamp as NSString).substringWithRange(NSRange(location: 8, length: 2)))
+        let hour = Int((timestamp as NSString).substringWithRange(NSRange(location: 11, length: 2)))
+        let minute = Int((timestamp as NSString).substringWithRange(NSRange(location: 14, length: 2)))
+        let second = Int((timestamp as NSString).substringWithRange(NSRange(location: 17, length: 2)))
         var components = NSDateComponents()
         components.year = year!
         components.month = month!
@@ -206,7 +202,7 @@ class HDDUtil {
             if cmps[1].hasPrefix("min") { base = 60 }
             else if cmps[1].hasPrefix("hour") { base = 60 * 60 }
             else if cmps[1].hasPrefix("day") { base = 60 * 60 * 24 }
-            if let v = cmps[0].toInt() {
+            if let v = Int(cmps[0]) {
                 return v * base
             }
         }

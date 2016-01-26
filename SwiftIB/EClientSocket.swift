@@ -108,7 +108,7 @@ import Foundation
 
 let CLIENT_VERSION: Int = 63
 let SERVER_VERSION: Int = 38
-let EOL: [Byte] = [0]
+let EOL: [UInt8] = [0]
 let BAG_SEC_TYPE: String = "BAG"
 
 let GROUPS: Int = 1
@@ -231,7 +231,7 @@ public class EClientSocket {
     func TwsConnectionTime() -> String { return TwsTime }
     func anyWrapper() -> AnyWrapper { return _anyWrapper }
     func eWrapper() -> EWrapper { return _eWrapper }
-    func reader() -> EReader? { return _reader? }
+    func reader() -> EReader? { return _reader }
     func isConnected() -> Bool { return connected }
     func outputStream() -> NSOutputStream? { return dos }
     
@@ -319,12 +319,12 @@ public class EClientSocket {
         
         // check server version
         _serverVersion = (_reader?.readInt())!
-        println("Server Version: \(_serverVersion)")
+        print("Server Version: \(_serverVersion)")
         if _serverVersion >= 20 {
             if let ttime = _reader?.readStr() {
                 TwsTime = ttime
             }
-            println("TWS Time at connection: \(TwsTime)")
+            print("TWS Time at connection: \(TwsTime)")
         }
         if (_serverVersion < SERVER_VERSION) {
             eDisconnect()
@@ -2542,8 +2542,8 @@ public class EClientSocket {
         // write it to socket
         if !str.isEmpty {
             // TODO: Add comprehensive error handling here
-            if let dataBytes = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)? {
-                var bytes = [Byte](count: dataBytes.length, repeatedValue: 0)
+            if let dataBytes = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                var bytes = [UInt8](count: dataBytes.length, repeatedValue: 0)
                 dataBytes.getBytes(&bytes, length: dataBytes.length)
                 dos?.write(bytes, maxLength: dataBytes.length)
             }

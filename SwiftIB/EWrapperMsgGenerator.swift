@@ -53,7 +53,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
     class func contractDetailsSecIdList(contractDetails: ContractDetails) -> String {
         var msg = "secIdList={"
         if let secIdList = contractDetails.secIdList {
-            for (i, param) in enumerate(secIdList) {
+            for (i, param) in secIdList.enumerate() {
                 if i > 0 {
                     msg += ","
                 }
@@ -92,7 +92,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
     }
     
     class func fundamentalData(reqId: Int, data: String) -> String {
-        return String(format:"id = %@ len = %d\n%@", reqId, data.utf16Count, data)
+        return String(format:"id = %@ len = %d\n%@", reqId, data.utf16.count, data)
     }
     
     class func deltaNeutralValidation(reqId: Int, underComp: UnderComp) -> String {

@@ -37,11 +37,11 @@ func dtos(d: Double) -> String {
     return String(format:"%f", d)
 }
 
-func caseInsensitiveEqual(lhs: String, rhs: String) -> Bool {
+func caseInsensitiveEqual(lhs: String, _ rhs: String) -> Bool {
     return lhs.lowercaseString == rhs.lowercaseString
 }
 
-func arrayEqualUnordered<T: Equatable>(lhs: [T], rhs: [T]) -> Bool {
+func arrayEqualUnordered<T: Equatable>(lhs: [T], _ rhs: [T]) -> Bool {
     if lhs.count != rhs.count {
         return false
     }
@@ -53,7 +53,7 @@ func arrayEqualUnordered<T: Equatable>(lhs: [T], rhs: [T]) -> Bool {
     
     for litem in lhs {
         var counter = 0
-        for (index, ritem) in enumerate(rhs) {
+        for (index, ritem) in rhs.enumerate() {
             counter++
             if matchedRhsElems[index] {
                 continue

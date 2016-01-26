@@ -8,54 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3453D7871A61046F00C5D31D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3453D7861A61046F00C5D31D /* main.swift */; };
-		3453D78B1A6104E800C5D31D /* AnyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD01A5AB2E60043919D /* AnyWrapper.swift */; };
-		3453D78C1A6104E800C5D31D /* AnyWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD61A5AB2E60043919D /* AnyWrapperMsgGenerator.swift */; };
-		3453D78D1A6104E800C5D31D /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCE1A5AB2E60043919D /* Builder.swift */; };
-		3453D78E1A6104E800C5D31D /* ComboLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD71A5AB2E60043919D /* ComboLeg.swift */; };
-		3453D78F1A6104E800C5D31D /* CommissionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD31A5AB2E60043919D /* CommissionReport.swift */; };
-		3453D7901A6104E800C5D31D /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD81A5AB2E60043919D /* Contract.swift */; };
-		3453D7911A6104E800C5D31D /* ContractDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD91A5AB2E60043919D /* ContractDetails.swift */; };
-		3453D7921A6104E800C5D31D /* EClientErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD21A5AB2E60043919D /* EClientErrors.swift */; };
-		3453D7931A6104E800C5D31D /* EClientSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCD1A5AB2E60043919D /* EClientSocket.swift */; };
-		3453D7941A6104E800C5D31D /* EReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCF1A5AB2E60043919D /* EReader.swift */; };
-		3453D7951A6104E800C5D31D /* EWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD11A5AB2E60043919D /* EWrapper.swift */; };
-		3453D7961A6104E800C5D31D /* EWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD41A5AB2E60043919D /* EWrapperMsgGenerator.swift */; };
-		3453D7971A6104E800C5D31D /* Execution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDA1A5AB2E60043919D /* Execution.swift */; };
-		3453D7981A6104E800C5D31D /* ExecutionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDB1A5AB2E60043919D /* ExecutionFilter.swift */; };
-		3453D7991A6104E800C5D31D /* IApiEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDC1A5AB2E60043919D /* IApiEnum.swift */; };
-		3453D79A1A6104E800C5D31D /* MaketDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDD1A5AB2E60043919D /* MaketDataType.swift */; };
-		3453D79B1A6104E800C5D31D /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDE1A5AB2E60043919D /* Order.swift */; };
-		3453D79C1A6104E800C5D31D /* OrderComboLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDF1A5AB2E60043919D /* OrderComboLeg.swift */; };
-		3453D79D1A6104E800C5D31D /* OrderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE01A5AB2E60043919D /* OrderState.swift */; };
-		3453D79E1A6104E800C5D31D /* ScannerSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE11A5AB2E60043919D /* ScannerSubscription.swift */; };
-		3453D79F1A6104E800C5D31D /* TagValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE21A5AB2E60043919D /* TagValue.swift */; };
-		3453D7A01A6104E800C5D31D /* TickType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE31A5AB2E60043919D /* TickType.swift */; };
-		3453D7A11A6104E800C5D31D /* UnderComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE41A5AB2E60043919D /* UnderComp.swift */; };
-		3453D7A21A6104E800C5D31D /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD51A5AB2E60043919D /* Util.swift */; };
-		346392B81A5FC3F300A32C80 /* AnyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD01A5AB2E60043919D /* AnyWrapper.swift */; };
-		346392B91A5FC3F300A32C80 /* AnyWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD61A5AB2E60043919D /* AnyWrapperMsgGenerator.swift */; };
-		346392BA1A5FC3F300A32C80 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCE1A5AB2E60043919D /* Builder.swift */; };
-		346392BB1A5FC3F300A32C80 /* ComboLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD71A5AB2E60043919D /* ComboLeg.swift */; };
-		346392BC1A5FC3F300A32C80 /* CommissionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD31A5AB2E60043919D /* CommissionReport.swift */; };
-		346392BD1A5FC3F300A32C80 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD81A5AB2E60043919D /* Contract.swift */; };
-		346392BE1A5FC3F300A32C80 /* ContractDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD91A5AB2E60043919D /* ContractDetails.swift */; };
-		346392BF1A5FC3F300A32C80 /* EClientErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD21A5AB2E60043919D /* EClientErrors.swift */; };
-		346392C01A5FC3F300A32C80 /* EClientSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCD1A5AB2E60043919D /* EClientSocket.swift */; };
-		346392C11A5FC3F300A32C80 /* EReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCF1A5AB2E60043919D /* EReader.swift */; };
-		346392C21A5FC3F300A32C80 /* EWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD11A5AB2E60043919D /* EWrapper.swift */; };
-		346392C31A5FC3F300A32C80 /* EWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD41A5AB2E60043919D /* EWrapperMsgGenerator.swift */; };
-		346392C41A5FC3F300A32C80 /* Execution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDA1A5AB2E60043919D /* Execution.swift */; };
-		346392C51A5FC3F300A32C80 /* ExecutionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDB1A5AB2E60043919D /* ExecutionFilter.swift */; };
-		346392C61A5FC3F300A32C80 /* IApiEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDC1A5AB2E60043919D /* IApiEnum.swift */; };
-		346392C71A5FC3F300A32C80 /* MaketDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDD1A5AB2E60043919D /* MaketDataType.swift */; };
-		346392C81A5FC3F300A32C80 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDE1A5AB2E60043919D /* Order.swift */; };
-		346392C91A5FC3F300A32C80 /* OrderComboLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDF1A5AB2E60043919D /* OrderComboLeg.swift */; };
-		346392CA1A5FC3F300A32C80 /* OrderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE01A5AB2E60043919D /* OrderState.swift */; };
-		346392CB1A5FC3F300A32C80 /* ScannerSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE11A5AB2E60043919D /* ScannerSubscription.swift */; };
-		346392CC1A5FC3F300A32C80 /* TagValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE21A5AB2E60043919D /* TagValue.swift */; };
-		346392CD1A5FC3F300A32C80 /* TickType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE31A5AB2E60043919D /* TickType.swift */; };
-		346392CE1A5FC3F300A32C80 /* UnderComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE41A5AB2E60043919D /* UnderComp.swift */; };
-		346392CF1A5FC3F300A32C80 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD51A5AB2E60043919D /* Util.swift */; };
 		346A7F201A5F89C300FDC603 /* SwiftIB.h in Headers */ = {isa = PBXBuildFile; fileRef = 346A7F1F1A5F89C300FDC603 /* SwiftIB.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		346A7F341A5F89CF00FDC603 /* AnyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD01A5AB2E60043919D /* AnyWrapper.swift */; };
 		346A7F351A5F89CF00FDC603 /* AnyWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD61A5AB2E60043919D /* AnyWrapperMsgGenerator.swift */; };
@@ -81,9 +33,34 @@
 		346A7F491A5F89CF00FDC603 /* TickType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE31A5AB2E60043919D /* TickType.swift */; };
 		346A7F4A1A5F89CF00FDC603 /* UnderComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE41A5AB2E60043919D /* UnderComp.swift */; };
 		346A7F4B1A5F89CF00FDC603 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD51A5AB2E60043919D /* Util.swift */; };
+		3491CDAF1B786CA4009B2035 /* SwiftIB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346A7F1B1A5F89C300FDC603 /* SwiftIB.framework */; };
 		34B63C781A6753B90060F3A1 /* HDDUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B63C771A6753B90060F3A1 /* HDDUtil.swift */; };
 		34E5C74E1A54201E00FB117C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E5C74D1A54201E00FB117C /* main.swift */; };
 		34EB9CB41A69138200675B85 /* HistoryDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EB9CB31A69138200675B85 /* HistoryDataWrapper.swift */; };
+		34FE1A361B7963E20003EB51 /* AnyWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD01A5AB2E60043919D /* AnyWrapper.swift */; };
+		34FE1A371B7963E20003EB51 /* AnyWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD61A5AB2E60043919D /* AnyWrapperMsgGenerator.swift */; };
+		34FE1A381B7963E20003EB51 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCE1A5AB2E60043919D /* Builder.swift */; };
+		34FE1A391B7963E20003EB51 /* ComboLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD71A5AB2E60043919D /* ComboLeg.swift */; };
+		34FE1A3A1B7963E20003EB51 /* CommissionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD31A5AB2E60043919D /* CommissionReport.swift */; };
+		34FE1A3B1B7963E20003EB51 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD81A5AB2E60043919D /* Contract.swift */; };
+		34FE1A3C1B7963E20003EB51 /* ContractDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD91A5AB2E60043919D /* ContractDetails.swift */; };
+		34FE1A3D1B7963E20003EB51 /* EClientErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD21A5AB2E60043919D /* EClientErrors.swift */; };
+		34FE1A3E1B7963E20003EB51 /* EClientSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCD1A5AB2E60043919D /* EClientSocket.swift */; };
+		34FE1A3F1B7963E20003EB51 /* EReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CCF1A5AB2E60043919D /* EReader.swift */; };
+		34FE1A401B7963E20003EB51 /* EWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD11A5AB2E60043919D /* EWrapper.swift */; };
+		34FE1A411B7963E20003EB51 /* EWrapperMsgGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD41A5AB2E60043919D /* EWrapperMsgGenerator.swift */; };
+		34FE1A421B7963E20003EB51 /* Execution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDA1A5AB2E60043919D /* Execution.swift */; };
+		34FE1A431B7963E20003EB51 /* ExecutionFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDB1A5AB2E60043919D /* ExecutionFilter.swift */; };
+		34FE1A441B7963E20003EB51 /* IApiEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDC1A5AB2E60043919D /* IApiEnum.swift */; };
+		34FE1A451B7963E20003EB51 /* MaketDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDD1A5AB2E60043919D /* MaketDataType.swift */; };
+		34FE1A461B7963E20003EB51 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDE1A5AB2E60043919D /* Order.swift */; };
+		34FE1A471B7963E20003EB51 /* OrderComboLeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CDF1A5AB2E60043919D /* OrderComboLeg.swift */; };
+		34FE1A481B7963E20003EB51 /* OrderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE01A5AB2E60043919D /* OrderState.swift */; };
+		34FE1A491B7963E20003EB51 /* ScannerSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE11A5AB2E60043919D /* ScannerSubscription.swift */; };
+		34FE1A4A1B7963E20003EB51 /* TagValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE21A5AB2E60043919D /* TagValue.swift */; };
+		34FE1A4B1B7963E20003EB51 /* TickType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE31A5AB2E60043919D /* TickType.swift */; };
+		34FE1A4C1B7963E20003EB51 /* UnderComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE41A5AB2E60043919D /* UnderComp.swift */; };
+		34FE1A4D1B7963E20003EB51 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD51A5AB2E60043919D /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -162,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3491CDAF1B786CA4009B2035 /* SwiftIB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +306,8 @@
 		34E5C7421A54201E00FB117C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Hanfei Li";
 				TargetAttributes = {
 					3453D7831A61046F00C5D31D = {
@@ -376,33 +355,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3453D7941A6104E800C5D31D /* EReader.swift in Sources */,
-				3453D7991A6104E800C5D31D /* IApiEnum.swift in Sources */,
-				3453D7981A6104E800C5D31D /* ExecutionFilter.swift in Sources */,
+				34FE1A361B7963E20003EB51 /* AnyWrapper.swift in Sources */,
+				34FE1A401B7963E20003EB51 /* EWrapper.swift in Sources */,
+				34FE1A491B7963E20003EB51 /* ScannerSubscription.swift in Sources */,
+				34FE1A461B7963E20003EB51 /* Order.swift in Sources */,
+				34FE1A451B7963E20003EB51 /* MaketDataType.swift in Sources */,
+				34FE1A431B7963E20003EB51 /* ExecutionFilter.swift in Sources */,
+				34FE1A441B7963E20003EB51 /* IApiEnum.swift in Sources */,
+				34FE1A411B7963E20003EB51 /* EWrapperMsgGenerator.swift in Sources */,
+				34FE1A3D1B7963E20003EB51 /* EClientErrors.swift in Sources */,
 				34EB9CB41A69138200675B85 /* HistoryDataWrapper.swift in Sources */,
-				3453D78B1A6104E800C5D31D /* AnyWrapper.swift in Sources */,
+				34FE1A4D1B7963E20003EB51 /* Util.swift in Sources */,
+				34FE1A4A1B7963E20003EB51 /* TagValue.swift in Sources */,
+				34FE1A471B7963E20003EB51 /* OrderComboLeg.swift in Sources */,
+				34FE1A4B1B7963E20003EB51 /* TickType.swift in Sources */,
 				3453D7871A61046F00C5D31D /* main.swift in Sources */,
-				3453D79C1A6104E800C5D31D /* OrderComboLeg.swift in Sources */,
-				3453D78C1A6104E800C5D31D /* AnyWrapperMsgGenerator.swift in Sources */,
+				34FE1A371B7963E20003EB51 /* AnyWrapperMsgGenerator.swift in Sources */,
 				34B63C781A6753B90060F3A1 /* HDDUtil.swift in Sources */,
-				3453D78D1A6104E800C5D31D /* Builder.swift in Sources */,
-				3453D7911A6104E800C5D31D /* ContractDetails.swift in Sources */,
-				3453D7961A6104E800C5D31D /* EWrapperMsgGenerator.swift in Sources */,
-				3453D7A01A6104E800C5D31D /* TickType.swift in Sources */,
-				3453D7931A6104E800C5D31D /* EClientSocket.swift in Sources */,
-				3453D7951A6104E800C5D31D /* EWrapper.swift in Sources */,
-				3453D79D1A6104E800C5D31D /* OrderState.swift in Sources */,
-				3453D78F1A6104E800C5D31D /* CommissionReport.swift in Sources */,
-				3453D79B1A6104E800C5D31D /* Order.swift in Sources */,
-				3453D7971A6104E800C5D31D /* Execution.swift in Sources */,
-				3453D79F1A6104E800C5D31D /* TagValue.swift in Sources */,
-				3453D79E1A6104E800C5D31D /* ScannerSubscription.swift in Sources */,
-				3453D79A1A6104E800C5D31D /* MaketDataType.swift in Sources */,
-				3453D7901A6104E800C5D31D /* Contract.swift in Sources */,
-				3453D78E1A6104E800C5D31D /* ComboLeg.swift in Sources */,
-				3453D7A21A6104E800C5D31D /* Util.swift in Sources */,
-				3453D7921A6104E800C5D31D /* EClientErrors.swift in Sources */,
-				3453D7A11A6104E800C5D31D /* UnderComp.swift in Sources */,
+				34FE1A391B7963E20003EB51 /* ComboLeg.swift in Sources */,
+				34FE1A3E1B7963E20003EB51 /* EClientSocket.swift in Sources */,
+				34FE1A3C1B7963E20003EB51 /* ContractDetails.swift in Sources */,
+				34FE1A3B1B7963E20003EB51 /* Contract.swift in Sources */,
+				34FE1A3A1B7963E20003EB51 /* CommissionReport.swift in Sources */,
+				34FE1A381B7963E20003EB51 /* Builder.swift in Sources */,
+				34FE1A421B7963E20003EB51 /* Execution.swift in Sources */,
+				34FE1A4C1B7963E20003EB51 /* UnderComp.swift in Sources */,
+				34FE1A481B7963E20003EB51 /* OrderState.swift in Sources */,
+				34FE1A3F1B7963E20003EB51 /* EReader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,31 +420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				346392C11A5FC3F300A32C80 /* EReader.swift in Sources */,
-				346392C61A5FC3F300A32C80 /* IApiEnum.swift in Sources */,
-				346392C51A5FC3F300A32C80 /* ExecutionFilter.swift in Sources */,
-				346392B81A5FC3F300A32C80 /* AnyWrapper.swift in Sources */,
 				34E5C74E1A54201E00FB117C /* main.swift in Sources */,
-				346392C91A5FC3F300A32C80 /* OrderComboLeg.swift in Sources */,
-				346392B91A5FC3F300A32C80 /* AnyWrapperMsgGenerator.swift in Sources */,
-				346392BA1A5FC3F300A32C80 /* Builder.swift in Sources */,
-				346392BE1A5FC3F300A32C80 /* ContractDetails.swift in Sources */,
-				346392C31A5FC3F300A32C80 /* EWrapperMsgGenerator.swift in Sources */,
-				346392CD1A5FC3F300A32C80 /* TickType.swift in Sources */,
-				346392C01A5FC3F300A32C80 /* EClientSocket.swift in Sources */,
-				346392C21A5FC3F300A32C80 /* EWrapper.swift in Sources */,
-				346392CA1A5FC3F300A32C80 /* OrderState.swift in Sources */,
-				346392BC1A5FC3F300A32C80 /* CommissionReport.swift in Sources */,
-				346392C81A5FC3F300A32C80 /* Order.swift in Sources */,
-				346392C41A5FC3F300A32C80 /* Execution.swift in Sources */,
-				346392CC1A5FC3F300A32C80 /* TagValue.swift in Sources */,
-				346392CB1A5FC3F300A32C80 /* ScannerSubscription.swift in Sources */,
-				346392C71A5FC3F300A32C80 /* MaketDataType.swift in Sources */,
-				346392BD1A5FC3F300A32C80 /* Contract.swift in Sources */,
-				346392BB1A5FC3F300A32C80 /* ComboLeg.swift in Sources */,
-				346392CF1A5FC3F300A32C80 /* Util.swift in Sources */,
-				346392BF1A5FC3F300A32C80 /* EClientErrors.swift in Sources */,
-				346392CE1A5FC3F300A32C80 /* UnderComp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +463,7 @@
 				INFOPLIST_FILE = SwiftIB/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.kcome.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -529,6 +485,7 @@
 				INFOPLIST_FILE = SwiftIB/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.kcome.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -555,6 +512,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

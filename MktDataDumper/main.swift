@@ -23,10 +23,6 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-import CoreServices
-import Cocoa
-
 import SwiftIB
 
 var outputFiles:[NSFileHandle] = []
@@ -65,7 +61,7 @@ class LoggingWrapper: EWrapper {
         f.writeData(s.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!);f.synchronizeFile()
     }
     func accountDownloadEnd(accountName: String){
-        println("Account name \(accountName)")
+        print("Account name \(accountName)")
     }
 
     // currently unused callbacks
@@ -119,10 +115,10 @@ class LoggingWrapper: EWrapper {
     // error handling
     func error( e: NSException) {}
     func error( str: String) {
-        println("error: \(str)")
+        print("error: \(str)")
     }
     func error( id: Int, errorCode: Int, errorMsg:String) {
-        println("error: id(\(id)) code(\(errorCode)) msg:\(errorMsg)")
+        print("error: id(\(id)) code(\(errorCode)) msg:\(errorMsg)")
     }
     func connectionClosed() {
         println ("!!CONNECTION CLOSE")
@@ -168,8 +164,8 @@ for arg in Process.arguments[1..<Process.arguments.count] {
     index += 1
 }
 
-println("Output dir: \(outputDir)")
-println("Symbols to fetch: \(tickers)")
+print("Output dir: \(outputDir)")
+print("Symbols to fetch: \(tickers)")
 
 for i in 0 ..< tickers.count {
     var outf = outputDir.stringByAppendingPathComponent(String(format: "%@ %@.raw.dump", filePrefix, tickers[i]))
@@ -186,14 +182,14 @@ for i in 0 ..< tickers.count {
     }
 }
 if outputFiles.count != tickers.count {
-    println("Error: cannot correct output files")
+    print("Error: cannot correct output files")
     NSApplication.sharedApplication().terminate(nil)
 }
 
 while true {
     var wrapper = LoggingWrapper()
     var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
-    println("Connecting to IB API...")
+    print("Connecting to IB API...")
     client.eConnect(host, p_port: port)
     connected = true
     for i in 0 ..< tickers.count {

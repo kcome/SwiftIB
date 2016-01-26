@@ -25,7 +25,7 @@
 
 import Foundation
 
-class Builder : Printable {
+class Builder : CustomStringConvertible {
     
     private let SEP: Character = "\0"
     
@@ -56,9 +56,9 @@ class Builder : Printable {
         return stringBuffer
     }
     
-    var bytes : [Byte] {
-        if let sbdata = stringBuffer.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)? {
-            var bytes = [Byte](count: sbdata.length, repeatedValue: 0)
+    var bytes : [UInt8] {
+        if let sbdata = stringBuffer.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            var bytes = [UInt8](count: sbdata.length, repeatedValue: 0)
             sbdata.getBytes(&bytes, length: sbdata.length)
             return bytes
         }

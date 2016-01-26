@@ -1,3 +1,4 @@
+
 //
 //  HistoryDataWrapper.swift
 //  SwiftIB
@@ -91,14 +92,14 @@ class HistoryDataWrapper: EWrapper {
     // error handling
     func error( e: NSException) {}
     func error( str: String) {
-        println("error: \(str)")
+        print("error: \(str)")
     }
     func error( id: Int, errorCode: Int, errorMsg:String) {
         switch errorCode {
         case 2106:
-            println("2106 [A historical data farm is connected]\n\tmsg:\(errorMsg)")
+            print("2106 [A historical data farm is connected]\n\tmsg:\(errorMsg)")
         default:
-            println("error: id(\(id)) code(\(errorCode)) msg:\(errorMsg)")
+            print("error: id(\(id)) code(\(errorCode)) msg:\(errorMsg)")
         }
         if (errorMsg as NSString).rangeOfString(":Historical data request pacing violation").length > 0 && errorCode == 162 { // Historical Market Data Service error message:Historical data request pacing violation
             self.extraSleep = 15.0
@@ -111,7 +112,7 @@ class HistoryDataWrapper: EWrapper {
     func connectionClosed() {
         if !self.closing {
             self.broken = true
-            println ("!!CONNECTION CLOSE")
+            print("!!CONNECTION CLOSE")
         }
     }
     
@@ -119,7 +120,7 @@ class HistoryDataWrapper: EWrapper {
         close: Double, volume: Int, count: Int, WAP: Double, hasGaps: Bool) {
             var s = ""
             if date.hasPrefix("finished-") {
-                println("\(self.currentTicker): \(date)")
+                print("\(self.currentTicker): \(date)")
                 self.reqComplete = true
             } else {
                 let ts : Int64 = (date as NSString).longLongValue

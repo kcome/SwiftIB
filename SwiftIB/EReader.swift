@@ -124,40 +124,40 @@ class EReader: NSThread {
 
     func readBoolFromInt() -> Bool {
         let str = readStr()
-        return str.utf16Count == 0 ? false : (str.toInt() != 0)
+        return str.utf16.count == 0 ? false : (Int(str) != 0)
     }
     
     func readInt() -> Int {
         let str = readStr()
-        if str.utf16Count == 0 {return 0}
-        else if let i = str.toInt() { return i }
+        if str.utf16.count == 0 {return 0}
+        else if let i = Int(str) { return i }
         else {return 0}
     }
     
     func readIntMax() -> Int {
         let str = readStr()
-        if str.utf16Count == 0 {return Int.max}
-        else if let i = str.toInt() { return i }
+        if str.utf16.count == 0 {return Int.max}
+        else if let i = Int(str) { return i }
         else {return Int.max}
     }
     
     func readLong() -> Int64 {
         let str = readStr()
-        if str.utf16Count == 0 {return 0}
+        if str.utf16.count == 0 {return 0}
         var ni = NSString(string: str)
         return ni.longLongValue
     }
     
     func readDouble() -> Double {
         let str = readStr()
-        if str.utf16Count == 0 {return 0}
+        if str.utf16.count == 0 {return 0}
         var ni = NSString(string: str)
         return ni.doubleValue
     }
     
     func readDoubleMax() -> Double {
         let str = readStr()
-        if str.utf16Count == 0 {return Double.NaN}
+        if str.utf16.count == 0 {return Double.NaN}
         var ni = NSString(string: str)
         return ni.doubleValue
     }
