@@ -27,7 +27,7 @@ import Foundation
 
 class OrderComboLeg: Equatable {
     
-    var price: Double = Double.NaN // price per leg
+    var price: Double = Double.nan // price per leg
     
     init(p_price: Double) {
         price = p_price

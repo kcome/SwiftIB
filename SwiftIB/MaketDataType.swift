@@ -29,16 +29,16 @@ class MarketDataType {
 
     // constants - market data types
     enum MarketDataEnum: Int {
-        case REALTIME = 1
-        case FROZEN = 2
+        case realtime = 1
+        case frozen = 2
     }
     
-    class func getField(marketDataType: Int) -> String {        
+    class func getField(_ marketDataType: Int) -> String {        
         if let marketData = MarketDataEnum(rawValue: marketDataType) {
             switch (marketData) {
-            case .REALTIME:
+            case .realtime:
                 return "Real-Time"
-            case .FROZEN:
+            case .frozen:
                 return "Frozen"
             default:
                 return "Unknown"
@@ -49,8 +49,8 @@ class MarketDataType {
     
     class func getFields() -> [String] {
         // DOC: Original Java source is confusing, so hard code the totalFields here
-        var totalFields = 2
-        var fields = [String](count: totalFields, repeatedValue: "")
+        let totalFields = 2
+        var fields = [String](repeating: "", count: totalFields)
         for i in 1...totalFields {
             fields[i] = MarketDataType.getField(i)
         }

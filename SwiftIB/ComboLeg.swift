@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class ComboLeg: Equatable {
+open class ComboLeg: Equatable {
     
     let SAME = 0 	// open/close leg value is same as combo
     let OPEN = 1

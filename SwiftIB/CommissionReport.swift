@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class CommissionReport : Equatable {
+open class CommissionReport : Equatable {
     
     var execId: String = ""
     var commission: Double = 0

@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class Order: Equatable {
+open class Order: Equatable {
     
     let CUSTOMER: Int = 0
     let FIRM: Int = 1
@@ -189,23 +189,23 @@ public class Order: Equatable {
         deltaNeutralConId = 0
         deltaNeutralShortSaleSlot = 0
 
-        lmtPrice = Double.NaN
-        auxPrice = Double.NaN
-        percentOffset = Double.NaN
-        nbboPriceCap = Double.NaN
-        startingPrice = Double.NaN
-        stockRefPrice = Double.NaN
-        delta = Double.NaN
-        stockRangeLower = Double.NaN
-        stockRangeUpper = Double.NaN
-        volatility = Double.NaN
-        deltaNeutralAuxPrice = Double.NaN
-        trailStopPrice = Double.NaN
-        trailingPercent = Double.NaN
-        basisPoints = Double.NaN
-        scalePriceIncrement = Double.NaN
-        scalePriceAdjustValue = Double.NaN
-        scaleProfitOffset = Double.NaN
+        lmtPrice = Double.nan
+        auxPrice = Double.nan
+        percentOffset = Double.nan
+        nbboPriceCap = Double.nan
+        startingPrice = Double.nan
+        stockRefPrice = Double.nan
+        delta = Double.nan
+        stockRangeLower = Double.nan
+        stockRangeUpper = Double.nan
+        volatility = Double.nan
+        deltaNeutralAuxPrice = Double.nan
+        trailStopPrice = Double.nan
+        trailingPercent = Double.nan
+        basisPoints = Double.nan
+        scalePriceIncrement = Double.nan
+        scalePriceAdjustValue = Double.nan
+        scaleProfitOffset = Double.nan
         
         minQty = Int.max
         volatilityType = Int.max

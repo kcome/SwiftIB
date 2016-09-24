@@ -25,57 +25,57 @@
 
 import Foundation
 
-class EReader: NSThread {
+class EReader: Thread {
 
     // incoming msg id's
     enum MsgIdEnum: Int {
-        case TICK_PRICE     = 1
-        case TICK_SIZE      = 2
-        case ORDER_STATUS   = 3
-        case ERR_MSG        = 4
-        case OPEN_ORDER         = 5
-        case ACCT_VALUE         = 6
-        case PORTFOLIO_VALUE    = 7
-        case ACCT_UPDATE_TIME   = 8
-        case NEXT_VALID_ID      = 9
-        case CONTRACT_DATA      = 10
-        case EXECUTION_DATA     = 11
-        case MARKET_DEPTH       = 12
-        case MARKET_DEPTH_L2    = 13
-        case NEWS_BULLETINS     = 14
-        case MANAGED_ACCTS      = 15
-        case RECEIVE_FA         = 16
-        case HISTORICAL_DATA    = 17
-        case BOND_CONTRACT_DATA = 18
-        case SCANNER_PARAMETERS = 19
-        case SCANNER_DATA       = 20
-        case TICK_OPTION_COMPUTATION = 21
-        case TICK_GENERIC = 45
-        case TICK_STRING = 46
-        case TICK_EFP = 47
-        case CURRENT_TIME = 49
-        case REAL_TIME_BARS = 50
-        case FUNDAMENTAL_DATA = 51
-        case CONTRACT_DATA_END = 52
-        case OPEN_ORDER_END = 53
-        case ACCT_DOWNLOAD_END = 54
-        case EXECUTION_DATA_END = 55
-        case DELTA_NEUTRAL_VALIDATION = 56
-        case TICK_SNAPSHOT_END = 57
-        case MARKET_DATA_TYPE = 58
-        case COMMISSION_REPORT = 59
-        case POSITION = 61
-        case POSITION_END = 62
-        case ACCOUNT_SUMMARY = 63
-        case ACCOUNT_SUMMARY_END = 64
-        case VERIFY_MESSAGE_API = 65
-        case VERIFY_COMPLETED = 66
-        case DISPLAY_GROUP_LIST = 67
-        case DISPLAY_GROUP_UPDATED = 68
+        case tick_PRICE     = 1
+        case tick_SIZE      = 2
+        case order_STATUS   = 3
+        case err_MSG        = 4
+        case open_ORDER         = 5
+        case acct_VALUE         = 6
+        case portfolio_VALUE    = 7
+        case acct_UPDATE_TIME   = 8
+        case next_VALID_ID      = 9
+        case contract_DATA      = 10
+        case execution_DATA     = 11
+        case market_DEPTH       = 12
+        case market_DEPTH_L2    = 13
+        case news_BULLETINS     = 14
+        case managed_ACCTS      = 15
+        case receive_FA         = 16
+        case historical_DATA    = 17
+        case bond_CONTRACT_DATA = 18
+        case scanner_PARAMETERS = 19
+        case scanner_DATA       = 20
+        case tick_OPTION_COMPUTATION = 21
+        case tick_GENERIC = 45
+        case tick_STRING = 46
+        case tick_EFP = 47
+        case current_TIME = 49
+        case real_TIME_BARS = 50
+        case fundamental_DATA = 51
+        case contract_DATA_END = 52
+        case open_ORDER_END = 53
+        case acct_DOWNLOAD_END = 54
+        case execution_DATA_END = 55
+        case delta_NEUTRAL_VALIDATION = 56
+        case tick_SNAPSHOT_END = 57
+        case market_DATA_TYPE = 58
+        case commission_REPORT = 59
+        case position = 61
+        case position_END = 62
+        case account_SUMMARY = 63
+        case account_SUMMARY_END = 64
+        case verify_MESSAGE_API = 65
+        case verify_COMPLETED = 66
+        case display_GROUP_LIST = 67
+        case display_GROUP_UPDATED = 68
     }
 
     var _parent: EClientSocket
-    var dis: NSInputStream
+    var dis: InputStream
     
     var parent: EClientSocket {
         return _parent
@@ -85,11 +85,11 @@ class EReader: NSThread {
         return _parent.eWrapper()
     }
     
-    convenience init(parent: EClientSocket, dis: NSInputStream) {
+    convenience init(parent: EClientSocket, dis: InputStream) {
         self.init(p_name:"", p_parent:parent, p_dis:dis)
     }
     
-    init(p_name: String, p_parent: EClientSocket, p_dis: NSInputStream) {
+    init(p_name: String, p_parent: EClientSocket, p_dis: InputStream) {
         _parent = p_parent
         dis = p_dis
 
@@ -100,7 +100,7 @@ class EReader: NSThread {
     
     override func main() {
         // loop until thread is terminated
-        while (self.executing && processMsg(readInt())) {
+        while (self.isExecuting && processMsg(readInt())) {
         }
         if (_parent.isConnected()) {
             _parent.close()
@@ -110,11 +110,11 @@ class EReader: NSThread {
     
     func readStr() -> String {
         var buf = ""
-        var bytes = Array<UInt8>(count: 1, repeatedValue: 0)
+        var bytes = Array<UInt8>(repeating: 0, count: 1)
         while (true) {
-            var read = dis.read(&bytes, maxLength: 1)
+            let read = dis.read(&bytes, maxLength: 1)
             if read == 0 || bytes[0] == 0 { break }
-            if let s = String(bytes: bytes, encoding: NSUTF8StringEncoding) {
+            if let s = String(bytes: bytes, encoding: String.Encoding.utf8) {
                 buf += s
             }
             if dis.hasBytesAvailable == false { break }
@@ -144,30 +144,30 @@ class EReader: NSThread {
     func readLong() -> Int64 {
         let str = readStr()
         if str.utf16.count == 0 {return 0}
-        var ni = NSString(string: str)
+        let ni = NSString(string: str)
         return ni.longLongValue
     }
     
     func readDouble() -> Double {
         let str = readStr()
         if str.utf16.count == 0 {return 0}
-        var ni = NSString(string: str)
+        let ni = NSString(string: str)
         return ni.doubleValue
     }
     
     func readDoubleMax() -> Double {
         let str = readStr()
-        if str.utf16.count == 0 {return Double.NaN}
-        var ni = NSString(string: str)
+        if str.utf16.count == 0 {return Double.nan}
+        let ni = NSString(string: str)
         return ni.doubleValue
     }
     
-    func processMsg(msgId: Int) -> Bool {
+    func processMsg(_ msgId: Int) -> Bool {
         if msgId == -1 {return false}
         
         if let msg = MsgIdEnum(rawValue: msgId) {
             switch (msg) {
-            case .TICK_PRICE:
+            case .tick_PRICE:
                 let version = readInt()
                 let tickerId = readInt()
                 let tickType = readInt()
@@ -199,7 +199,7 @@ class EReader: NSThread {
                     }
                 }
                 
-            case .TICK_SIZE:
+            case .tick_SIZE:
                 let version = readInt()
                 let tickerId = readInt()
                 let tickType = readInt()
@@ -207,11 +207,11 @@ class EReader: NSThread {
                 
                 self.eWrapper.tickSize(tickerId, field: tickType, size: size)
                 
-            case .POSITION:
+            case .position:
                 let version = readInt()
                 let account = readStr()
                 
-                var contract = Contract()
+                let contract = Contract()
                 contract.conId = readInt()
                 contract.symbol = readStr()
                 contract.secType = readStr()
@@ -234,11 +234,11 @@ class EReader: NSThread {
                 
                 self.eWrapper.position(account, contract: contract, pos: pos, avgCost: avgCost)
                 
-            case .POSITION_END:
+            case .position_END:
                 let version = readInt()
                 self.eWrapper.positionEnd()
                 
-            case .ACCOUNT_SUMMARY:
+            case .account_SUMMARY:
                 let version = readInt()
                 let reqId = readInt()
                 let account = readStr()
@@ -247,61 +247,61 @@ class EReader: NSThread {
                 let currency = readStr()
                 self.eWrapper.accountSummary(reqId, account: account, tag: tag, value: value, currency: currency)
                 
-            case .ACCOUNT_SUMMARY_END:
+            case .account_SUMMARY_END:
                 let version = readInt()
                 let reqId = readInt()
                 self.eWrapper.accountSummaryEnd(reqId)
                 
-            case .TICK_OPTION_COMPUTATION:
+            case .tick_OPTION_COMPUTATION:
                 let version = readInt()
                 let tickerId = readInt()
                 let tickType = readInt()
                 var impliedVol = readDouble()
                 if (impliedVol < 0) { // -1 is the "not yet computed" indicator
-                    impliedVol = Double.NaN
+                    impliedVol = Double.nan
                 }
                 var delta = readDouble()
                 if (abs(delta) > 1) { // -2 is the "not yet computed" indicator
-                    delta = Double.NaN
+                    delta = Double.nan
                 }
-                var optPrice = Double.NaN
-                var pvDividend = Double.NaN
-                var gamma = Double.NaN
-                var vega = Double.NaN
-                var theta = Double.NaN
-                var undPrice = Double.NaN
-                if (version >= 6 || TickType.TickTypeEnum(rawValue: tickType)! == .MODEL_OPTION) { // introduced in version == 5
+                var optPrice = Double.nan
+                var pvDividend = Double.nan
+                var gamma = Double.nan
+                var vega = Double.nan
+                var theta = Double.nan
+                var undPrice = Double.nan
+                if (version >= 6 || TickType.TickTypeEnum(rawValue: tickType)! == .model_OPTION) { // introduced in version == 5
                     optPrice = readDouble()
                     if (optPrice < 0) { // -1 is the "not yet computed" indicator
-                        optPrice = Double.NaN
+                        optPrice = Double.nan
                     }
                     pvDividend = readDouble()
                     if (pvDividend < 0) { // -1 is the "not yet computed" indicator
-                        pvDividend = Double.NaN
+                        pvDividend = Double.nan
                     }
                 }
                 if (version >= 6) {
                     gamma = readDouble()
                     if (abs(gamma) > 1) { // -2 is the "not yet computed" indicator
-                        gamma = Double.NaN
+                        gamma = Double.nan
                     }
                     vega = readDouble()
                     if (abs(vega) > 1) { // -2 is the "not yet computed" indicator
-                        vega = Double.NaN
+                        vega = Double.nan
                     }
                     theta = readDouble()
                     if (abs(theta) > 1) { // -2 is the "not yet computed" indicator
-                        theta = Double.NaN
+                        theta = Double.nan
                     }
                     undPrice = readDouble()
                     if (undPrice < 0) { // -1 is the "not yet computed" indicator
-                        undPrice = Double.NaN
+                        undPrice = Double.nan
                     }
                 }
                 
                 self.eWrapper.tickOptionComputation(tickerId, field: tickType, impliedVol: impliedVol, delta: delta, optPrice: optPrice, pvDividend:pvDividend, gamma: gamma, vega: vega, theta: theta, undPrice: undPrice)
                 
-            case .TICK_GENERIC:
+            case .tick_GENERIC:
                 let version = readInt()
                 let tickerId = readInt()
                 let tickType = readInt()
@@ -309,7 +309,7 @@ class EReader: NSThread {
                 
                 self.eWrapper.tickGeneric(tickerId, tickType: tickType, value: value)
                 
-            case .TICK_STRING:
+            case .tick_STRING:
                 let version = readInt()
                 let tickerId = readInt()
                 let tickType = readInt()
@@ -317,7 +317,7 @@ class EReader: NSThread {
                 
                 self.eWrapper.tickString(tickerId, tickType: tickType, value: value)
                 
-            case .TICK_EFP:
+            case .tick_EFP:
                 let version = readInt()
                 let tickerId = readInt()
                 let tickType = readInt()
@@ -331,7 +331,7 @@ class EReader: NSThread {
                 self.eWrapper.tickEFP(tickerId, tickType: tickType, basisPoints: basisPoints, formattedBasisPoints: formattedBasisPoints,
                     impliedFuture: impliedFuturesPrice, holdDays: holdDays, futureExpiry: futureExpiry, dividendImpact: dividendImpact, dividendsToExpiry: dividendsToExpiry)
                 
-            case .ORDER_STATUS:
+            case .order_STATUS:
                 let version = readInt()
                 let id = readInt()
                 let status = readStr()
@@ -367,7 +367,7 @@ class EReader: NSThread {
                 self.eWrapper.orderStatus(id, status: status, filled: filled, remaining: remaining, avgFillPrice: avgFillPrice,
                     permId: permId, parentId: parentId, lastFillPrice: lastFillPrice, clientId: clientId, whyHeld: whyHeld)
                 
-            case .ACCT_VALUE:
+            case .acct_VALUE:
                 let version = readInt()
                 let key = readStr()
                 let val  = readStr()
@@ -378,9 +378,9 @@ class EReader: NSThread {
                 }
                 self.eWrapper.updateAccountValue(key, value: val, currency: cur, accountName: accountName)
                 
-            case .PORTFOLIO_VALUE:
+            case .portfolio_VALUE:
                 let version = readInt()
-                var contract = Contract()
+                let contract = Contract()
                 if (version >= 6) {
                     contract.conId = readInt()
                 }
@@ -426,12 +426,12 @@ class EReader: NSThread {
                     averageCost: averageCost, unrealizedPNL: unrealizedPNL, realizedPNL: realizedPNL, accountName: accountName)
                 
                 
-            case .ACCT_UPDATE_TIME:
+            case .acct_UPDATE_TIME:
                 let version = readInt()
                 let timeStamp = readStr()
                 self.eWrapper.updateAccountTime(timeStamp)
                 
-            case .ERR_MSG:
+            case .err_MSG:
                 let version = readInt()
                 if(version < 2) {
                     let msg = readStr()
@@ -443,16 +443,16 @@ class EReader: NSThread {
                     _parent.error(id, errorCode: errorCode, errorMsg: errorMsg)
                 }
                 
-            case .OPEN_ORDER:
+            case .open_ORDER:
                 // read version
                 let version = readInt()
                 
                 // read order id
-                var order = Order()
+                let order = Order()
                 order.orderId = readInt()
                 
                 // read contract fields
-                var contract = Contract()
+                let contract = Contract()
                 if (version >= 17) {
                     contract.conId = readInt()
                 }
@@ -631,7 +631,7 @@ class EReader: NSThread {
                             let designatedLocation = readStr()
                             let exemptCode = readInt()
                             
-                            var comboLeg = ComboLeg(p_conId: conId, p_ratio: ratio, p_action: action, p_exchange: exchange, p_openClose: openClose, p_shortSaleSlot: shortSaleSlot, p_designatedLocation: designatedLocation, p_exemptCode: exemptCode)
+                            let comboLeg = ComboLeg(p_conId: conId, p_ratio: ratio, p_action: action, p_exchange: exchange, p_openClose: openClose, p_shortSaleSlot: shortSaleSlot, p_designatedLocation: designatedLocation, p_exemptCode: exemptCode)
                             contract.comboLegs.append(comboLeg)
                         }
                     }
@@ -642,7 +642,7 @@ class EReader: NSThread {
                         for i in 1...orderComboLegsCount {
                             let price = readDoubleMax()
                             
-                            var orderComboLeg = OrderComboLeg(p_price: price)
+                            let orderComboLeg = OrderComboLeg(p_price: price)
                             order.orderComboLegs.append(orderComboLeg)
                         }
                     }
@@ -653,7 +653,7 @@ class EReader: NSThread {
                     if (smartComboRoutingParamsCount > 0) {
                         order.smartComboRoutingParams = [TagValue]()
                         for i in 1...smartComboRoutingParamsCount {
-                            var tagValue = TagValue()
+                            let tagValue = TagValue()
                             tagValue.tag = readStr()
                             tagValue.value = readStr()
                             order.smartComboRoutingParams.append(tagValue)
@@ -673,7 +673,7 @@ class EReader: NSThread {
                     order.scalePriceIncrement = readDoubleMax()
                 }
                 
-                if (version >= 28 && order.scalePriceIncrement > 0.0 && order.scalePriceIncrement != Double.NaN) {
+                if (version >= 28 && order.scalePriceIncrement > 0.0 && order.scalePriceIncrement != Double.nan) {
                     order.scalePriceAdjustValue = readDoubleMax()
                     order.scalePriceAdjustInterval = readIntMax()
                     order.scaleProfitOffset = readDoubleMax()
@@ -705,7 +705,7 @@ class EReader: NSThread {
                 
                 if (version >= 20) {
                     if (readBoolFromInt()) {
-                        var underComp = UnderComp()
+                        let underComp = UnderComp()
                         underComp.conId = readInt()
                         underComp.delta = readDouble()
                         underComp.price = readDouble()
@@ -720,7 +720,7 @@ class EReader: NSThread {
                         if (algoParamsCount > 0) {
                             order.algoParams = [TagValue]()
                             for i in 1...algoParamsCount {
-                                var tagValue = TagValue()
+                                let tagValue = TagValue()
                                 tagValue.tag = readStr()
                                 tagValue.value = readStr()
                                 order.algoParams.append(tagValue)
@@ -729,7 +729,7 @@ class EReader: NSThread {
                     }
                 }
                 
-                var orderState = OrderState(p_status: "", p_initMargin: "", p_maintMargin: "", p_equityWithLoan: "", p_commission: 0, p_minCommission: 0, p_maxCommission: 0, p_commissionCurrency: "", p_warningText: "")
+                let orderState = OrderState(p_status: "", p_initMargin: "", p_maintMargin: "", p_equityWithLoan: "", p_commission: 0, p_minCommission: 0, p_maxCommission: 0, p_commissionCurrency: "", p_warningText: "")
                 
                 if (version >= 16) {
                     
@@ -748,13 +748,13 @@ class EReader: NSThread {
                 
                 self.eWrapper.openOrder( order.orderId, contract: contract, order: order, orderState: orderState)
                 
-            case .NEXT_VALID_ID:
+            case .next_VALID_ID:
                 let version = readInt()
                 let orderId = readInt()
                 self.eWrapper.nextValidId( orderId)
                 
-            case .SCANNER_DATA:
-                var contract = ContractDetails(p_summary: Contract(), p_marketName: "", p_minTick: 0, p_orderTypes: "", p_validExchanges: "", p_underConId: 0, p_longName: "", p_contractMonth: "", p_industry: "", p_category: "", p_subcategory: "", p_timeZoneId: "", p_tradingHours: "", p_liquidHours: "", p_evRule: "", p_evMultiplier: 0)
+            case .scanner_DATA:
+                let contract = ContractDetails(p_summary: Contract(), p_marketName: "", p_minTick: 0, p_orderTypes: "", p_validExchanges: "", p_underConId: 0, p_longName: "", p_contractMonth: "", p_industry: "", p_category: "", p_subcategory: "", p_timeZoneId: "", p_tradingHours: "", p_liquidHours: "", p_evRule: "", p_evMultiplier: 0)
                 let version = readInt()
                 let tickerId = readInt()
                 let numberOfElements = readInt()
@@ -785,7 +785,7 @@ class EReader: NSThread {
                 }
                 self.eWrapper.scannerDataEnd(tickerId)
                 
-            case .CONTRACT_DATA:
+            case .contract_DATA:
                 let version = readInt()
                 
                 var reqId = -1
@@ -793,7 +793,7 @@ class EReader: NSThread {
                     reqId = readInt()
                 }
                 
-                var contract = ContractDetails(p_summary: Contract(), p_marketName: "", p_minTick: 0, p_orderTypes: "", p_validExchanges: "", p_underConId: 0, p_longName: "", p_contractMonth: "", p_industry: "", p_category: "", p_subcategory: "", p_timeZoneId: "", p_tradingHours: "", p_liquidHours: "", p_evRule: "", p_evMultiplier: 0)
+                let contract = ContractDetails(p_summary: Contract(), p_marketName: "", p_minTick: 0, p_orderTypes: "", p_validExchanges: "", p_underConId: 0, p_longName: "", p_contractMonth: "", p_industry: "", p_category: "", p_subcategory: "", p_timeZoneId: "", p_tradingHours: "", p_liquidHours: "", p_evRule: "", p_evMultiplier: 0)
                 contract.summary.symbol = readStr()
                 contract.summary.secType = readStr()
                 contract.summary.expiry = readStr()
@@ -837,7 +837,7 @@ class EReader: NSThread {
                     if (secIdListCount  > 0) {
                         contract.secIdList = [TagValue]()
                         for i in 1...secIdListCount {
-                            var tagValue = TagValue()
+                            let tagValue = TagValue()
                             tagValue.tag = readStr()
                             tagValue.value = readStr()
                             contract.secIdList?.append(tagValue)
@@ -846,7 +846,7 @@ class EReader: NSThread {
                 }
                 
                 self.eWrapper.contractDetails(reqId, contractDetails: contract)
-            case .BOND_CONTRACT_DATA:
+            case .bond_CONTRACT_DATA:
                 let version = readInt()
                 
                 var reqId = -1
@@ -854,7 +854,7 @@ class EReader: NSThread {
                     reqId = readInt()
                 }
                 
-                var contract = ContractDetails(p_summary: Contract(), p_marketName: "", p_minTick: 0, p_orderTypes: "", p_validExchanges: "", p_underConId: 0, p_longName: "", p_contractMonth: "", p_industry: "", p_category: "", p_subcategory: "", p_timeZoneId: "", p_tradingHours: "", p_liquidHours: "", p_evRule: "", p_evMultiplier: 0)
+                let contract = ContractDetails(p_summary: Contract(), p_marketName: "", p_minTick: 0, p_orderTypes: "", p_validExchanges: "", p_underConId: 0, p_longName: "", p_contractMonth: "", p_industry: "", p_category: "", p_subcategory: "", p_timeZoneId: "", p_tradingHours: "", p_liquidHours: "", p_evRule: "", p_evMultiplier: 0)
                 
                 contract.summary.symbol = readStr()
                 contract.summary.secType = readStr()
@@ -895,7 +895,7 @@ class EReader: NSThread {
                     if (secIdListCount  > 0) {
                         contract.secIdList = [TagValue]()
                         for i in 1...secIdListCount {
-                            var tagValue = TagValue()
+                            let tagValue = TagValue()
                             tagValue.tag = readStr()
                             tagValue.value = readStr()
                             contract.secIdList?.append(tagValue)
@@ -904,7 +904,7 @@ class EReader: NSThread {
                 }
                 
                 self.eWrapper.bondContractDetails(reqId, contractDetails: contract)
-            case .EXECUTION_DATA:
+            case .execution_DATA:
                 let version = readInt()
                 
                 var reqId = -1
@@ -915,7 +915,7 @@ class EReader: NSThread {
                 let orderId = readInt()
                 
                 // read contract fields
-                var contract = Contract()
+                let contract = Contract()
                 if (version >= 5) {
                     contract.conId = readInt()
                 }
@@ -934,7 +934,7 @@ class EReader: NSThread {
                     contract.tradingClass = readStr()
                 }
                 
-                var exec = Execution(p_orderId: 0, p_clientId: 0, p_execId: "", p_time: "", p_acctNumber: "", p_exchange: "", p_side: "", p_shares: 0, p_price: 0, p_permId: 0, p_liquidation: 0, p_cumQty: 0, p_avgPrice: 0, p_orderRef: "", p_evRule: "", p_evMultiplier: 0)
+                let exec = Execution(p_orderId: 0, p_clientId: 0, p_execId: "", p_time: "", p_acctNumber: "", p_exchange: "", p_side: "", p_shares: 0, p_price: 0, p_permId: 0, p_liquidation: 0, p_cumQty: 0, p_avgPrice: 0, p_orderRef: "", p_evRule: "", p_evMultiplier: 0)
                 exec.orderId = orderId
                 exec.execId = readStr()
                 exec.time = readStr()
@@ -965,7 +965,7 @@ class EReader: NSThread {
                 }
                 
                 self.eWrapper.execDetails( reqId, contract: contract, execution: exec)
-            case .MARKET_DEPTH:
+            case .market_DEPTH:
                 let version = readInt()
                 let id = readInt()
                 
@@ -976,7 +976,7 @@ class EReader: NSThread {
                 let size = readInt()
                 
                 self.eWrapper.updateMktDepth(id, position: position, operation: operation, side: side, price: price, size: size)
-            case .MARKET_DEPTH_L2:
+            case .market_DEPTH_L2:
                 let version = readInt()
                 let id = readInt()
                 
@@ -988,7 +988,7 @@ class EReader: NSThread {
                 let size = readInt()
                 
                 self.eWrapper.updateMktDepthL2(id, position: position, marketMaker: marketMaker, operation: operation, side: side, price: price, size: size)
-            case .NEWS_BULLETINS:
+            case .news_BULLETINS:
                 let version = readInt()
                 let newsMsgId = readInt()
                 let newsMsgType = readInt()
@@ -996,18 +996,18 @@ class EReader: NSThread {
                 let originatingExch = readStr()
                 
                 self.eWrapper.updateNewsBulletin( newsMsgId, msgType: newsMsgType, message: newsMessage, origExchange: originatingExch)
-            case .MANAGED_ACCTS:
+            case .managed_ACCTS:
                 let version = readInt()
                 let accountsList = readStr()
                 
                 self.eWrapper.managedAccounts( accountsList)
-            case .RECEIVE_FA:
+            case .receive_FA:
                 let version = readInt()
                 let faDataType = readInt()
                 let xml = readStr()
                 
                 self.eWrapper.receiveFA(faDataType, xml: xml)
-            case .HISTORICAL_DATA:
+            case .historical_DATA:
                 let version = readInt()
                 let reqId = readInt()
                 var startDateStr = ""
@@ -1037,15 +1037,15 @@ class EReader: NSThread {
                 }
                 // send end of dataset marker
                 self.eWrapper.historicalData(reqId, date: completedIndicator, open: -1, high: -1, low: -1, close: -1, volume: -1, count: -1, WAP: -1, hasGaps: false)
-            case .SCANNER_PARAMETERS:
+            case .scanner_PARAMETERS:
                 let version = readInt()
                 let xml = readStr()
                 self.eWrapper.scannerParameters(xml)
-            case .CURRENT_TIME:
+            case .current_TIME:
                 /*int version =*/ readInt()
                 let time = readLong()
                 self.eWrapper.currentTime(time)
-            case .REAL_TIME_BARS:
+            case .real_TIME_BARS:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 let time = readLong()
@@ -1057,51 +1057,51 @@ class EReader: NSThread {
                 let wap = readDouble()
                 let count = readInt()
                 self.eWrapper.realtimeBar(reqId, time: time, open: open, high: high, low: low, close: close, volume: volume, wap: wap, count: count)
-            case .FUNDAMENTAL_DATA:
+            case .fundamental_DATA:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 let data = readStr()
                 self.eWrapper.fundamentalData(reqId, data: data)
-            case .CONTRACT_DATA_END:
+            case .contract_DATA_END:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 self.eWrapper.contractDetailsEnd(reqId)
-            case .OPEN_ORDER_END:
+            case .open_ORDER_END:
                 /*int version =*/ readInt()
                 self.eWrapper.openOrderEnd()
-            case .ACCT_DOWNLOAD_END:
+            case .acct_DOWNLOAD_END:
                 /*int version =*/ readInt()
                 let accountName = readStr()
                 self.eWrapper.accountDownloadEnd( accountName)
-            case .EXECUTION_DATA_END:
+            case .execution_DATA_END:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 self.eWrapper.execDetailsEnd( reqId)
-            case .DELTA_NEUTRAL_VALIDATION:
+            case .delta_NEUTRAL_VALIDATION:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 
-                var underComp = UnderComp()
+                let underComp = UnderComp()
                 underComp.conId = readInt()
                 underComp.delta = readDouble()
                 underComp.price = readDouble()
                 
                 self.eWrapper.deltaNeutralValidation(reqId, underComp: underComp)
-            case .TICK_SNAPSHOT_END:
+            case .tick_SNAPSHOT_END:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 
                 self.eWrapper.tickSnapshotEnd( reqId)
-            case .MARKET_DATA_TYPE:
+            case .market_DATA_TYPE:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 let marketDataType = readInt()
                 
                 self.eWrapper.marketDataType( reqId, marketDataType: marketDataType)
-            case .COMMISSION_REPORT:
+            case .commission_REPORT:
                 /*int version =*/ readInt()
                 
-                var commissionReport = CommissionReport()
+                let commissionReport = CommissionReport()
                 commissionReport.execId = readStr()
                 commissionReport.commission = readDouble()
                 commissionReport.currency = readStr()
@@ -1110,12 +1110,12 @@ class EReader: NSThread {
                 commissionReport.yieldRedemptionDate = readInt()
                 
                 self.eWrapper.commissionReport(commissionReport)
-            case .VERIFY_MESSAGE_API:
+            case .verify_MESSAGE_API:
                 /*int version =*/ readInt()
                 let apiData = readStr()
                 
                 self.eWrapper.verifyMessageAPI(apiData)
-            case .VERIFY_COMPLETED:
+            case .verify_COMPLETED:
                 /*int version =*/ readInt()
                 let isSuccessfulStr = readStr()
                 let isSuccessful = "true" == isSuccessfulStr
@@ -1127,13 +1127,13 @@ class EReader: NSThread {
                 }
                 
                 self.eWrapper.verifyCompleted(isSuccessful, errorText: errorText)
-            case .DISPLAY_GROUP_LIST:
+            case .display_GROUP_LIST:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 let groups = readStr()
                 
                 self.eWrapper.displayGroupList(reqId, groups: groups)
-            case .DISPLAY_GROUP_UPDATED:
+            case .display_GROUP_UPDATED:
                 /*int version =*/ readInt()
                 let reqId = readInt()
                 let contractInfo = readStr()

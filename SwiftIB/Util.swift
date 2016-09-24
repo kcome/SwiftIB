@@ -25,23 +25,23 @@
 
 import Foundation
 
-func itos(i: Int) -> String {
+func itos(_ i: Int) -> String {
     return String(format:"%d", i)
 }
 
-func ltos(i: Int64) -> String {
+func ltos(_ i: Int64) -> String {
     return String(format:"%ld", i)
 }
 
-func dtos(d: Double) -> String {
+func dtos(_ d: Double) -> String {
     return String(format:"%f", d)
 }
 
-func caseInsensitiveEqual(lhs: String, _ rhs: String) -> Bool {
-    return lhs.lowercaseString == rhs.lowercaseString
+func caseInsensitiveEqual(_ lhs: String, _ rhs: String) -> Bool {
+    return lhs.lowercased() == rhs.lowercased()
 }
 
-func arrayEqualUnordered<T: Equatable>(lhs: [T], _ rhs: [T]) -> Bool {
+func arrayEqualUnordered<T: Equatable>(_ lhs: [T], _ rhs: [T]) -> Bool {
     if lhs.count != rhs.count {
         return false
     }
@@ -49,18 +49,18 @@ func arrayEqualUnordered<T: Equatable>(lhs: [T], _ rhs: [T]) -> Bool {
         return true
     }
     
-    var matchedRhsElems = [Bool](count: lhs.count, repeatedValue: false)
+    var matchedRhsElems = [Bool](repeating: false, count: lhs.count)
     
     for litem in lhs {
         var counter = 0
-        for (index, ritem) in rhs.enumerate() {
-            counter++
+        for (index, ritem) in rhs.enumerated() {
+            counter += 1
             if matchedRhsElems[index] {
                 continue
             }
             if ritem == litem {
                 matchedRhsElems[index] = true
-                counter--
+                counter -= 1
                 break
             }
         }

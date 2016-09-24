@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class Execution: Equatable {
+open class Execution: Equatable {
     
     var orderId: Int = 0
     var clientId: Int = 0

@@ -25,17 +25,17 @@
 
 import Foundation
 
-public class AnyWrapperMsgGenerator {
+open class AnyWrapperMsgGenerator {
     
-    class func error(ex: NSException) -> String {
+    class func error(_ ex: NSException) -> String {
         return "Error - " + ex.description
     }
     
-    class func error(str: String) -> String {
+    class func error(_ str: String) -> String {
         return str
     }
     
-    class func error(id: Int, errorCode: Int, errorMsg: String) -> String {
+    class func error(_ id: Int, errorCode: Int, errorMsg: String) -> String {
         var err: String = String(id)
         err += " | "
         err += String(errorCode)

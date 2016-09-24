@@ -28,9 +28,9 @@ import Foundation
 let SCANNER_PARAMETERS = "SCANNER PARAMETERS:"
 let FINANCIAL_ADVISOR = "FA:"
 
-public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
+open class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
     
-    private class func contractDetailsMsg(contractDetails: ContractDetails) -> String {
+    fileprivate class func contractDetailsMsg(_ contractDetails: ContractDetails) -> String {
         return "marketName = " + contractDetails.marketName + "\n" +
             "minTick = " + dtos(contractDetails.minTick) + "\n" +
             "price magnifier = " + itos(contractDetails.priceMagnifier) + "\n" +
@@ -50,10 +50,10 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
             EWrapperMsgGenerator.contractDetailsSecIdList(contractDetails)
     }
     
-    class func contractDetailsSecIdList(contractDetails: ContractDetails) -> String {
+    class func contractDetailsSecIdList(_ contractDetails: ContractDetails) -> String {
         var msg = "secIdList={"
         if let secIdList = contractDetails.secIdList {
-            for (i, param) in secIdList.enumerate() {
+            for (i, param) in secIdList.enumerated() {
                 if i > 0 {
                     msg += ","
                 }
@@ -64,7 +64,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
         return msg
     }
     
-    class func contractMsg(contract: Contract) -> String{
+    class func contractMsg(_ contract: Contract) -> String{
         var msg = "conid = " + itos(contract.conId) + "\n"
         if !contract.symbol.isEmpty {msg += "symbol = " + contract.symbol + "\n"}
         if !contract.secType.isEmpty {msg += "secType = " + contract.secType + "\n"}
@@ -80,36 +80,36 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
         return msg
     }
     
-    class func scannerDataEnd(reqId: Int) -> String {
+    class func scannerDataEnd(_ reqId: Int) -> String {
         return "id = " + itos(reqId) + " =============== end ==============="
     }
     
-    class func currentTime(time: Int64) -> String {
-        let dateFormatter = NSDateFormatter()
-        let orig : NSTimeInterval = (Double)(time * 1000)
-        let str = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: orig))
+    class func currentTime(_ time: Int64) -> String {
+        let dateFormatter = DateFormatter()
+        let orig : TimeInterval = (Double)(time * 1000)
+        let str = dateFormatter.string(from: Date(timeIntervalSince1970: orig))
         return "current time = " + ltos(time) + " ( " + str + " ) "
     }
     
-    class func fundamentalData(reqId: Int, data: String) -> String {
+    class func fundamentalData(_ reqId: Int, data: String) -> String {
         return String(format:"id = %@ len = %d\n%@", reqId, data.utf16.count, data)
     }
     
-    class func deltaNeutralValidation(reqId: Int, underComp: UnderComp) -> String {
+    class func deltaNeutralValidation(_ reqId: Int, underComp: UnderComp) -> String {
         return "id = " + itos(reqId)
             + " underComp.conId =" + itos(underComp.conId)
             + " underComp.delta =" + dtos(underComp.delta)
             + " underComp.price =" + dtos(underComp.price)
     }
-    class func tickSnapshotEnd(tickerId: Int) -> String{
+    class func tickSnapshotEnd(_ tickerId: Int) -> String{
         return "id=" + itos(tickerId) + " =============== end ==============="
     }
     
-    class func marketDataType(reqId: Int, marketDataType: Int) -> String {
+    class func marketDataType(_ reqId: Int, marketDataType: Int) -> String {
         return "id=" + itos(reqId) + " marketDataType = " + MarketDataType.getField(marketDataType)
     }
     
-    class func commissionReport(commissionReport: CommissionReport) -> String {
+    class func commissionReport(_ commissionReport: CommissionReport) -> String {
         var cexecId = ""
         var ccurr = ""
         if !commissionReport.execId.isEmpty { cexecId = commissionReport.execId }
@@ -123,7 +123,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
             " yieldRedemptionDate=" + itos(commissionReport.yieldRedemptionDate)
     }
     
-    class func position(account: String, contract: Contract, position: Int, avgCost: Double) -> String {
+    class func position(_ account: String, contract: Contract, position: Int, avgCost: Double) -> String {
         return " ---- Position begin ----\n" +
             "account = " + account + "\n" +
             EWrapperMsgGenerator.contractMsg(contract) +
@@ -136,7 +136,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
         return " =============== end ==============="
     }
     
-    class func accountSummary(reqId: Int, account: String, tag: String, value: String, currency: String) -> String {
+    class func accountSummary(_ reqId: Int, account: String, tag: String, value: String, currency: String) -> String {
         return " ---- Account Summary begin ----\n"
             + "reqId = " + itos(reqId) + "\n"
             + "account = " + account + "\n"
@@ -146,43 +146,43 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
             + " ---- Account Summary end ----\n"
     }
     
-    class func accountSummaryEnd(reqId: Int) -> String {
+    class func accountSummaryEnd(_ reqId: Int) -> String {
         return "id=" + itos(reqId) + " =============== end ==============="
     }
     
-    class func tickPrice(tickerId: Int, field: Int, price: Double, canAutoExecute: Int) -> String {
+    class func tickPrice(_ tickerId: Int, field: Int, price: Double, canAutoExecute: Int) -> String {
         return "id=" + itos(tickerId) + "  " + TickType.getField(field) + "=" + dtos(price) + " " +
             ((canAutoExecute != 0) ? " canAutoExecute" : " noAutoExecute")
     }
     
-    class func tickSize(tickerId: Int, field: Int, size: Int) -> String {
+    class func tickSize(_ tickerId: Int, field: Int, size: Int) -> String {
         return "id=" + itos(tickerId) + "  " + TickType.getField(field) + "=" + itos(size)
     }
 
-    class func tickOptionComputation(tickerId: Int, field: Int, impliedVol: Double,
+    class func tickOptionComputation(_ tickerId: Int, field: Int, impliedVol: Double,
         delta: Double, optPrice: Double, pvDividend: Double,
         gamma: Double, vega: Double, theta: Double, undPrice: Double) -> String {
             var toAdd = "id=" + itos(tickerId) + "  " + TickType.getField(field)
-                toAdd += ": vol = " + ((impliedVol >= 0 && impliedVol != Double.NaN) ? dtos(impliedVol) : "N/A")
+                toAdd += ": vol = " + ((impliedVol >= 0 && impliedVol != Double.nan) ? dtos(impliedVol) : "N/A")
                 toAdd += " delta = " + ((abs(delta) <= 1) ? dtos(delta) : "N/A")
                 toAdd += " gamma = " + ((abs(gamma) <= 1) ? dtos(gamma) : "N/A")
                 toAdd += " vega = " + ((abs(vega) <= 1) ? dtos(vega) : "N/A")
                 toAdd += " theta = " + ((abs(theta) <= 1) ? dtos(theta) : "N/A")
-                toAdd += " optPrice = " + ((optPrice >= 0 && optPrice != Double.NaN) ? dtos(optPrice) : "N/A")
-                toAdd += " pvDividend = " + ((pvDividend >= 0 && pvDividend != Double.NaN) ? dtos(pvDividend) : "N/A")
-                toAdd += " undPrice = " + ((undPrice >= 0 && undPrice != Double.NaN) ? dtos(undPrice) : "N/A")
+                toAdd += " optPrice = " + ((optPrice >= 0 && optPrice != Double.nan) ? dtos(optPrice) : "N/A")
+                toAdd += " pvDividend = " + ((pvDividend >= 0 && pvDividend != Double.nan) ? dtos(pvDividend) : "N/A")
+                toAdd += " undPrice = " + ((undPrice >= 0 && undPrice != Double.nan) ? dtos(undPrice) : "N/A")
             return toAdd
     }
 
-    class func tickGeneric (tickerId: Int, tickType: Int, value: Double) -> String {
+    class func tickGeneric (_ tickerId: Int, tickType: Int, value: Double) -> String {
         return "id=" + itos(tickerId) + "  " + TickType.getField(tickType) + "=" + dtos(value)
     }
     
-    class func tickString (tickerId: Int, tickType: Int, value: String) -> String {
+    class func tickString (_ tickerId: Int, tickType: Int, value: String) -> String {
         return "id=" + itos(tickerId) + "  " + TickType.getField(tickType) + "=" + value
     }
     
-    class func tickEFP (tickerId: Int, tickType: Int, basisPoints: Double,
+    class func tickEFP (_ tickerId: Int, tickType: Int, basisPoints: Double,
         formattedBasisPoints: String, impliedFuture: Double, holdDays: Int,
         futureExpiry: String, dividendImpact: Double, dividendsToExpiry: Double) -> String {
             return "id=" + itos(tickerId) + "  " + TickType.getField(tickType)
@@ -192,7 +192,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
                 " dividends to expiry = "   + dtos(dividendsToExpiry)
     }
     
-    class func orderStatus(orderId: Int, status: String, filled: Int, remaining: Int,
+    class func orderStatus(_ orderId: Int, status: String, filled: Int, remaining: Int,
         avgFillPrice: Double, permId: Int, parentId: Int, lastFillPrice: Double,
         clientId: Int, whyHeld: String) -> String {
             return "order status: orderId=" + itos(orderId) + " clientId=" + itos(clientId) + " permId=" + itos(permId) +
@@ -201,7 +201,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
                 " parent Id=" + itos(parentId) + " whyHeld=" + whyHeld
     }
     
-    class func openOrder(orderId: Int, contract: Contract, order: Order, orderState: OrderState) -> String {
+    class func openOrder(_ orderId: Int, contract: Contract, order: Order, orderState: OrderState) -> String {
         var msg = "open order: orderId=\(orderId)"
         msg += " action=\(order.action)"
         msg += " quantity=\(order.totalQuantity)"
@@ -309,16 +309,16 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
                     msg += " designatedLocation= \(comboLeg.designatedLocation)"
                     msg += " exemptCode= \(comboLeg.exemptCode)"
                     if contract.comboLegs.count == order.orderComboLegs.count {
-                        var orderComboLeg = order.orderComboLegs[counter]
+                        let orderComboLeg = order.orderComboLegs[counter]
                         msg += " price=\(orderComboLeg.price)"
                     }
                     msg += ";"
-                    counter++
+                    counter += 1
                 }
             }
             msg += "}"
             
-            if order.basisPoints != Double.NaN {
+            if order.basisPoints != Double.nan {
                 msg += " basisPoints=\(order.basisPoints)"
                 msg += " basisPointsType=\(order.basisPointsType)"
             }
@@ -341,7 +341,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
                         msg += ","
                     }
                     msg += param.tag + "=" + param.value
-                    counter++
+                    counter += 1
                 }
             }
             msg += "}"
@@ -356,7 +356,7 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
                         msg += ","
                     }
                     msg += param.tag + "=" + param.value
-                    counter++
+                    counter += 1
                 }
             }
             msg += "}"
@@ -380,38 +380,38 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
         return " =============== end ==============="
     }
     
-    class func updateAccountValue(key: String, value: String, currency: String, accountName: String) -> String {
+    class func updateAccountValue(_ key: String, value: String, currency: String, accountName: String) -> String {
         return "updateAccountValue: \(key) \(value) \(currency) \(accountName)"
     }
     
-    class func updatePortfolio(contract: Contract, position: Int, marketPrice: Double,
+    class func updatePortfolio(_ contract: Contract, position: Int, marketPrice: Double,
         marketValue: Double, averageCost: Double, unrealizedPNL: Double,
         realizedPNL: Double, accountName: String) -> String {
             return "updatePortfolio: \(contractMsg(contract)) \(position) \(marketPrice) \(marketValue) \(averageCost) \(unrealizedPNL) \(realizedPNL) \(accountName)"
     }
     
-    class func updateAccountTime(timeStamp: String) -> String {
+    class func updateAccountTime(_ timeStamp: String) -> String {
         return "updateAccountTime: " + timeStamp
     }
     
-    class func accountDownloadEnd(accountName: String) -> String {
+    class func accountDownloadEnd(_ accountName: String) -> String {
         return "accountDownloadEnd: " + accountName
     }
     
-    class func nextValidId(orderId: Int) -> String {
+    class func nextValidId(_ orderId: Int) -> String {
         return "Next Valid Order ID: \(orderId)"
     }
     
-    class func contractDetails(reqId: Int, contractDetails: ContractDetails) -> String {
-        var contract = contractDetails.summary
+    class func contractDetails(_ reqId: Int, contractDetails: ContractDetails) -> String {
+        let contract = contractDetails.summary
         return "reqId = \(reqId) ===================================\n"
             + " ---- Contract Details begin ----\n"
             + "\(contractMsg(contract)) \(contractDetailsMsg(contractDetails))\n"
             + " ---- Contract Details End ----\n"
     }
     
-    class func bondContractDetails(reqId: Int, contractDetails: ContractDetails) -> String {
-        var contract = contractDetails.summary
+    class func bondContractDetails(_ reqId: Int, contractDetails: ContractDetails) -> String {
+        let contract = contractDetails.summary
         var msg = "reqId = \(reqId) ==================================\n"
         msg += " ---- Bond Contract Details begin ----\n"
         msg += "symbol = \(contract.symbol)\n"
@@ -447,11 +447,11 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
         return msg
     }
 
-    class func contractDetailsEnd(reqId: Int) -> String {
+    class func contractDetailsEnd(_ reqId: Int) -> String {
         return "reqId = \(reqId) =============== end ==============="
     }
     
-    class func execDetails(reqId: Int, contract: Contract, execution: Execution) -> String {
+    class func execDetails(_ reqId: Int, contract: Contract, execution: Execution) -> String {
         var msg = " ---- Execution Details begin ----\n"
         msg += "reqId = \(reqId)\n"
         msg += "orderId = \(execution.orderId)\n"
@@ -475,49 +475,49 @@ public class EWrapperMsgGenerator: AnyWrapperMsgGenerator {
         return msg
     }
     
-    class func execDetailsEnd(reqId: Int) -> String {
+    class func execDetailsEnd(_ reqId: Int) -> String {
         return "reqId = \(reqId) =============== end ==============="
     }
 
-    class func updateMktDepth(tickerId: Int, position: Int, operation: Int, side: Int,
+    class func updateMktDepth(_ tickerId: Int, position: Int, operation: Int, side: Int,
         price: Double, size: Int) -> String {
             return "updateMktDepth: \(tickerId) \(position) \(operation) \(side) \(price) \(size)"
     }
     
-    class func updateMktDepthL2(tickerId: Int, position: Int, marketMaker: String,
+    class func updateMktDepthL2(_ tickerId: Int, position: Int, marketMaker: String,
         operation: Int, side: Int, price: Double, size: Int) -> String {
             return "updateMktDepth: \(tickerId) \(position) \(marketMaker) \(operation) \(side) \(price) \(size)"
     }
     
-    class func updateNewsBulletin(msgId: Int, msgType: Int, message: String, origExchange: String) -> String {
+    class func updateNewsBulletin(_ msgId: Int, msgType: Int, message: String, origExchange: String) -> String {
         return "MsgId=\(msgId) :: MsgType=\(msgType) :: Origin=\(origExchange) :: Message=\(message)"
     }
     
-    class func managedAccounts(accountsList: String ) -> String {
+    class func managedAccounts(_ accountsList: String ) -> String {
         return "Connected : The list of managed accounts are : [" + accountsList + "]"
     }
     
-    class func receiveFA(faDataType: Int, xml: String) -> String {
+    class func receiveFA(_ faDataType: Int, xml: String) -> String {
         return "\(FINANCIAL_ADVISOR) \(EClientSocket.faMsgTypeName(faDataType)) \(xml)"
     }
     
-    class func historicalData(reqId: Int, date: String, open: Double, high: Double, low: Double,
+    class func historicalData(_ reqId: Int, date: String, open: Double, high: Double, low: Double,
         close: Double, volume: Int, count: Int, WAP: Double, hasGaps: Bool) -> String {
             return "id=\(reqId) date = \(date) open=\(open) high=\(high) low=\(low) close=\(close) volume=\(volume) count=\(count) WAP=\(WAP) hasGaps=\(hasGaps)"
     }
 
-    class func realtimeBar(reqId: Int, time: Int64, open: Double,
+    class func realtimeBar(_ reqId: Int, time: Int64, open: Double,
         high: Double, low: Double, close: Double, volume: Int64, wap: Double, count: Int) -> String {
             return "id=\(reqId) time = \(time) open=\(open) high=\(high) low=\(low) close=\(close) volume=\(volume) count=\(count) WAP=\(wap)"
     }
     
-    class func scannerParameters(xml: String) -> String {
+    class func scannerParameters(_ xml: String) -> String {
         return SCANNER_PARAMETERS + "\n" + xml
     }
     
-    class func scannerData(reqId: Int, rank: Int, contractDetails: ContractDetails,
+    class func scannerData(_ reqId: Int, rank: Int, contractDetails: ContractDetails,
         distance: String, benchmark: String, projection: String, legsStr: String) -> String {
-            var contract = contractDetails.summary
+            let contract = contractDetails.summary
             return "id = \(reqId) rank=\(rank) symbol=\(contract.symbol) secType=\(contract.secType) expiry=\(contract.expiry) strike=\(contract.strike) right=\(contract.right) exchange=\(contract.exchange) currency=\(contract.currency) localSymbol=\(contract.localSymbol) marketName=\(contractDetails.marketName) tradingClass=\(contract.tradingClass) distance=\(distance) benchmark=\(benchmark) projection=\(projection) legsStr=\(legsStr)"
     }
 }

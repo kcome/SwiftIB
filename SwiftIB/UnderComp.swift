@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class UnderComp: Equatable {
+open class UnderComp: Equatable {
     
     var conId: Int = 0
     var delta: Double = 0

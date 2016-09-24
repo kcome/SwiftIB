@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class ExecutionFilter: Equatable {
+open class ExecutionFilter: Equatable {
 
     var clientId: Int = 0 // zero means no filtering on this field
     var acctCode: String

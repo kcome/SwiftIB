@@ -26,8 +26,8 @@
 import Foundation
 
 public protocol AnyWrapper {
-    func error( e: NSException)
-    func error( str: String)
-    func error( id: Int, errorCode: Int, errorMsg:String)
+    func error( _ e: NSException)
+    func error( _ str: String)
+    func error( _ id: Int, errorCode: Int, errorMsg:String)
     func connectionClosed()
 }

@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class Contract: Equatable {
+open class Contract: Equatable {
     
     var conId: Int = 0
     var symbol: String = ""

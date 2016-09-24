@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class OrderState: Equatable {
+open class OrderState: Equatable {
     
     var status: String = ""
     

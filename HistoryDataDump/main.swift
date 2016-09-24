@@ -29,27 +29,27 @@ import Foundation
 let EXT = "history_raw"
 let HEADER_LEN = 19
 
-var conf = HDDConfig(arg_array: Process.arguments)
+var conf = HDDConfig(arg_array: CommandLine.arguments)
 var tickers = conf.tickers
-var fman = NSFileManager.defaultManager()
+var fman = FileManager.default
 var wrapper = HistoryDataWrapper()
 var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
 
 func checkGaps(filename: String, ticker: String, requestId: Int) {
-    var fcontent = try! NSString(contentsOfFile: filename, encoding: NSUTF8StringEncoding)
+    var fcontent = try! NSString(contentsOfFile: filename, encoding: String.Encoding.utf8.rawValue)
     var lns = 0
     var lastDT: Int64 = -1
     var gaps = [(String, String)]()
-    var secs = HDDUtil.parseBarsize(conf.barsize)
+    var secs = HDDUtil.parseBarsize(sbarsize: conf.barsize)
     var es = 0
-    fcontent.enumerateLinesUsingBlock({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
-        let datestr = line.substringToIndex(line.startIndex.advancedBy(HEADER_LEN))
+    fcontent.enumerateLines({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
+        let datestr = line.substring(to: line.index(line.startIndex, offsetBy: HEADER_LEN))
         if lastDT == -1 {
-            lastDT = HDDUtil.fastStrToTS(datestr)
+            lastDT = HDDUtil.fastStrToTS(timestamp: datestr)
         } else {
-            if lastDT - secs != HDDUtil.fastStrToTS(datestr) {
-                gaps.append((HDDUtil.tsToStr(lastDT, api: false), datestr))
-                lastDT = HDDUtil.fastStrToTS(datestr)
+            if lastDT - secs != HDDUtil.fastStrToTS(timestamp: datestr) {
+                gaps.append((HDDUtil.tsToStr(timestamp: lastDT, api: false), datestr))
+                lastDT = HDDUtil.fastStrToTS(timestamp: datestr)
             } else {
                 lastDT = lastDT - secs
             }
@@ -67,17 +67,18 @@ func checkGaps(filename: String, ticker: String, requestId: Int) {
 }
 
 func getLastestDate(filename: String) -> Int64 {
-    var fcontent = try! NSString(contentsOfFile: filename, encoding: NSUTF8StringEncoding)
+    var fcontent = try! NSString(contentsOfFile: filename, encoding: String.Encoding.utf8.rawValue)
     var count = 0
-    fcontent.enumerateLinesUsingBlock({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
+    fcontent.enumerateLines({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
         count += 1
     })
     var ret: Int64 = -1
-    fcontent.enumerateLinesUsingBlock({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
+    fcontent.enumerateLines({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
         count -= 1
         if count == 0 {
-            let datestr = line.substringToIndex(line.startIndex.advancedBy(HEADER_LEN))
-            ret = HDDUtil.fastStrToTS(datestr)
+            
+            let datestr = line.substring(to: line.index(line.startIndex, offsetBy: HEADER_LEN))
+            ret = HDDUtil.fastStrToTS(timestamp: datestr)
         }
     })
     return ret
@@ -87,9 +88,9 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
     var con = Contract(p_conId: 0, p_symbol: ticker, p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
         p_exchange: conf.exchange, p_currency: "USD", p_localSymbol: ticker, p_tradingClass: "", p_comboLegs: nil, p_primaryExch: conf.primaryEx,
         p_includeExpired: false, p_secIdType: "", p_secId: "")
-    var lf: NSFileHandle?
+    var lf: FileHandle?
     if append {
-        let next = getLastestDate(filename)
+        let next = getLastestDate(filename: filename)
         if next != -1 {
             wrapper.currentStart = next
         }
@@ -97,28 +98,28 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
             print("\t[\(ticker)] fully downloaded. Skip.")
             return
         }
-        print("\tAppending \(filename), starting date [\(HDDUtil.tsToStr(wrapper.currentStart, api: false))]")
-        lf = NSFileHandle(forUpdatingAtPath: filename)
+        print("\tAppending \(filename), starting date [\(HDDUtil.tsToStr(timestamp: wrapper.currentStart, api: false))]")
+        lf = FileHandle(forUpdatingAtPath: filename)
         if lf != nil {
             lf?.seekToEndOfFile()
         }
     } else {
-        fman.createFileAtPath(filename, contents: nil, attributes: nil)
-        lf = NSFileHandle(forWritingAtPath: filename)
+        fman.createFile(atPath: filename, contents: nil, attributes: nil)
+        lf = FileHandle(forWritingAtPath: filename)
     }
     wrapper.currentTicker = ticker
     while wrapper.currentStart > wrapper.sinceTS {
         let begin = NSDate().timeIntervalSinceReferenceDate
         let localStart = wrapper.currentStart
         wrapper.currentStart = -1
-        wrapper.contents.removeAll(keepCapacity: true)
+        wrapper.contents.removeAll(keepingCapacity: true)
         wrapper.reqComplete = false
         wrapper.broken = false
-        client.reqHistoricalData(requestId, contract: con, endDateTime: "\(HDDUtil.tsToStr(localStart, api: true)) EST", durationStr: conf.duration, barSizeSetting: conf.barsize, whatToShow: "TRADES", useRTH: conf.rth, formatDate: 2, chartOptions: nil)
+        client.reqHistoricalData(requestId, contract: con, endDateTime: "\(HDDUtil.tsToStr(timestamp: localStart, api: true)) EST", durationStr: conf.duration, barSizeSetting: conf.barsize, whatToShow: "TRADES", useRTH: conf.rth, formatDate: 2, chartOptions: nil)
         while (wrapper.reqComplete == false) && (wrapper.broken == false) && (wrapper.extraSleep <= 0.0)
-        { NSThread.sleepForTimeInterval(NSTimeInterval(0.05)) }
+        { Thread.sleep(forTimeInterval: TimeInterval(0.05)) }
         if wrapper.broken {
-            NSThread.sleepForTimeInterval(NSTimeInterval(2.0))
+            Thread.sleep(forTimeInterval: TimeInterval(2.0))
             wrapper.currentStart = localStart
             client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
             client.eConnect(conf.host, p_port: conf.port)
@@ -127,12 +128,12 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
         }
         if let file = lf {
             for c in wrapper.contents {
-                file.writeData(c.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!)
+                file.write(c.data(using: String.Encoding.utf8, allowLossyConversion: true)!)
             }
             file.synchronizeFile()
         }
         print("(sleep for \(conf.sleepInterval + wrapper.extraSleep) secs)...")
-        NSThread.sleepUntilDate(NSDate(timeIntervalSinceReferenceDate: begin + conf.sleepInterval + wrapper.extraSleep))
+        Thread.sleep(until: NSDate(timeIntervalSinceReferenceDate: begin + conf.sleepInterval + wrapper.extraSleep) as Date)
         if wrapper.extraSleep > 0 {
             wrapper.currentStart = localStart
             wrapper.extraSleep = 0
@@ -149,23 +150,23 @@ client.eConnect(conf.host, port: Int(conf.port), clientId: conf.clientID)
 wrapper.closing = false
 
 for i in 0 ..< tickers.count {
-    wrapper.sinceTS = HDDUtil.strToTS(conf.sinceDatetime, api: true)
-    wrapper.currentStart = HDDUtil.strToTS(conf.untilDatetime, api: true)
-    let fname = conf.outputDir.stringByAppendingString("[\(tickers[i])][\(conf.exchange)-\(conf.primaryEx)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
-    if fman.fileExistsAtPath(fname) {
+    wrapper.sinceTS = HDDUtil.strToTS(timestamp: conf.sinceDatetime, api: true)
+    wrapper.currentStart = HDDUtil.strToTS(timestamp: conf.untilDatetime, api: true)
+    let fname = conf.outputDir.appending("[\(tickers[i])][\(conf.exchange)-\(conf.primaryEx)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
+    if fman.fileExists(atPath: fname) {
         if conf.append {
-            downloadHistoryData(fname, ticker: tickers[i], requestId: i, append: true)
+            downloadHistoryData(filename: fname, ticker: tickers[i], requestId: i, append: true)
             continue
         } else {
             print("Skip \(tickers[i]) : File exists")
             continue
         }
     } else {
-        downloadHistoryData(fname, ticker: tickers[i], requestId: i)
+        downloadHistoryData(filename: fname, ticker: tickers[i], requestId: i)
     }
 }
 
-NSThread.sleepForTimeInterval(NSTimeInterval(3.0))
+Thread.sleep(forTimeInterval: TimeInterval(3.0))
 wrapper.closing = true
 client.eDisconnect()
 client.close()

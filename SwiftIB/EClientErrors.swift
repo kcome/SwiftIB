@@ -26,8 +26,8 @@
 import Foundation
 
 struct CodeMsgPair {
-    private var errorCode: Int
-    private var errorMsg: String
+    fileprivate var errorCode: Int
+    fileprivate var errorMsg: String
     var code: Int {
         return errorCode
     }

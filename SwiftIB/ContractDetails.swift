@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class ContractDetails {
+open class ContractDetails {
     var summary: Contract = Contract()
     var marketName: String
     var minTick: Double = 0

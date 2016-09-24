@@ -27,27 +27,27 @@ import Foundation
 
 class Builder : CustomStringConvertible {
     
-    private let SEP: Character = "\0"
+    fileprivate let SEP: Character = "\0"
     
-    private var stringBuffer: String = ""
+    fileprivate var stringBuffer: String = ""
 
-    func send(a: Int) {
+    func send(_ a: Int) {
         send( a == Int.max ? "" : itos(a) )
     }
     
-    func send(a: Double) {
-        send( a == Double.NaN ? "" : dtos(a) )
+    func send(_ a: Double) {
+        send( a == Double.nan ? "" : dtos(a) )
     }
 
-    func send(a: Bool) {
+    func send(_ a: Bool) {
         send( a ? 1 : 0 )
     }
 
-    func send(a: IApiEnum) {
+    func send(_ a: IApiEnum) {
         send( a.getApiString() )
     }
     
-    func send(a: String) {
+    func send(_ a: String) {
         stringBuffer += a
         stringBuffer.append(SEP)
     }
@@ -57,9 +57,9 @@ class Builder : CustomStringConvertible {
     }
     
     var bytes : [UInt8] {
-        if let sbdata = stringBuffer.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-            var bytes = [UInt8](count: sbdata.length, repeatedValue: 0)
-            sbdata.getBytes(&bytes, length: sbdata.length)
+        if let sbdata = stringBuffer.data(using: String.Encoding.utf8, allowLossyConversion: false) {
+            var bytes = [UInt8](repeating: 0, count: sbdata.count)
+            (sbdata as NSData).getBytes(&bytes, length: sbdata.count)
             return bytes
         }
         return []

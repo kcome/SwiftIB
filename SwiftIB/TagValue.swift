@@ -25,7 +25,7 @@
 
 import Foundation
 
-public class TagValue: Equatable {
+open class TagValue: Equatable {
     
     var tag: String = ""
     var value: String = ""
