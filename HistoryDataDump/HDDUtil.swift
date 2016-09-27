@@ -33,12 +33,13 @@ struct HDDConfig {
     var exchange = "SMART"
     var primaryEx = "ISLAND"
     var rth = 1
-    var barsize = "5 mins"
+    var barsize = "1 secs"
     var unixts = 1
-    var duration = "10800 S" // 3 hours
+    var duration = "1800 S" // 3 hours
     var sleepInterval = 10.0
     var outputDir: String = FileManager.default.currentDirectoryPath
     var append = false
+    var normal_filename = true
     var sinceDatetime = ""
     var untilDatetime = ""
     var clientID = 1
@@ -67,9 +68,7 @@ struct HDDConfig {
                     if let p = Int(arg_array[index+1]) {
                         self.rth = p == 0 ? 0 : 1
                     } else {
-                        if let ps: String = String(arg_array[index+1]) {
-                            self.rth = ps.lowercased() == "true" ? 1 : 0
-                        }
+                        self.rth = arg_array[index+1].lowercased() == "true" ? 1 : 0
                     }
                 }
                 argValue[index+1] = true
@@ -125,6 +124,8 @@ struct HDDConfig {
                 argValue[index+1] = true
             case "--append":
                 self.append = true
+            case "--no-normal-filename":
+                self.normal_filename = false
             case "--clientID":
                 if index+1<arg_array.count {
                     let iv = Int(arg_array[index+1])
@@ -162,7 +163,7 @@ class HDDUtil {
     class func tsToStr(timestamp: Int64, api: Bool) -> String {
         let time = NSDate(timeIntervalSince1970: Double(timestamp))
         let fmt = DateFormatter()
-        fmt.timeZone = NSTimeZone(name: "US/Eastern") as TimeZone!
+        fmt.timeZone = TimeZone(identifier: "America/New_York")!
         fmt.dateFormat = api ? "yyyyMMdd HH:mm:ss" : "yyyy-MM-dd\tHH:mm:ss"
         return fmt.string(from: time as Date)
     }
@@ -189,7 +190,7 @@ class HDDUtil {
     
     class func strToTS(timestamp: String, api: Bool) -> Int64 {
         let fmt = DateFormatter()
-        fmt.timeZone = NSTimeZone(name: "US/Eastern") as TimeZone!
+        fmt.timeZone = TimeZone(identifier: "America/New_York")!
         fmt.dateFormat = api ? "yyyyMMdd HH:mm:ss" : "yyyy-MM-dd\tHH:mm:ss"
         if let dt = fmt.date(from: timestamp) {
             return Int64(dt.timeIntervalSince1970)

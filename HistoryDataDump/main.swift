@@ -43,7 +43,7 @@ func checkGaps(filename: String, ticker: String, requestId: Int) {
     var secs = HDDUtil.parseBarsize(sbarsize: conf.barsize)
     var es = 0
     fcontent.enumerateLines({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
-        let datestr = line.substring(to: line.index(line.startIndex, offsetBy: HEADER_LEN))
+        let datestr = (line as NSString).substring(with: NSRange(location: 0, length: HEADER_LEN))
         if lastDT == -1 {
             lastDT = HDDUtil.fastStrToTS(timestamp: datestr)
         } else {
@@ -77,7 +77,7 @@ func getLastestDate(filename: String) -> Int64 {
         count -= 1
         if count == 0 {
             
-            let datestr = line.substring(to: line.index(line.startIndex, offsetBy: HEADER_LEN))
+            let datestr = (line as NSString).substring(with: NSRange(location: 0, length: HEADER_LEN))
             ret = HDDUtil.fastStrToTS(timestamp: datestr)
         }
     })
@@ -152,7 +152,8 @@ wrapper.closing = false
 for i in 0 ..< tickers.count {
     wrapper.sinceTS = HDDUtil.strToTS(timestamp: conf.sinceDatetime, api: true)
     wrapper.currentStart = HDDUtil.strToTS(timestamp: conf.untilDatetime, api: true)
-    let fname = conf.outputDir.appending("[\(tickers[i])][\(conf.exchange)-\(conf.primaryEx)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
+    let fn = conf.outputDir.appending("[\(tickers[i])][\(conf.exchange)-\(conf.primaryEx)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
+    let fname = conf.normal_filename ? fn.replacingOccurrences(of: ":", with: "") : fn
     if fman.fileExists(atPath: fname) {
         if conf.append {
             downloadHistoryData(filename: fname, ticker: tickers[i], requestId: i, append: true)
