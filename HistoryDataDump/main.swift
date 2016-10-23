@@ -84,9 +84,17 @@ func getLastestDate(filename: String) -> Int64 {
     return ret
 }
 
-func downloadHistoryData(filename: String, ticker: String, requestId: Int, append: Bool = false) {
-    var con = Contract(p_conId: 0, p_symbol: ticker, p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
-        p_exchange: conf.exchange, p_currency: "USD", p_localSymbol: ticker, p_tradingClass: "", p_comboLegs: nil, p_primaryExch: conf.primaryEx,
+func downloadHistoryData(filename: String, ticker: String, requestId: Int, append: Bool = false, secType: String = "STK", currency: String = "USD", multiplier: String = "", expire: String = "", exchange: String = "SMART", pexchange: String = "ISLAND") {
+    var loc = ticker
+    var wts = "TRADES"
+    var tz = "America/New_York"
+    if exchange == "IDEALPRO" {
+        loc = "\(ticker).\(currency)"
+        wts = "BID_ASK"
+        tz = "Europe/London"
+    }
+    let con = Contract(p_conId: 0, p_symbol: ticker, p_secType: secType, p_expiry: expire, p_strike: 0.0, p_right: "", p_multiplier: multiplier,
+        p_exchange: exchange, p_currency: currency, p_localSymbol: loc, p_tradingClass: "", p_comboLegs: nil, p_primaryExch: pexchange,
         p_includeExpired: false, p_secIdType: "", p_secId: "")
     var lf: FileHandle?
     if append {
@@ -115,7 +123,7 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
         wrapper.contents.removeAll(keepingCapacity: true)
         wrapper.reqComplete = false
         wrapper.broken = false
-        client.reqHistoricalData(requestId, contract: con, endDateTime: "\(HDDUtil.tsToStr(timestamp: localStart, api: true)) EST", durationStr: conf.duration, barSizeSetting: conf.barsize, whatToShow: "TRADES", useRTH: conf.rth, formatDate: 2, chartOptions: nil)
+        client.reqHistoricalData(requestId, contract: con, endDateTime: "\(HDDUtil.tsToStr(timestamp: localStart, api: true)) \(tz)", durationStr: conf.duration, barSizeSetting: conf.barsize, whatToShow: wts, useRTH: conf.rth, formatDate: 2, chartOptions: nil)
         while (wrapper.reqComplete == false) && (wrapper.broken == false) && (wrapper.extraSleep <= 0.0)
         { Thread.sleep(forTimeInterval: TimeInterval(0.05)) }
         if wrapper.broken {
@@ -152,18 +160,37 @@ wrapper.closing = false
 for i in 0 ..< tickers.count {
     wrapper.sinceTS = HDDUtil.strToTS(timestamp: conf.sinceDatetime, api: true)
     wrapper.currentStart = HDDUtil.strToTS(timestamp: conf.untilDatetime, api: true)
-    let fn = conf.outputDir.appending("[\(tickers[i])][\(conf.exchange)-\(conf.primaryEx)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
+    var ticker = tickers[i]
+    var ex = conf.exchange
+    var pex = conf.primaryEx
+    var cmp = tickers[i].components(separatedBy: ",")
+    var ins = "STK"
+    var currency = "USD"
+    var multiplier = ""
+    var expire = ""
+    if cmp.count >= 5 {
+        ticker = cmp[0]
+        currency = cmp[1]
+        ins = cmp[2]
+        ex = cmp[3]
+        pex = cmp[4]
+        if cmp.count >= 7 {
+            multiplier = cmp[5]
+            expire = cmp[6]
+        }
+    }
+    let fn = conf.outputDir.appending("[\(ticker)][\(ex)-\(pex)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
     let fname = conf.normal_filename ? fn.replacingOccurrences(of: ":", with: "") : fn
     if fman.fileExists(atPath: fname) {
         if conf.append {
-            downloadHistoryData(filename: fname, ticker: tickers[i], requestId: i, append: true)
+            downloadHistoryData(filename: fname, ticker: ticker, requestId: i, append: true, secType: ins, currency: currency, multiplier: multiplier, expire: expire, exchange: ex, pexchange: pex)
             continue
         } else {
-            print("Skip \(tickers[i]) : File exists")
+            print("Skip \(ticker) : File exists")
             continue
         }
     } else {
-        downloadHistoryData(filename: fname, ticker: tickers[i], requestId: i)
+        downloadHistoryData(filename: fname, ticker: ticker, requestId: i, secType: ins, currency: currency, multiplier: multiplier, expire: expire, exchange: ex, pexchange: pex)
     }
 }
 
