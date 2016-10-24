@@ -36,6 +36,7 @@ class HistoryDataWrapper: EWrapper {
     var currentStart: Int64 = -1
     var sinceTS: Int64 = 0
     var currentTicker = ""
+    var timezone = ""
     init() {
     }
     // currently unused callbacks
@@ -132,7 +133,7 @@ class HistoryDataWrapper: EWrapper {
                     return
                 }
                 let iHasGaps = hasGaps ? 1 : 0
-                s = "\(HDDUtil.tsToStr(timestamp: ts, api: false))\t\(open)\t\(high)\t\(low)\t\(close)\t\(volume)\t\(count)\t\(WAP)\t\(iHasGaps)"
+                s = "\(HDDUtil.tsToStr(timestamp: ts, api: false, tz_name: timezone))\t\(open)\t\(high)\t\(low)\t\(close)\t\(volume)\t\(count)\t\(WAP)\t\(iHasGaps)"
             }
             if !s.isEmpty {
                 s = s + "\n"

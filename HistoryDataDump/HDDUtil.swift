@@ -45,9 +45,8 @@ struct HDDConfig {
     var clientID = 1
     
     init(arg_array: [String]) {
-        let now = NSDate(timeIntervalSinceNow: 0)
-        sinceDatetime = HDDUtil.tsToStr( timestamp: Int64(now.timeIntervalSince1970 - 24 * 3600), api: true)
-        untilDatetime = HDDUtil.tsToStr( timestamp: Int64(now.timeIntervalSince1970), api: true)
+        sinceDatetime = ""
+        untilDatetime = ""
 
         var argValue:[Bool] = [Bool](repeating: false, count: arg_array.count)
         var index = 1
@@ -147,8 +146,8 @@ struct HDDConfig {
         print("Fetching tickers: \(tickers)")
         print("Configuration:\nHost: \(host)")
         print("Port: \(port)")
-        print("Start date (EST): \(sinceDatetime)")
-        print("End date (EST): \(untilDatetime)")
+        print("Start date: \(sinceDatetime) (Exchange local timezone)")
+        print("End date: \(untilDatetime) (Exchange local timezone)")
         print("Output: \(outputDir)")
         print("Exchange: \(exchange) - \(primaryEx)")
         print("Barsize: \(barsize)")
@@ -160,15 +159,15 @@ struct HDDConfig {
 
 class HDDUtil {
 
-    class func tsToStr(timestamp: Int64, api: Bool) -> String {
+    class func tsToStr(timestamp: Int64, api: Bool, tz_name: String) -> String {
         let time = NSDate(timeIntervalSince1970: Double(timestamp))
         let fmt = DateFormatter()
-        fmt.timeZone = TimeZone(identifier: "America/New_York")!
+        fmt.timeZone = TimeZone(identifier: tz_name)!
         fmt.dateFormat = api ? "yyyyMMdd HH:mm:ss" : "yyyy-MM-dd\tHH:mm:ss"
         return fmt.string(from: time as Date)
     }
     
-    class func fastStrToTS(timestamp: String) -> Int64 {
+    class func fastStrToTS(timestamp: String, tz_name: String) -> Int64 {
         let year = Int((timestamp as NSString).substring(with: NSRange(location: 0, length: 4)))
         let month = Int((timestamp as NSString).substring(with: NSRange(location: 5, length: 2)))
         let day = Int((timestamp as NSString).substring(with: NSRange(location: 8, length: 2)))
@@ -182,15 +181,15 @@ class HDDUtil {
         components.hour = hour!
         components.minute = minute!
         components.second = second!
-        components.timeZone = NSTimeZone(name: "US/Eastern") as TimeZone?
+        components.timeZone = NSTimeZone(name: tz_name) as TimeZone?
         let cal = NSCalendar.current
         let dt = cal.date(from: components as DateComponents)
         return Int64(dt!.timeIntervalSince1970)
     }
     
-    class func strToTS(timestamp: String, api: Bool) -> Int64 {
+    class func strToTS(timestamp: String, api: Bool, tz_name: String) -> Int64 {
         let fmt = DateFormatter()
-        fmt.timeZone = TimeZone(identifier: "America/New_York")!
+        fmt.timeZone = TimeZone(identifier: tz_name)!
         fmt.dateFormat = api ? "yyyyMMdd HH:mm:ss" : "yyyy-MM-dd\tHH:mm:ss"
         if let dt = fmt.date(from: timestamp) {
             return Int64(dt.timeIntervalSince1970)

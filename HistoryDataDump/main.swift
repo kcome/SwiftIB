@@ -35,37 +35,6 @@ var fman = FileManager.default
 var wrapper = HistoryDataWrapper()
 var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
 
-func checkGaps(filename: String, ticker: String, requestId: Int) {
-    var fcontent = try! NSString(contentsOfFile: filename, encoding: String.Encoding.utf8.rawValue)
-    var lns = 0
-    var lastDT: Int64 = -1
-    var gaps = [(String, String)]()
-    var secs = HDDUtil.parseBarsize(sbarsize: conf.barsize)
-    var es = 0
-    fcontent.enumerateLines({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
-        let datestr = (line as NSString).substring(with: NSRange(location: 0, length: HEADER_LEN))
-        if lastDT == -1 {
-            lastDT = HDDUtil.fastStrToTS(timestamp: datestr)
-        } else {
-            if lastDT - secs != HDDUtil.fastStrToTS(timestamp: datestr) {
-                gaps.append((HDDUtil.tsToStr(timestamp: lastDT, api: false), datestr))
-                lastDT = HDDUtil.fastStrToTS(timestamp: datestr)
-            } else {
-                lastDT = lastDT - secs
-            }
-        }
-        es += 1
-    })
-    if gaps.count > 0 {
-        print("for \(filename)")
-        for (later, earlier) in gaps {
-            print("\t\tGap: \(earlier) -- \(later)")
-        }
-    } else {
-        print("for \(filename): COMPLETE [\(es)] entries")
-    }
-}
-
 func getLastestDate(filename: String) -> Int64 {
     var fcontent = try! NSString(contentsOfFile: filename, encoding: String.Encoding.utf8.rawValue)
     var count = 0
@@ -78,7 +47,7 @@ func getLastestDate(filename: String) -> Int64 {
         if count == 0 {
             
             let datestr = (line as NSString).substring(with: NSRange(location: 0, length: HEADER_LEN))
-            ret = HDDUtil.fastStrToTS(timestamp: datestr)
+            ret = HDDUtil.fastStrToTS(timestamp: datestr, tz_name: wrapper.timezone)
         }
     })
     return ret
@@ -87,11 +56,12 @@ func getLastestDate(filename: String) -> Int64 {
 func downloadHistoryData(filename: String, ticker: String, requestId: Int, append: Bool = false, secType: String = "STK", currency: String = "USD", multiplier: String = "", expire: String = "", exchange: String = "SMART", pexchange: String = "ISLAND") {
     var loc = ticker
     var wts = "TRADES"
-    var tz = "America/New_York"
     if exchange == "IDEALPRO" {
         loc = "\(ticker).\(currency)"
         wts = "BID_ASK"
-        tz = "Europe/London"
+    }
+    if (conf.sleepInterval < 20.0) && (wts == "BID_ASK") {
+        conf.sleepInterval = 20.0
     }
     let con = Contract(p_conId: 0, p_symbol: ticker, p_secType: secType, p_expiry: expire, p_strike: 0.0, p_right: "", p_multiplier: multiplier,
         p_exchange: exchange, p_currency: currency, p_localSymbol: loc, p_tradingClass: "", p_comboLegs: nil, p_primaryExch: pexchange,
@@ -106,7 +76,7 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
             print("\t[\(ticker)] fully downloaded. Skip.")
             return
         }
-        print("\tAppending \(filename), starting date [\(HDDUtil.tsToStr(timestamp: wrapper.currentStart, api: false))]")
+        print("\tAppending \(filename), starting date [\(HDDUtil.tsToStr(timestamp: wrapper.currentStart, api: false, tz_name: wrapper.timezone))]")
         lf = FileHandle(forUpdatingAtPath: filename)
         if lf != nil {
             lf?.seekToEndOfFile()
@@ -123,7 +93,9 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
         wrapper.contents.removeAll(keepingCapacity: true)
         wrapper.reqComplete = false
         wrapper.broken = false
-        client.reqHistoricalData(requestId, contract: con, endDateTime: "\(HDDUtil.tsToStr(timestamp: localStart, api: true)) \(tz)", durationStr: conf.duration, barSizeSetting: conf.barsize, whatToShow: wts, useRTH: conf.rth, formatDate: 2, chartOptions: nil)
+        let ut = HDDUtil.tsToStr(timestamp: localStart, api: true, tz_name: wrapper.timezone)
+        client.reqHistoricalData(requestId, contract: con, endDateTime: "\(ut) \(wrapper.timezone)", durationStr: conf.duration, barSizeSetting: conf.barsize, whatToShow: wts, useRTH: conf.rth, formatDate: 2, chartOptions: nil)
+        print("request (\(conf.duration)) (\(conf.barsize)) bars, until \(ut) \(wrapper.timezone)")
         while (wrapper.reqComplete == false) && (wrapper.broken == false) && (wrapper.extraSleep <= 0.0)
         { Thread.sleep(forTimeInterval: TimeInterval(0.05)) }
         if wrapper.broken {
@@ -158,8 +130,6 @@ client.eConnect(conf.host, port: Int(conf.port), clientId: conf.clientID)
 wrapper.closing = false
 
 for i in 0 ..< tickers.count {
-    wrapper.sinceTS = HDDUtil.strToTS(timestamp: conf.sinceDatetime, api: true)
-    wrapper.currentStart = HDDUtil.strToTS(timestamp: conf.untilDatetime, api: true)
     var ticker = tickers[i]
     var ex = conf.exchange
     var pex = conf.primaryEx
@@ -179,7 +149,19 @@ for i in 0 ..< tickers.count {
             expire = cmp[6]
         }
     }
-    let fn = conf.outputDir.appending("[\(ticker)][\(ex)-\(pex)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
+    
+    if ex == "IDEALPRO" {
+        wrapper.timezone = "America/New_York"
+    } else {
+        wrapper.timezone = "America/New_York"
+    }
+    wrapper.sinceTS = HDDUtil.strToTS(timestamp: conf.sinceDatetime, api: true, tz_name: wrapper.timezone)
+    wrapper.currentStart = HDDUtil.strToTS(timestamp: conf.untilDatetime, api: true, tz_name: wrapper.timezone)
+    var lticker = ticker
+    if ins == "CASH" {
+        lticker = "\(ticker).\(currency)"
+    }
+    let fn = conf.outputDir.appending("[\(lticker)][\(ex)-\(pex)][\(conf.sinceDatetime)]-[\(conf.untilDatetime)][\(conf.barsize)].\(EXT)")
     let fname = conf.normal_filename ? fn.replacingOccurrences(of: ":", with: "") : fn
     if fman.fileExists(atPath: fname) {
         if conf.append {
