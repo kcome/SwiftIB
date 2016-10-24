@@ -93,6 +93,10 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
         wrapper.contents.removeAll(keepingCapacity: true)
         wrapper.reqComplete = false
         wrapper.broken = false
+        if HDDUtil.equalsDaystart(timestamp: localStart, tz_name: wrapper.timezone, daystart: conf.dayStart) {
+            print("(reaching day start \(conf.dayStart), continue next)")
+            break
+        }
         let ut = HDDUtil.tsToStr(timestamp: localStart, api: true, tz_name: wrapper.timezone)
         client.reqHistoricalData(requestId, contract: con, endDateTime: "\(ut) \(wrapper.timezone)", durationStr: conf.duration, barSizeSetting: conf.barsize, whatToShow: wts, useRTH: conf.rth, formatDate: 2, chartOptions: nil)
         print("request (\(conf.duration)) (\(conf.barsize)) bars, until \(ut) \(wrapper.timezone)")
@@ -150,11 +154,7 @@ for i in 0 ..< tickers.count {
         }
     }
     
-    if ex == "IDEALPRO" {
-        wrapper.timezone = "America/New_York"
-    } else {
-        wrapper.timezone = "America/New_York"
-    }
+    wrapper.timezone = "America/New_York"
     wrapper.sinceTS = HDDUtil.strToTS(timestamp: conf.sinceDatetime, api: true, tz_name: wrapper.timezone)
     wrapper.currentStart = HDDUtil.strToTS(timestamp: conf.untilDatetime, api: true, tz_name: wrapper.timezone)
     var lticker = ticker

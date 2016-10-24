@@ -40,6 +40,7 @@ struct HDDConfig {
     var outputDir: String = FileManager.default.currentDirectoryPath
     var append = false
     var normal_filename = true
+    var dayStart = "000000"
     var sinceDatetime = ""
     var untilDatetime = ""
     var clientID = 1
@@ -121,6 +122,11 @@ struct HDDConfig {
                     }
                 }
                 argValue[index+1] = true
+            case "--day-start":
+                if index+1<arg_array.count {
+                    self.dayStart = arg_array[index+1]
+                }
+                argValue[index+1] = true
             case "--append":
                 self.append = true
             case "--no-normal-filename":
@@ -143,17 +149,19 @@ struct HDDConfig {
     }
     
     func printConf() {
-        print("Fetching tickers: \(tickers)")
         print("Configuration:\nHost: \(host)")
+        print("Client ID: \(clientID)")
         print("Port: \(port)")
+        print("Output: \(outputDir)")
+        print("Append mode: \(append)")
+        print("==============================")
+        print("Fetching tickers: \(tickers)")
         print("Start date: \(sinceDatetime) (Exchange local timezone)")
         print("End date: \(untilDatetime) (Exchange local timezone)")
-        print("Output: \(outputDir)")
         print("Exchange: \(exchange) - \(primaryEx)")
-        print("Barsize: \(barsize)")
         print("Duration: \(duration)")
-        print("Append mode: \(append)")
-        print("Client ID: \(clientID)")
+        print("Barsize: \(barsize)")
+        print("Day start: \(dayStart)")
     }
 }
 
@@ -165,6 +173,14 @@ class HDDUtil {
         fmt.timeZone = TimeZone(identifier: tz_name)!
         fmt.dateFormat = api ? "yyyyMMdd HH:mm:ss" : "yyyy-MM-dd\tHH:mm:ss"
         return fmt.string(from: time as Date)
+    }
+    
+    class func equalsDaystart(timestamp: Int64, tz_name: String, daystart: String) -> Bool {
+        let time = NSDate(timeIntervalSince1970: Double(timestamp))
+        let fmt = DateFormatter()
+        fmt.timeZone = TimeZone(identifier: tz_name)!
+        fmt.dateFormat = "HHmmss"
+        return fmt.string(from: time as Date) == daystart
     }
     
     class func fastStrToTS(timestamp: String, tz_name: String) -> Int64 {
