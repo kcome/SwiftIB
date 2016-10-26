@@ -175,12 +175,17 @@ class HDDUtil {
         return fmt.string(from: time as Date)
     }
     
-    class func equalsDaystart(timestamp: Int64, tz_name: String, daystart: String) -> Bool {
+    class func equalsDaystart(timestamp: Int64, tz_name: String, daystart: String, datestart: String) -> Bool {
         let time = NSDate(timeIntervalSince1970: Double(timestamp))
         let fmt = DateFormatter()
         fmt.timeZone = TimeZone(identifier: tz_name)!
         fmt.dateFormat = "HHmmss"
-        return fmt.string(from: time as Date) == daystart
+        let fmtd = DateFormatter()
+        fmtd.timeZone = TimeZone(identifier: tz_name)!
+        fmtd.dateFormat = "yyyyMMdd"
+        let timeEq = fmt.string(from: time as Date) == daystart
+        let date = fmtd.string(from: time as Date) == datestart
+        return date && timeEq
     }
     
     class func fastStrToTS(timestamp: String, tz_name: String) -> Int64 {

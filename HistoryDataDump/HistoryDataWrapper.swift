@@ -106,7 +106,8 @@ class HistoryDataWrapper: EWrapper {
         if (errorMsg as NSString).range(of: ":Historical data request pacing violation").length > 0 && errorCode == 162 { // Historical Market Data Service error message:Historical data request pacing violation
             self.extraSleep = 15.0
         }
-        else if errorCode == 162 && ((errorMsg as NSString).range(of: "HMDS query returned no data:").length == 0) {
+        else if errorCode == 162 && ((errorMsg as NSString).range(of: "HMDS query returned no data:").length >= 0) {
+            print("NO DATA for ticker")
             self.currentStart = self.sinceTS
             self.reqComplete = true
         }

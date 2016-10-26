@@ -93,7 +93,8 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
         wrapper.contents.removeAll(keepingCapacity: true)
         wrapper.reqComplete = false
         wrapper.broken = false
-        if HDDUtil.equalsDaystart(timestamp: localStart, tz_name: wrapper.timezone, daystart: conf.dayStart) {
+        let sdt = conf.sinceDatetime.components(separatedBy: " ")[0]
+        if HDDUtil.equalsDaystart(timestamp: localStart, tz_name: wrapper.timezone, daystart: conf.dayStart, datestart: sdt) {
             print("(reaching day start \(conf.dayStart), continue next)")
             break
         }
