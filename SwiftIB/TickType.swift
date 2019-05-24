@@ -153,7 +153,6 @@ class TickType {
             case .volume_RATE:                 return "volume/min"
             case .last_RTH_TRADE:              return "lastRTHTrade"
             case .regulatory_IMBALANCE:        return "regulatoryImbalance"
-            default:                          return "unknown"
             }
         }
         return "unknown"

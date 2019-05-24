@@ -36,7 +36,7 @@ var wrapper = HistoryDataWrapper()
 var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
 
 func getLastestDate(filename: String) -> Int64 {
-    var fcontent = try! NSString(contentsOfFile: filename, encoding: String.Encoding.utf8.rawValue)
+    let fcontent = try! NSString(contentsOfFile: filename, encoding: String.Encoding.utf8.rawValue)
     var count = 0
     fcontent.enumerateLines({ (line: String!, p: UnsafeMutablePointer<ObjCBool>) -> Void in
         count += 1

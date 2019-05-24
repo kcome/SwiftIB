@@ -306,8 +306,8 @@ open class EClientSocket {
         //        self.inputStream.delegate = self
         //        self.outputStream.delegate = self
         
-        dis.schedule(in: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
-        dos?.schedule(in: RunLoop.current, forMode: RunLoopMode.defaultRunLoopMode)
+        dis.schedule(in: RunLoop.current, forMode: RunLoop.Mode.default)
+        dos?.schedule(in: RunLoop.current, forMode: RunLoop.Mode.default)
         dis.open()
         dos?.open()
         

@@ -40,8 +40,6 @@ class MarketDataType {
                 return "Real-Time"
             case .frozen:
                 return "Frozen"
-            default:
-                return "Unknown"
             }
         }
         return "Unknown"
