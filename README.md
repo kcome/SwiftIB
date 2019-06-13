@@ -8,8 +8,6 @@ Along with SwiftIB there are `HistoryDataDump` and `MktDataDump` command line ap
 Should you have any suggestion or comments, the author will be glad to hear them 😄
 
 
-Jan 13th 2015
-
 ----
 
 ```
