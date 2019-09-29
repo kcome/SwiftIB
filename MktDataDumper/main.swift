@@ -3,7 +3,7 @@
 //  SwiftIB
 //
 //  Created by Hanfei Li on 31/12/2014.
-//  Copyright (c) 2014,2015 Hanfei Li. All rights reserved.
+//  Copyright (c) 2014-2019 Hanfei Li. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ class LoggingWrapper: EWrapper {
         var s = ""
         switch tickType {
         case 45:
-            let tickI: Int? = value.toInt()
+            let tickI: Int? = Int(value)
             let tick: Double = tickI != nil ? Double(tickI!) : 0
             s = "STR TS \(LoggingWrapper.timeToStr(Date(timeIntervalSince1970: TimeInterval(tick)), millis:true))\n"
             
@@ -121,7 +121,7 @@ class LoggingWrapper: EWrapper {
         print("error: id(\(id)) code(\(errorCode)) msg:\(errorMsg)")
     }
     func connectionClosed() {
-        println ("!!CONNECTION CLOSE")
+        print("!!CONNECTION CLOSE")
         connected = false
     }
 
@@ -151,7 +151,7 @@ for arg in CommandLine.arguments[1..<CommandLine.arguments.count] {
         argValue[index+1] = true
     case "--port":
         if index+1<CommandLine.arguments.count {
-            if let p = CommandLine.arguments[index+1].toInt() {
+            if let p = Int(CommandLine.arguments[index+1]) {
                 port = UInt32(p)
             }
         }
@@ -168,7 +168,7 @@ print("Output dir: \(outputDir)")
 print("Symbols to fetch: \(tickers)")
 
 for i in 0 ..< tickers.count {
-    var outf = outputDir.stringByAppendingPathComponent(String(format: "%@ %@.raw.dump", filePrefix, tickers[i]))
+    let outf = outputDir.appendingFormat("%@ %@.raw.dump", filePrefix, tickers[i]);
     var file = FileHandle(forWritingAtPath:outf)
     if file == nil {
         FileManager.default.createFile(atPath: outf, contents: nil, attributes: nil)
@@ -183,17 +183,17 @@ for i in 0 ..< tickers.count {
 }
 if outputFiles.count != tickers.count {
     print("Error: cannot correct output files")
-    NSApplication.shared().terminate(nil)
+    NSApplication.shared.terminate(nil)
 }
 
 while true {
-    var wrapper = LoggingWrapper()
-    var client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
+    let wrapper = LoggingWrapper()
+    let client = EClientSocket(p_eWrapper: wrapper, p_anyWrapper: wrapper)
     print("Connecting to IB API...")
     client.eConnect(host, p_port: port)
     connected = true
     for i in 0 ..< tickers.count {
-        var con = Contract(p_conId: 0, p_symbol: tickers[i], p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
+        let con = Contract(p_conId: 0, p_symbol: tickers[i], p_secType: "STK", p_expiry: "", p_strike: 0.0, p_right: "", p_multiplier: "",
             p_exchange: "SMART", p_currency: "USD", p_localSymbol: tickers[i], p_tradingClass: "", p_comboLegs: nil, p_primaryExch: "ISLAND",
             p_includeExpired: true, p_secIdType: "", p_secId: "")
         // tickerId is strickly 0..<tickers.count

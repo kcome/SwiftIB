@@ -5,7 +5,7 @@
 //  SwiftIB
 //
 //  Created by Harry Li on 16/01/2015.
-//  Copyright (c) 2014,2015 Hanfei Li. All rights reserved.
+//  Copyright (c) 2014-2019 Hanfei Li. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 //
 
 import Foundation
+import SwiftIB
 
 class HistoryDataWrapper: EWrapper {
     var contents: [String] = [String](repeating: "", count: 2000)
