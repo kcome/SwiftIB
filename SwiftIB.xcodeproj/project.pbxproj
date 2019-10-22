@@ -33,10 +33,11 @@
 		346A7F4A1A5F89CF00FDC603 /* UnderComp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CE41A5AB2E60043919D /* UnderComp.swift */; };
 		346A7F4B1A5F89CF00FDC603 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34065CD51A5AB2E60043919D /* Util.swift */; };
 		3491CDAF1B786CA4009B2035 /* SwiftIB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346A7F1B1A5F89C300FDC603 /* SwiftIB.framework */; };
+		34B855DB235DBA8800A6CBC9 /* SwiftIB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346A7F1B1A5F89C300FDC603 /* SwiftIB.framework */; };
+		34B855DC235DBA8800A6CBC9 /* SwiftIB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 346A7F1B1A5F89C300FDC603 /* SwiftIB.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		34E16A852340BE7B0031DC2C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3453D7861A61046F00C5D31D /* main.swift */; };
 		34E16A862340BE7D0031DC2C /* HDDUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B63C771A6753B90060F3A1 /* HDDUtil.swift */; };
 		34E16A872340BE800031DC2C /* HistoryDataWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EB9CB31A69138200675B85 /* HistoryDataWrapper.swift */; };
-		34E16A892340BE8F0031DC2C /* SwiftIB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346A7F1B1A5F89C300FDC603 /* SwiftIB.framework */; };
 		34E5C74E1A54201E00FB117C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E5C74D1A54201E00FB117C /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,17 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		34B855DD235DBA8800A6CBC9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				34B855DC235DBA8800A6CBC9 /* SwiftIB.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		34E5C7481A54201E00FB117C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -119,7 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34E16A892340BE8F0031DC2C /* SwiftIB.framework in Frameworks */,
+				34B855DB235DBA8800A6CBC9 /* SwiftIB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +182,7 @@
 				34065CD51A5AB2E60043919D /* Util.swift */,
 			);
 			name = client;
+			path = ../Sources/SwiftIB;
 			sourceTree = "<group>";
 		};
 		3453D7851A61046F00C5D31D /* HistoryDataDump */ = {
@@ -258,6 +271,7 @@
 				3453D7801A61046F00C5D31D /* Sources */,
 				3453D7811A61046F00C5D31D /* Frameworks */,
 				3453D7821A61046F00C5D31D /* CopyFiles */,
+				34B855DD235DBA8800A6CBC9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -433,6 +447,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -443,6 +458,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;

@@ -130,6 +130,10 @@ func downloadHistoryData(filename: String, ticker: String, requestId: Int, appen
     }
 }
 
+if conf.help {
+    exit(EXIT_SUCCESS)
+}
+
 conf.printConf()
 print("Connecting to IB API...")
 client.eConnect(conf.host, port: Int(conf.port), clientId: conf.clientID)

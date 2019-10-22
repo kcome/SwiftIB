@@ -44,6 +44,7 @@ struct HDDConfig {
     var sinceDatetime = ""
     var untilDatetime = ""
     var clientID = 1
+    var help = false
     
     init(arg_array: [String]) {
         sinceDatetime = ""
@@ -53,6 +54,26 @@ struct HDDConfig {
         var index = 1
         for arg in arg_array[1..<arg_array.count] {
             switch arg {
+            case "--help":
+                let help = """
+                Example of parameters
+                --host 127.0.0.1
+                --port 8080
+                --rth true // regular trading hour
+                --until "20190101 00:00:00" // end date time
+                --since "20100101 00:00:00" // begin date time
+                --barsize "1 min" // size of bar
+                --duration "1 W" // duration of history data
+                --exchange "SMART:ISLAND" // name of exchange
+                --output ~/MarketData/ // path of output files
+                --symbols symbols.symbols // input symbols file
+                --sleep 20 // sleep for xx seconds between requests
+                --day-start 0930 // set HHMM as start of day, do not request data earlier than this time
+                --append // append new data to old file
+                --clientID // custom client ID
+                """
+                self.help = true
+                print(help)
             case "--host":
                 if index+1<arg_array.count {self.host = arg_array[index+1]}
                 argValue[index+1] = true

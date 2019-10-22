@@ -17,6 +17,3 @@ This software is in no way affiliated, endorsed, or approved by Interactive Brok
 any of its affiliates. It comes with absolutely no warranty and should not be used in
 actual trading unless the user can read and understand the source.
 ```
-
-    
-
