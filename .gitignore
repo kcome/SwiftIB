@@ -26,6 +26,7 @@ DerivedData
 # Pods/
 SwiftIB.xcodeproj/project.xcworkspace/xcshareddata
 
-# manually added
-# mainly for SPM
+# manually added ignores for SPM
 .build
+.swiftpm
+
